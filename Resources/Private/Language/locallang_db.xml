@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'simplepie'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_simplepie_domain_model_rssconfig">RSS Config</label>
+			<label index="tx_simplepie_domain_model_rssconfig.name">Name</label>
+			<label index="tx_simplepie_domain_model_rssconfig.url">URL</label>
+			<label index="tx_simplepie_domain_model_rssconfig.anzahl">Anzahl</label>
+		</languageKey>
+	</data>
+</T3locallang>

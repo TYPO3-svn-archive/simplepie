@@ -1,0 +1,139 @@
+<T3DataStructure>
+  <sheets>
+    <sMain>
+      <ROOT>
+        <TCEforms>
+          <sheetTitle>Allgemein</sheetTitle>
+        </TCEforms>
+        <type>array</type>
+        <el>
+	        <settings.sorting>
+	            <TCEforms>
+	              <label>Sortieren nach</label>
+	              <config>
+	                <type>select</type>
+					<items type="array">
+						<numIndex index="0" type="array">
+							<numIndex index="0">Standardeinstellung</numIndex>
+							<numIndex index="1">DEFAULT</numIndex>
+						</numIndex>
+						<numIndex index="1" type="array">
+							<numIndex index="0">Alt nach neu</numIndex>
+							<numIndex index="1">DESC</numIndex>
+						</numIndex>
+						<numIndex index="2" type="array">
+							<numIndex index="0">Neu nach alt</numIndex>
+							<numIndex index="1">ASC</numIndex>
+						</numIndex>
+					</items>
+					<maxitems>1</maxitems>
+					<size>1</size>
+					<selectedListStyle>width:150px</selectedListStyle>
+					<itemListStyle>width:150px</itemListStyle>
+	              </config>
+	            </TCEforms>
+	        </settings.sorting>
+			<settings.feedSelection>
+				<TCEforms>
+					<label>Feedauswahl</label>
+					<config>
+						<type>select</type>
+						<!-- <itemsProcFunc>tx_simplepie_flexhelper->addFields</itemsProcFunc> -->
+						<foreign_table>tx_simplepie_domain_model_rssconfig</foreign_table>
+						<size>5</size>
+						<minitems>0</minitems>
+						<maxitems>99</maxitems>
+						<multiple>1</multiple>
+						<allowNonIdValues>1</allowNonIdValues>
+					</config>
+				</TCEforms>
+			</settings.feedSelection>
+        </el>
+      </ROOT>
+    </sMain>
+	<sImage>
+		<ROOT>
+	        <TCEforms>
+	          <sheetTitle>Bilder</sheetTitle>
+	        </TCEforms>
+			<type>array</type>
+			<el>
+				<settings.feedImageWidth>
+		        <TCEforms>
+		         <label>Breite des Feed-Logos</label>
+		         <config>
+		          <type>input</type>
+		          <size>5</size>
+		         </config>
+		        </TCEforms>
+		       </settings.feedImageWidth>
+			   <settings.feedImageHeight>
+		        <TCEforms>
+		         <label>Hoehe des Feed-Logos</label>
+		         <config>
+		          <type>input</type>
+		          <size>5</size>
+		         </config>
+		        </TCEforms>
+		       </settings.feedImageHeight> 
+			   <settings.scale>
+	            <TCEforms>
+	              <label>Skalierung</label>
+	              <config>
+	                <type>select</type>
+					<items type="array">
+						<numIndex index="0" type="array">
+							<numIndex index="0">Standardeinstellung</numIndex>
+							<numIndex index="1">DEFAULT</numIndex>
+						</numIndex>
+					</items>
+					<maxitems>1</maxitems>
+					<size>1</size>
+					<selectedListStyle>width:150px</selectedListStyle>
+					<itemListStyle>width:150px</itemListStyle>
+	              </config>
+	            </TCEforms>
+				</settings.scale>
+				<settings.feedEntryImageWidth>
+		        <TCEforms>
+		         <label>Breite des Bildes in einem Beitrag</label>
+		         <config>
+		          <type>input</type>
+		          <size>5</size>
+		         </config>
+		        </TCEforms>
+		       </settings.feedEntryImageWidth>
+			   <settings.feedEntryImageHeight>
+		        <TCEforms>
+		         <label>Hoehe des Bildes in einem Beitrag</label>
+		         <config>
+		          <type>input</type>
+		          <size>5</size>
+		         </config>
+		        </TCEforms>
+		       </settings.feedEntryImageHeight>
+			
+			</el>
+		</ROOT>
+	</sImage>
+	<sRss>
+		<ROOT>
+	        <TCEforms>
+	          <sheetTitle>RSS</sheetTitle>
+	        </TCEforms>
+			<type>array</type>
+			<el>
+				<settings.cacheDuration>
+		        <TCEforms>
+		         <label>Verfall des Caches</label>
+		         <config>
+		          <type>input</type>
+		          <size>5</size>
+		         </config>
+		        </TCEforms>
+		       </settings.cacheDuration>
+			</el>
+		</ROOT>
+	</sRss>
+  </sheets>
+</T3DataStructure>
