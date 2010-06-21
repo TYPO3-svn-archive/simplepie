@@ -6,10 +6,74 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="tx_simplepie_domain_model_rssconfig">RSS Config</label>
+			<label index="tx_simplepie_domain_model_rssconfig">Feed Sources</label>
+			<label index="tx_simplepie_domain_model_rssconfig.name">Name</label>
+			<label index="tx_simplepie_domain_model_rssconfig.url">URL</label>
+			<label index="tx_simplepie_domain_model_rssconfig.anzahl">Item Count</label>
+
+			<!-- Global labels -->
+			<label index="options.default">Default</label>
+			<label index="options.scaleMode.proportionally">Fit proportionally</label>
+			<label index="options.scaleMode.disproportionally">Fill disproportionally</label>
+			<label index="options.scaleMode.crop">Fill cropped</label>
+
+			<!-- Plugin feedlist -->
+			<label index="feedlist.sheet.dataSource">Datasource</label>
+			<label index="feedlist.feedSources">RSS/Atom/RDF Feeds</label>
+			<label index="feedlist.orderBy">Order by</label>
+			<label index="feedlist.orderBy.dateAsc">Date ascending</label>
+			<label index="feedlist.orderBy.dateDesc">Date descending</label>
+			<label index="feedlist.orderBy.feed">Feed</label>
+			<label index="feedlist.orderBy.random">Random</label>
+			<label index="feedlist.feedMaxItems">Total count of feed items</label>
+			<label index="feedlist.beginAfterItem">Start after item</label>
+			<label index="feedlist.sheet.layout">Layout</label>
+			<label index="feedlist.feedLogo">Feed Logo</label>
+			<label index="feedlist.feedLogo.show">Show feed logo</label>
+			<label index="feedlist.feedLogo.width">Feed logo width</label>
+			<label index="feedlist.feedLogo.height">Feed logo height</label>
+			<label index="feedlist.feedLogo.scaleMode">Feed logo scale mode</label>
+			<label index="feedlist.feedItem.image.width">Feed item image width</label>
+			<label index="feedlist.feedItem.image.height">Feed item image height</label>
+			<label index="feedlist.feedItem.image.scaleMode">Feed item scale mode</label>
+			<label index="feedlist.sheet.misc">Other Settings</label>
+			<label index="feedlist.tsconfig">Typoscript for this content element (plugin.tx_simplepie.[your TS])</label>
+			<label index="feedlist.cacheDuration">Clear Feed-Cache after after this number of seconds</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="tx_simplepie_domain_model_rssconfig">Feed Datenquellen</label>
 			<label index="tx_simplepie_domain_model_rssconfig.name">Name</label>
 			<label index="tx_simplepie_domain_model_rssconfig.url">URL</label>
 			<label index="tx_simplepie_domain_model_rssconfig.anzahl">Anzahl</label>
+
+			<!-- Global labels -->
+			<label index="options.default">Standardeinstellung</label>
+			<label index="options.scaleMode.proportionally">Proportional einpassen</label>
+			<label index="options.scaleMode.disproportionally">Disproportional ausfüllen</label>
+			<label index="options.scaleMode.crop">Zuschneiden</label>
+
+			<!-- Plugin feedlist -->
+			<label index="feedlist.sheet.dataSource">Datenquelle</label>
+			<label index="feedlist.feedSources">RSS/Atom/RDF-Feeds</label>
+			<label index="feedlist.orderBy">Sortierreihenfolge</label>
+			<label index="feedlist.orderBy.dateAsc">Alt nach neu</label>
+			<label index="feedlist.orderBy.dateDesc">Neu nach alt</label>
+			<label index="feedlist.orderBy.feed">Position im Feed</label>
+			<label index="feedlist.orderBy.random">Zufall</label>
+			<label index="feedlist.feedMaxItems">Anzahl Datensätze</label>
+			<label index="feedlist.beginAfterItem">Starte Liste nach Datensatz Nr.</label>
+			<label index="feedlist.sheet.layout">Darstellung</label>
+			<label index="feedlist.feedLogo">Feed-Logo</label>
+			<label index="feedlist.feedLogo.show">Feed-Logo anzeigen</label>
+			<label index="feedlist.feedLogo.width">Breite des Feed-Logos</label>
+			<label index="feedlist.feedLogo.height">Höhe des Feed-Logos</label>
+			<label index="feedlist.feedLogo.scaleMode">Skalierung des Feed-Logos</label>
+			<label index="feedlist.feedItem.image.width">Maximale Breite für Bilder in Feed-Elementen</label>
+			<label index="feedlist.feedItem.image.height">Maximale Höhe für Bilder in Feed-Elementen</label>
+			<label index="feedlist.feedItem.image.scaleMode">Skalierung der Bilder in Feed-Elementen</label>
+			<label index="feedlist.sheet.misc">Sonstige Einstellungen</label>
+			<label index="feedlist.tsconfig">TypoScript für dieses Inhaltselement (plugin.tx_simplepie.[your TS])</label>
+			<label index="feedlist.cacheDuration">Feed-Cache nach dieser Anzahl von Sekunden löschen</label>
 		</languageKey>
 	</data>
 </T3locallang>

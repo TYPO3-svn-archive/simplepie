@@ -3,39 +3,13 @@
 		<sMain>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>Allgemein</sheetTitle>
+					<sheetTitle>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.sheet.dataSource</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<settings.sorting>
-						<TCEforms>
-							<label>Sortieren nach</label>
-							<config>
-								<type>select</type>
-								<items type="array">
-									<numIndex index="0" type="array">
-										<numIndex index="0">Standardeinstellung</numIndex>
-										<numIndex index="1">DEFAULT</numIndex>
-									</numIndex>
-									<numIndex index="1" type="array">
-										<numIndex index="0">Alt nach neu</numIndex>
-										<numIndex index="1">DESC</numIndex>
-									</numIndex>
-									<numIndex index="2" type="array">
-										<numIndex index="0">Neu nach alt</numIndex>
-										<numIndex index="1">ASC</numIndex>
-									</numIndex>
-								</items>
-								<maxitems>1</maxitems>
-								<size>1</size>
-								<selectedListStyle>width:150px</selectedListStyle>
-								<itemListStyle>width:150px</itemListStyle>
-							</config>
-						</TCEforms>
-					</settings.sorting>
 					<settings.feedSelection>
 						<TCEforms>
-							<label>Feedauswahl</label>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedSources</label>
 							<config>
 								<type>select</type>
 								<!-- <itemsProcFunc>tx_simplepie_flexhelper->addFields</itemsProcFunc> -->
@@ -48,91 +22,237 @@
 							</config>
 						</TCEforms>
 					</settings.feedSelection>
+					<settings.sorting>
+						<TCEforms>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.orderBy</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:options.default</numIndex>
+										<numIndex index="1">DEFAULT</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.orderBy.dateDesc</numIndex>
+										<numIndex index="1">DESC</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.orderBy.dateAsc</numIndex>
+										<numIndex index="1">ASC</numIndex>
+									</numIndex>
+									<numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.orderBy.feed</numIndex>
+										<numIndex index="1">FEED</numIndex>
+									</numIndex>
+									<numIndex index="4" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.orderBy.random</numIndex>
+										<numIndex index="1">RANDOM</numIndex>
+									</numIndex>
+								</items>
+								<maxitems>1</maxitems>
+								<size>1</size>
+							</config>
+						</TCEforms>
+					</settings.sorting>
+					<settings.feedMaxItems>
+						<TCEforms>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedMaxItems</label>
+							<config>
+								<type>input</type>
+								<size>5</size>
+								<max>2</max>
+								<checkbox></checkbox>
+								<eval>num</eval>
+							</config>
+						</TCEforms>
+					</settings.feedMaxItems>
+					<settings.beginAfterItem>
+						<TCEforms>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.beginAfterItem</label>
+							<config>
+								<type>input</type>
+								<size>5</size>
+								<max>2</max>
+								<checkbox></checkbox>
+								<eval>num</eval>
+							</config>
+						</TCEforms>
+					</settings.beginAfterItem>
 				</el>
 			</ROOT>
 		</sMain>
 		<sImage>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>Bilder</sheetTitle>
+					<sheetTitle>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.sheet.layout</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
+					<settings.showFeedLogo>
+						<TCEforms>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedLogo.show</label>
+							<config>
+								<type>select</type>
+								<items>
+									<numIndex index="0">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:options.default</numIndex>
+										<numIndex index="1">DEFAULT</numIndex>
+									</numIndex>
+									<numIndex index="1">
+										<numIndex index="0">LLL:EXT:lang/locallang_common.xml:yes</numIndex>
+										<numIndex index="1">YES</numIndex>
+									</numIndex>
+									<numIndex index="2">
+										<numIndex index="0">LLL:EXT:lang/locallang_common.xml:no</numIndex>
+										<numIndex index="1">NO</numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</settings.showFeedLogo>
 					<settings.feedImageWidth>
 						<TCEforms>
-							<label>Breite des Feed-Logos</label>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedLogo.width</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
+								<max>3</max>
+								<eval>num</eval>
+								<checkbox></checkbox>
 							</config>
 						</TCEforms>
 					</settings.feedImageWidth>
 					<settings.feedImageHeight>
 						<TCEforms>
-							<label>Hoehe des Feed-Logos</label>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedLogo.height</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
+								<max>3</max>
+								<eval>num</eval>
+								<checkbox></checkbox>
 							</config>
 						</TCEforms>
-					</settings.feedImageHeight> 
+					</settings.feedImageHeight>
 					<settings.scale>
 						<TCEforms>
-							<label>Skalierung</label>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedLogo.scaleMode</label>
 							<config>
 								<type>select</type>
 								<items type="array">
 									<numIndex index="0" type="array">
-										<numIndex index="0">Standardeinstellung</numIndex>
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:options.default</numIndex>
 										<numIndex index="1">DEFAULT</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:options.scaleMode.proportionally</numIndex>
+										<numIndex index="1">PROPORTIONALLY</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:options.scaleMode.disproportionally</numIndex>
+										<numIndex index="1">DISPROPORTIONALLY</numIndex>
+									</numIndex>
+									<numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:options.scaleMode.crop</numIndex>
+										<numIndex index="1">CROP</numIndex>
 									</numIndex>
 								</items>
 								<maxitems>1</maxitems>
 								<size>1</size>
-								<selectedListStyle>width:150px</selectedListStyle>
-								<itemListStyle>width:150px</itemListStyle>
 							</config>
 						</TCEforms>
 					</settings.scale>
 					<settings.feedEntryImageWidth>
 						<TCEforms>
-							<label>Breite des Bildes in einem Beitrag</label>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedItem.image.width</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
+								<max>3</max>
+								<eval>num</eval>
+								<checkbox></checkbox>
 							</config>
 						</TCEforms>
 					</settings.feedEntryImageWidth>
 					<settings.feedEntryImageHeight>
 						<TCEforms>
-							<label>Hoehe des Bildes in einem Beitrag</label>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedItem.image.height</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
+								<max>3</max>
+								<eval>num</eval>
+								<checkbox></checkbox>
 							</config>
 						</TCEforms>
 					</settings.feedEntryImageHeight>
+					<settings.feedEntryImageScale>
+						<TCEforms>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedItem.image.scaleMode</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:options.default</numIndex>
+										<numIndex index="1">DEFAULT</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:options.scaleMode.proportionally</numIndex>
+										<numIndex index="1">PROPORTIONALLY</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:options.scaleMode.disproportionally</numIndex>
+										<numIndex index="1">DISPROPORTIONALLY</numIndex>
+									</numIndex>
+									<numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:options.scaleMode.crop</numIndex>
+										<numIndex index="1">CROP</numIndex>
+									</numIndex>
+								</items>
+								<maxitems>1</maxitems>
+								<size>1</size>
+							</config>
+						</TCEforms>
+					</settings.feedEntryImageScale>
 				</el>
 			</ROOT>
 		</sImage>
-		<sRss>
+		<sMisc>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>RSS</sheetTitle>
+					<displayCond>HIDE_FOR_NON_ADMINS</displayCond>
+					<sheetTitle>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.sheet.misc</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
 					<settings.cacheDuration>
 						<TCEforms>
-							<label>Verfall des Caches</label>
+							<displayCond>HIDE_FOR_NON_ADMINS</displayCond>
+							<exclude>1</exclude>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.cacheDuration</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
+								<max>3</max>
+								<eval>num</eval>
+								<checkbox></checkbox>
 							</config>
 						</TCEforms>
 					</settings.cacheDuration>
+					<settings.tsconfig>
+						<TCEforms>
+							<displayCond>HIDE_FOR_NON_ADMINS</displayCond>
+							<exclude>1</exclude>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.tsconfig</label>
+							<config>
+								<type>text</type>
+								<cols>80</cols>
+								<rows>10</rows>
+							</config>
+						</TCEforms>
+					</settings.tsconfig>
 				</el>
 			</ROOT>
-		</sRss>
+		</sMisc>
 	</sheets>
 </T3DataStructure>
