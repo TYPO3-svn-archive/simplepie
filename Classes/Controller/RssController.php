@@ -24,10 +24,31 @@ Class Tx_Simplepie_Controller_RssController
 		$this->contentObject = t3lib_div::makeInstance('tslib_cObj');
 	}
 	Public Function indexAction() {
+		
+		if ($this->settings['type'] == 'ajax') {
+			$this->jsonArray['content'] = $this->getAjaxContent();
+			$content = json_encode($this->jsonArray);
+			
+			return $content;
+		}
+		else {
+			$rssEntrys = $this->getAllFeedElements();
+			
+			$rssEntrysResult = array();
+			$rssEntrysResult[] = $rssEntrys[0];
+			
+			//$newRssEntry = new Tx_Simplepie_Domain_Model_RssEntry();
+			//$newRssEntry->setRsscontent($feedcontent);
+			$this->view->assign('rssEntrys', $rssEntrysResult);
+		}
+	}
+	
+	Private function getAllFeedElements() {
 		$rssEntrys = array();
 		
 		$feedurls = explode(',', $this->settings['feedSelection']);
 		
+		$itemcount = 0;
 		foreach ($feedurls as $urlid) {
 			$rssConfig = $this->rssConfigRepository->findByUid((int)$urlid);
 			
@@ -49,8 +70,9 @@ Class Tx_Simplepie_Controller_RssController
 			$feed->handle_content_type();
 			$this->view->assign('feedtitle', $feed->get_title() . ' - ' . $rssConfig->getUrl());
 			
-			$itemcount = 0;
 			foreach ($feed->get_items() as $item) {
+				/* ueber Typoscript Variable setzen */
+				
 				$rssEntry = new Tx_Simplepie_Domain_Model_RssEntry();
 				$rssEntry->setAuthor($item->get_author());
 				$rssEntry->setTitle($item->get_title());
@@ -87,8 +109,8 @@ Class Tx_Simplepie_Controller_RssController
 				
 				$rssEntrys[] = $rssEntry;
 				$itemcount++;
-				if ($itemcount == $rssConfig->getAnzahl())
-					break;
+				
+				
 			}
 		}
 		
@@ -96,11 +118,28 @@ Class Tx_Simplepie_Controller_RssController
 			usort($rssEntrys, array("Tx_Simplepie_Domain_Model_RssEntry", "compareDesc"));
 		if ($this->settings['sorting'] == 'ASC')
 			usort($rssEntrys, array("Tx_Simplepie_Domain_Model_RssEntry", "compareAsc"));
-		
-		//$newRssEntry = new Tx_Simplepie_Domain_Model_RssEntry();
-		//$newRssEntry->setRsscontent($feedcontent);
-		$this->view->assign('rssEntrys', $rssEntrys);
+			
+		return $rssEntrys;
 	}
+	
+	Private function getAjaxContent() {
+		$nextItem = t3lib_div::GPvar('item');
+		
+		$rssEntrys = $this->getAllFeedElements();
+		$entry = $rssEntrys[$nextItem];
+		
+		$content = '
+			FeedTitle: ' . $entry->getFeedTitle() . '<br>
+			FeedImage: <img src="' . $entry->getFeedImageUrl() . '"><br><br>
+			Title: ' . $entry->getTitle() . '<br>
+			Link: ' . $entry->getPermalink() . '<br>
+		';
+		
+		$this->view->assign('rssEntrys', array($entry));
+		return $this->view->render();
+		//return "test";
+	}
+	
 	
 	Private function handleCacheImage($imgUrl) {
 		//http://farm2.static.flickr.com/1271/4699389396_545152349a_s.jpg
