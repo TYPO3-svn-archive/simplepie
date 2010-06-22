@@ -1,0 +1,14 @@
+plugin.tx_simplepie {
+	view {
+		 # cat=plugin.tx_simplepie/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:simplepie/Resources/Private/Templates/
+		 # cat=plugin.tx_simplepie/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:simplepie/Resources/Private/Partials/
+		 # cat=plugin.tx_simplepie/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:simplepie/Resources/Private/Layouts/
+	}
+	persistence {
+		 # cat=plugin.tx_simplepie//a; type=int+; label=Default storage PID
+		storagePid =
+	}
+}

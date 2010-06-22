@@ -1,22 +1,17 @@
 <h2>Rss Demo</h2>
 
+<div class="simplepie_ajax_next">
+next ajax element
+<hr>
+</div>
+
 {feedtitle}<br><br>
 
+<div class="simplepie_ajax_content">
 <f:for each="{rssEntrys}" as="entry">
-FeedTitle: {entry.feedTitle}<br>
-FeedImage: <img src="{entry.feedImageUrl}"><br><br>
-Title: {entry.title}<br>
-Link: {entry.permalink}<br>
-Content: {entry.content}<br>
-Description:{entry.description}<br>
-Author: {entry.author}<br>
-Datum: {entry.date}<br>
-
-<f:for each="{entry.items}" as="item">
-Bild: <img src="{item.thumbnail}"><br>
-Bild Groﬂ: <img src="{item.link}"><br>
-Description: {item.description}<br>
-</f:for>
+<f:render partial="feedItem" arguments="{entry: entry}"/>
 
 <br><br>
 </f:for>
+
+</div>

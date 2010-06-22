@@ -1,0 +1,14 @@
+FeedTitle: {entry.feedTitle}<br>
+FeedImage: <img src="{entry.feedImageUrl}"><br><br>
+<b>Timestamp: {entry.timestamp}</b><br>
+Title: {entry.title}<br>
+Link: {entry.permalink}<br>
+Content: {entry.content}<br>
+Description:{entry.description}<br>
+Author: {entry.author}<br>
+Datum: {entry.date}<br>
+
+<f:for each="{entry.items}" as="item">
+Bild: <img src="{item.link}"><br>
+Description: {item.description}<br>
+</f:for>
