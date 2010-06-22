@@ -26,21 +26,20 @@ Class Tx_Simplepie_Controller_RssController
 	}
 
 	Public Function indexAction() {
-		if ($this->settings['type'] == 'ajax') {
-			$this->jsonArray['content'] = $this->getAjaxContent();
-			$content = json_encode($this->jsonArray);
+		$rssEntrys = $this->getAllFeedElements();
 
-			return $content;
-		} else {
-			$rssEntrys = $this->getAllFeedElements();
+		$rssEntrysResult = array();
+		$rssEntrysResult[] = $rssEntrys[0];
+		//$rssEntrysResult = $rssEntrys;
 
-			$rssEntrysResult = array();
-			$rssEntrysResult[] = $rssEntrys[0];
-
-			//$newRssEntry = new Tx_Simplepie_Domain_Model_RssEntry();
-			//$newRssEntry->setRsscontent($feedcontent);
-			$this->view->assign('rssEntrys', $rssEntrysResult);
-		}
+		$this->view->assign('rssEntrys', $rssEntrysResult);
+	}
+	
+	Public Function ajaxAction() {
+		$this->jsonArray['content'] = $this->getAjaxContent();
+		$content = json_encode($this->jsonArray);
+		print $content;
+		exit;
 	}
 
 	Private function getAllFeedElements() {
@@ -123,13 +122,7 @@ Class Tx_Simplepie_Controller_RssController
 
 		$rssEntrys = $this->getAllFeedElements();
 		$entry = $rssEntrys[$nextItem];
-
-		$content = '
-			FeedTitle: ' . $entry->getFeedTitle() . '<br />
-			FeedImage: <img src="' . $entry->getFeedImageUrl() . '"><br /><br />
-			Title: ' . $entry->getTitle() . '<br />
-			Link: ' . $entry->getPermalink() . '<br />
-		';
+		//print sizeof($rssEntrys);
 
 		$this->view->assign('rssEntrys', array($entry));
 		return $this->view->render();
