@@ -11,6 +11,10 @@
 			<label index="tx_simplepie_domain_model_rssconfig.url">URL</label>
 			<label index="tx_simplepie_domain_model_rssconfig.anzahl">Item Count</label>
 
+			<!-- content element wizard -->
+			<label index="feedlist.cewiz.title">SimplePie Feedlist</label>
+			<label index="feedlist.cewiz.description">Integrate a web feed or aggregate multiple feeds from many sites into your page.</label>
+
 			<!-- Global labels -->
 			<label index="options.default">Default</label>
 			<label index="options.scaleMode.proportionally">Fit proportionally</label>
@@ -45,6 +49,10 @@
 			<label index="tx_simplepie_domain_model_rssconfig.name">Name</label>
 			<label index="tx_simplepie_domain_model_rssconfig.url">URL</label>
 			<label index="tx_simplepie_domain_model_rssconfig.anzahl">Anzahl</label>
+
+			<!-- content element wizard -->
+			<label index="feedlist.cewiz.title">SimplePie Feedliste</label>
+			<label index="feedlist.cewiz.description">Web-Feeds (RSS, Atom, etc.; auch aggregiert von mehreren Quellen) einbinden.</label>
 
 			<!-- Global labels -->
 			<label index="options.default">Standardeinstellung</label>
