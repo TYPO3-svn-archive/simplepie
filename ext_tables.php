@@ -4,17 +4,17 @@ if(!defined('TYPO3_MODE')) Die ('Access denied.');
 $lPath = 'LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml';
 $ePath = t3lib_extMgm::extPath($_EXTKEY);
 
-t3lib_extMgm::allowTableOnStandardPages('tx_simplepie_domain_model_rssconfig');
-$TCA['tx_simplepie_domain_model_rssconfig'] = Array (
+t3lib_extMgm::allowTableOnStandardPages('tx_simplepie_domain_model_feedsource');
+$TCA['tx_simplepie_domain_model_feedsource'] = Array (
 	'ctrl' => array (
-		'title' => $lPath . ':tx_simplepie_domain_model_rssconfig',
+		'title' => $lPath . ':tx_simplepie_domain_model_feedsource',
 		'label' => 'name',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'delete' => 'deleted',
 		'enablecolumns' => Array ( 'disabled' => 'hidden' ),
 		'dynamicConfigFile' => $ePath . 'Configuration/TCA/tca.php',
-		'iconfile' => $ePath . 'icon_tx_simplepie_rssconfig.gif',
+		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'icon_tx_simplepie_feedsource.gif',
 	),
 );
 

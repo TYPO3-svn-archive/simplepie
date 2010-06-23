@@ -13,7 +13,7 @@
 							<config>
 								<type>select</type>
 								<!-- <itemsProcFunc>tx_simplepie_flexhelper->addFields</itemsProcFunc> -->
-								<foreign_table>tx_simplepie_domain_model_rssconfig</foreign_table>
+								<foreign_table>tx_simplepie_domain_model_feedsource</foreign_table>
 								<size>5</size>
 								<minitems>0</minitems>
 								<maxitems>99</maxitems>

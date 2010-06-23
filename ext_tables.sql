@@ -1,4 +1,4 @@
-CREATE TABLE tx_simplepie_domain_model_rssconfig (
+CREATE TABLE tx_simplepie_domain_model_feedsource (
 	uid INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	pid INT(11) DEFAULT '0' NOT NULL,
 	
@@ -9,7 +9,6 @@ CREATE TABLE tx_simplepie_domain_model_rssconfig (
 	
 	name varchar(255) DEFAULT '' NOT NULL,
 	url varchar(255) DEFAULT '' NOT NULL,
-	anzahl INT(11) DEFAULT '0' NOT NULL,
 	
 	PRIMARY KEY (uid),
 	KEY pid (pid),

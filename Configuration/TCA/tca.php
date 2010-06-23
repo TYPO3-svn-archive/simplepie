@@ -1,8 +1,8 @@
 <?php
 If(!defined('TYPO3_MODE')) Die ('Access denied.');
 
-$TCA["tx_simplepie_domain_model_rssconfig"] = array (
-	"ctrl" => $TCA["tx_simplepie_domain_model_rssconfig"]["ctrl"],
+$TCA["tx_simplepie_domain_model_feedsource"] = array (
+	"ctrl" => $TCA["tx_simplepie_domain_model_feedsource"]["ctrl"],
 	"interface" => array (
 		"showRecordFieldList" => "hidden,name,url,anzahl"
 	),
@@ -17,7 +17,7 @@ $TCA["tx_simplepie_domain_model_rssconfig"] = array (
 		),
 		"name" => Array (		
 			"exclude" => 0,		
-			"label" => "LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:tx_simplepie_domain_model_rssconfig.name",		
+			"label" => "LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:tx_simplepie_domain_model_feedsource.name",		
 			"config" => Array (
 				"type" => "input",	
 				"size" => "30",	
@@ -26,16 +26,7 @@ $TCA["tx_simplepie_domain_model_rssconfig"] = array (
 		),
 		"url" => Array (		
 			"exclude" => 0,		
-			"label" => "LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:tx_simplepie_domain_model_rssconfig.url",		
-			"config" => Array (
-				"type" => "input",	
-				"size" => "30",	
-				"eval" => "trim",
-			)
-		),
-		"anzahl" => Array (		
-			"exclude" => 0,		
-			"label" => "LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:tx_simplepie_domain_model_rssconfig.anzahl",		
+			"label" => "LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:tx_simplepie_domain_model_feedsource.url",		
 			"config" => Array (
 				"type" => "input",	
 				"size" => "30",	

@@ -15,7 +15,7 @@ function getItem() {
 	jQuery.ajax({
 		url: "index.php",
 		processData: "false",
-		data: "id=96&type=4711&item=" + nextItem + "&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Rss",
+		data: "id=96&type=4711&item=" + nextItem + "&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed",
 		dataType: "json",
 		success: function(ret){
 			// place new content

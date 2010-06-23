@@ -6,10 +6,9 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="tx_simplepie_domain_model_rssconfig">Feed Sources</label>
-			<label index="tx_simplepie_domain_model_rssconfig.name">Name</label>
-			<label index="tx_simplepie_domain_model_rssconfig.url">URL</label>
-			<label index="tx_simplepie_domain_model_rssconfig.anzahl">Item Count</label>
+			<label index="tx_simplepie_domain_model_feedsource">Feed Sources</label>
+			<label index="tx_simplepie_domain_model_feedsource.name">Name</label>
+			<label index="tx_simplepie_domain_model_feedsource.url">URL</label>
 
 			<!-- content element wizard -->
 			<label index="feedlist.cewiz.title">SimplePie Feedlist</label>
@@ -45,10 +44,9 @@
 			<label index="feedlist.cacheDuration">Clear Feed-Cache after after this number of seconds</label>
 		</languageKey>
 		<languageKey index="de" type="array">
-			<label index="tx_simplepie_domain_model_rssconfig">Feed Datenquellen</label>
-			<label index="tx_simplepie_domain_model_rssconfig.name">Name</label>
-			<label index="tx_simplepie_domain_model_rssconfig.url">URL</label>
-			<label index="tx_simplepie_domain_model_rssconfig.anzahl">Anzahl</label>
+			<label index="tx_simplepie_domain_model_feedsource">Feed Datenquellen</label>
+			<label index="tx_simplepie_domain_model_feedsource.name">Name</label>
+			<label index="tx_simplepie_domain_model_feedsource.url">URL</label>
 
 			<!-- content element wizard -->
 			<label index="feedlist.cewiz.title">SimplePie Feedliste</label>
