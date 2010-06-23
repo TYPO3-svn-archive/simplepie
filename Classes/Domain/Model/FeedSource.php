@@ -1,6 +1,6 @@
 <?php
 
-class Tx_Simplepie_Domain_Model_RssConfig extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_Simplepie_Domain_Model_FeedSource extends Tx_Extbase_DomainObject_AbstractEntity {
 	
 	/**
 	* 

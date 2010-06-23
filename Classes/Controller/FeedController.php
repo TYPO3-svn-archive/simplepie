@@ -3,13 +3,13 @@
 require_once(t3lib_extMgm::extPath('simplepie', 'Resources/Private/Libs/simplepie.inc'));
 require_once('Zend/Http/Client.php');
 
-Class Tx_Simplepie_Controller_RssController
+Class Tx_Simplepie_Controller_FeedController
 	Extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
-	* @var Tx_Simplepie_Domain_Repository_RssconfigRepository
+	* @var Tx_Simplepie_Domain_Repository_FeedSourceRepository
 	*/
-	Protected $rssConfigRepository;
+	Protected $feedSourceRepository;
 
 	/**
 	 * An instance of tslib_cObj
@@ -21,18 +21,18 @@ Class Tx_Simplepie_Controller_RssController
 	var $thumbnailCachePath = 'typo3temp/simplepie_thumbnails/';
 
 	Public Function initializeAction() {
-		$this->rssConfigRepository =& t3lib_div::makeInstance ('Tx_Simplepie_Domain_Repository_RssConfigRepository');
+		$this->feedSourceRepository =& t3lib_div::makeInstance ('Tx_Simplepie_Domain_Repository_FeedSourceRepository');
 		$this->contentObject = t3lib_div::makeInstance('tslib_cObj');
 	}
 
 	Public Function indexAction() {
-		$rssEntrys = $this->getAllFeedElements();
+		$feedEntrys = $this->getAllFeedElements();
 
-		$rssEntrysResult = array();
-		$rssEntrysResult[] = $rssEntrys[0];
-		//$rssEntrysResult = $rssEntrys;
+		$feedEntrysResult = array();
+		$feedEntrysResult[] = $feedEntrys[0];
+		//$feedEntrysResult = $feedEntrys;
 
-		$this->view->assign('rssEntrys', $rssEntrysResult);
+		$this->view->assign('feedEntrys', $feedEntrysResult);
 	}
 	
 	Public Function ajaxAction() {
@@ -43,14 +43,14 @@ Class Tx_Simplepie_Controller_RssController
 	}
 
 	Private function getAllFeedElements() {
-		$rssEntrys = array();
+		$feedEntrys = array();
 
 		$feedurls = explode(',', $this->settings['feedSelection']);
 
 		$itemcount = 0;
 		foreach ($feedurls as $urlid) {
-			$rssConfig = $this->rssConfigRepository->findByUid((int)$urlid);
-			$feed = new SimplePie($rssConfig->getUrl());
+			$feedSource = $this->feedSourceRepository->findByUid((int)$urlid);
+			$feed = new SimplePie($feedSource->getUrl());
 			$feed->enable_order_by_date(true);
 
 			// enable/disable caching
@@ -65,19 +65,19 @@ Class Tx_Simplepie_Controller_RssController
 			$feed->init();
 
 			$feed->handle_content_type();
-			$this->view->assign('feedtitle', $feed->get_title() . ' - ' . $rssConfig->getUrl());
+			$this->view->assign('feedtitle', $feed->get_title() . ' - ' . $feedSource->getUrl());
 
 			foreach ($feed->get_items() as $item) {
 				/* ueber Typoscript Variable setzen */
-				$rssEntry = new Tx_Simplepie_Domain_Model_RssEntry();
-				$rssEntry->setAuthor($item->get_author());
-				$rssEntry->setTitle($item->get_title());
-				$rssEntry->setDate($item->get_date());
-				$rssEntry->setCopyright($item->get_copyright());
-				$rssEntry->setDescription($item->get_description());
-				$rssEntry->setPermalink($item->get_permalink());
-				$rssEntry->setContent($item->get_content());
-				$rssEntry->setTimestamp($item->get_date('U'));
+				$feedEntry = new Tx_Simplepie_Domain_Model_FeedEntry();
+				$feedEntry->setAuthor($item->get_author());
+				$feedEntry->setTitle($item->get_title());
+				$feedEntry->setDate($item->get_date());
+				$feedEntry->setCopyright($item->get_copyright());
+				$feedEntry->setDescription($item->get_description());
+				$feedEntry->setPermalink($item->get_permalink());
+				$feedEntry->setContent($item->get_content());
+				$feedEntry->setTimestamp($item->get_date('U'));
 
 				$feedItems = array();
 				if ($enclosure = $item->get_enclosure()) {
@@ -95,36 +95,36 @@ Class Tx_Simplepie_Controller_RssController
 					}
 					$feedItems[] = $tempFeedItem;
 				}
-				$rssEntry->setItems($feedItems);
+				$feedEntry->setItems($feedItems);
 
 				if (strlen($feed->get_image_url()) > 0) {
 					$filename = $this->handleCacheImage($feed->get_image_url());
-					$rssEntry->setFeedImageUrl($this->getResizedFeedImageLink($filename));
+					$feedEntry->setFeedImageUrl($this->getResizedFeedImageLink($filename));
 				}
-				$rssEntry->setFeedTitle($feed->get_title());
+				$feedEntry->setFeedTitle($feed->get_title());
 
-				$rssEntrys[] = $rssEntry;
+				$feedEntrys[] = $feedEntry;
 				$itemcount++;
 			}
 		}
 		if ($this->settings['sorting'] == 'DESC') {
-			usort($rssEntrys, array("Tx_Simplepie_Domain_Model_RssEntry", "compareDesc"));
+			usort($feedEntrys, array("Tx_Simplepie_Domain_Model_feedEntry", "compareDesc"));
 		}
 		if ($this->settings['sorting'] == 'ASC') {
-			usort($rssEntrys, array("Tx_Simplepie_Domain_Model_RssEntry", "compareAsc"));
+			usort($feedEntrys, array("Tx_Simplepie_Domain_Model_feedEntry", "compareAsc"));
 		}
 
-		return $rssEntrys;
+		return $feedEntrys;
 	}
 
 	Private function getAjaxContent() {
 		$nextItem = t3lib_div::GPvar('item');
 
-		$rssEntrys = $this->getAllFeedElements();
-		$entry = $rssEntrys[$nextItem];
-		//print sizeof($rssEntrys);
+		$feedEntrys = $this->getAllFeedElements();
+		$entry = $feedEntrys[$nextItem];
+		//print sizeof($feedEntrys);
 
-		$this->view->assign('rssEntrys', array($entry));
+		$this->view->assign('feedEntrys', array($entry));
 		return $this->view->render();
 		//return "test";
 	}

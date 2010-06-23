@@ -1,6 +1,6 @@
 <?php
 
-class Tx_Simplepie_Domain_Model_RssEntry extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_Simplepie_Domain_Model_FeedEntry extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	protected $title = '';
 	protected $date = '';
