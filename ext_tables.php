@@ -14,7 +14,7 @@ $TCA['tx_simplepie_domain_model_feedsource'] = Array (
 		'delete' => 'deleted',
 		'enablecolumns' => Array ( 'disabled' => 'hidden' ),
 		'dynamicConfigFile' => $ePath . 'Configuration/TCA/tca.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'icon_tx_simplepie_feedsource.gif',
+		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Private/Backend/icon_tx_simplepie_feedsource.gif',
 	),
 );
 
