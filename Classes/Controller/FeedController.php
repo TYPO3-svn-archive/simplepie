@@ -1,6 +1,6 @@
 <?php
 
-require_once(t3lib_extMgm::extPath('simplepie', 'Resources/Private/Libs/simplepie.inc'));
+require_once(t3lib_extMgm::extPath('simplepie', 'Resources/Private/Libs/simplepie.php'));
 require_once('Zend/Http/Client.php');
 
 Class Tx_Simplepie_Controller_FeedController
