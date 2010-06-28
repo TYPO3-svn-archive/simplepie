@@ -1,15 +1,12 @@
-CREATE TABLE tx_simplepie_domain_model_feedsource (
-	uid INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-	pid INT(11) DEFAULT '0' NOT NULL,
-	
-	tstamp INT(11) UNSIGNED DEFAULT '0' NOT NULL,
-	crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
-	deleted TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
-	hidden TINYINT(4) UNSIGNED DEFAULT '0' NOT NULL,
-	
-	name varchar(255) DEFAULT '' NOT NULL,
-	url varchar(255) DEFAULT '' NOT NULL,
-	
-	PRIMARY KEY (uid),
-	KEY pid (pid),
-);
+CREATE TABLE `tx_simplepie_domain_model_feedsource` (
+	`uid` int(11) unsigned NOT NULL auto_increment,
+	`pid` int(11) NOT NULL DEFAULT '0',
+	`tstamp` int(11) unsigned NOT NULL DEFAULT '0',
+	`crdate` int(11) unsigned NOT NULL DEFAULT '0',
+	`deleted` tinyint(4) unsigned NOT NULL DEFAULT '0',
+	`hidden` tinyint(4) unsigned NOT NULL DEFAULT '0',
+	`name` varchar(255) NOT NULL DEFAULT '',
+	`url` varchar(255) NOT NULL DEFAULT '',
+	PRIMARY KEY (`uid`),
+	KEY pid (`pid`),
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;;
