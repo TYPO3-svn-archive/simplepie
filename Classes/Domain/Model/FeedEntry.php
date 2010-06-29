@@ -135,5 +135,14 @@ class Tx_Simplepie_Domain_Model_FeedEntry extends Tx_Extbase_DomainObject_Abstra
 			return +1;
 	}
 
+	static function compareRandom($a, $b) {
+		$randvalue = rand(0,20);
+		
+		if (randvalue < 10)
+			return -1;
+		if (randvalue > 10)
+			return +1;
+	}
+	
 }
 ?>

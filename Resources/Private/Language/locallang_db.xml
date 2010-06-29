@@ -23,6 +23,7 @@
 			<!-- Plugin feedlist -->
 			<label index="feedlist.sheet.dataSource">Datasource</label>
 			<label index="feedlist.feedSources">RSS/Atom/RDF Feeds</label>
+			<label index="feedlist.feedItemsCount">Items per Feed</label>
 			<label index="feedlist.orderBy">Order by</label>
 			<label index="feedlist.orderBy.dateAsc">Date ascending</label>
 			<label index="feedlist.orderBy.dateDesc">Date descending</label>
@@ -39,6 +40,10 @@
 			<label index="feedlist.feedItem.image.width">Feed item image width</label>
 			<label index="feedlist.feedItem.image.height">Feed item image height</label>
 			<label index="feedlist.feedItem.image.scaleMode">Feed item scale mode</label>
+			<label index="feedlist.ajax">Ajax</label>
+			<label index="feedlist.ajax.mode">Ajax mode</label>
+			<label index="feedlist.ajax.mode.single">Single element</label>
+			<label index="feedlist.ajax.mode.paging">Paging</label>
 			<label index="feedlist.sheet.misc">Other Settings</label>
 			<label index="feedlist.tsconfig">Typoscript for this content element (plugin.tx_simplepie.[your TS])</label>
 			<label index="feedlist.cacheDuration">Clear Feed-Cache after after this number of seconds</label>
@@ -61,6 +66,7 @@
 			<!-- Plugin feedlist -->
 			<label index="feedlist.sheet.dataSource">Datenquelle</label>
 			<label index="feedlist.feedSources">RSS/Atom/RDF-Feeds</label>
+			<label index="feedlist.feedItemsCount">Elemente pro Feed</label>
 			<label index="feedlist.orderBy">Sortierreihenfolge</label>
 			<label index="feedlist.orderBy.dateAsc">Alt nach neu</label>
 			<label index="feedlist.orderBy.dateDesc">Neu nach alt</label>
@@ -77,6 +83,10 @@
 			<label index="feedlist.feedItem.image.width">Maximale Breite für Bilder in Feed-Elementen</label>
 			<label index="feedlist.feedItem.image.height">Maximale Höhe für Bilder in Feed-Elementen</label>
 			<label index="feedlist.feedItem.image.scaleMode">Skalierung der Bilder in Feed-Elementen</label>
+			<label index="feedlist.ajax">Ajax</label>
+			<label index="feedlist.ajax.mode">Ajax mode</label>
+			<label index="feedlist.ajax.mode.single">einzelnes Element</label>
+			<label index="feedlist.ajax.mode.paging">seitenweise</label>
 			<label index="feedlist.sheet.misc">Sonstige Einstellungen</label>
 			<label index="feedlist.tsconfig">TypoScript für dieses Inhaltselement (plugin.tx_simplepie.[your TS])</label>
 			<label index="feedlist.cacheDuration">Feed-Cache nach dieser Anzahl von Sekunden löschen</label>
