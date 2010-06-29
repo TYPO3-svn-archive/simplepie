@@ -1,6 +1,6 @@
 <?php
 
-class Tx_Simplepie_Domain_Model_FeedEntry extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_Simplepie_Domain_Model_FeedItem extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	protected $title = '';
 	protected $date = '';
@@ -9,7 +9,7 @@ class Tx_Simplepie_Domain_Model_FeedEntry extends Tx_Extbase_DomainObject_Abstra
 	protected $description = '';
 	protected $permalink = '';
 	protected $content = '';
-	protected $items = '';
+	protected $enclosures = array();
 	protected $feedImageUrl = '';
 	protected $feedTitle = '';
 	protected $timestamp = 0;
@@ -43,8 +43,8 @@ class Tx_Simplepie_Domain_Model_FeedEntry extends Tx_Extbase_DomainObject_Abstra
 		return $this->content;
 	}
 
-	function getItems() {
-		return $this->items;
+	function getEnclosures() {
+		return $this->enclosures;
 	}
 
 	function getFeedImageUrl() {
@@ -91,8 +91,8 @@ class Tx_Simplepie_Domain_Model_FeedEntry extends Tx_Extbase_DomainObject_Abstra
 		$this->content = $content;
 	}
 
-	function setItems($items) {
-		$this->items = $items;
+	function setEnclosures($enclosures) {
+		$this->enclosures = $enclosures;
 	}
 
 	function setFeedImageUrl($feedImageUrl) {
@@ -143,6 +143,6 @@ class Tx_Simplepie_Domain_Model_FeedEntry extends Tx_Extbase_DomainObject_Abstra
 		if (randvalue > 10)
 			return +1;
 	}
-	
+
 }
 ?>

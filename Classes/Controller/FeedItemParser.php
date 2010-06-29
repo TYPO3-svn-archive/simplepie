@@ -39,6 +39,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$this->content = $item->get_content();
 		$this->timestamp = $item->get_date('U');
 		$this->type = $this->getItemType();
+		// TODO: add enclosures
 
 		// do some basic cleanup
 		if ($this->content == $this->description) {
@@ -62,19 +63,20 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 				break;
 		}
 
-		// create FeedEntry object
-		$feedEntry = new Tx_Simplepie_Domain_Model_FeedEntry();
-		$feedEntry->setAuthor($this->author->name);
-		$feedEntry->setTitle($this->title);
-		$feedEntry->setDate($this->date);
-		$feedEntry->setCopyright($this->copyright);
-		$feedEntry->setDescription($this->description);
-		$feedEntry->setPermalink($this->permalink);
-		$feedEntry->setContent($this->content);
-		$feedEntry->setTimestamp($this->timestamp);
-		$feedEntry->setType($this->type);
+		// create FeedItem object
+		$feedItem = new Tx_Simplepie_Domain_Model_FeedItem();
+		$feedItem->setAuthor($this->author->name);
+		$feedItem->setTitle($this->title);
+		$feedItem->setDate($this->date);
+		$feedItem->setCopyright($this->copyright);
+		$feedItem->setDescription($this->description);
+		$feedItem->setPermalink($this->permalink);
+		$feedItem->setContent($this->content);
+		$feedItem->setTimestamp($this->timestamp);
+		$feedItem->setType($this->type);
+		$feedItem->setEnclosures($this->enclosures);
 
-		return $feedEntry;
+		return $feedItem;
 	}
 
 	/**
@@ -123,7 +125,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 		// use <media:description> instead of <description>
 		$description = $this->feedItem->get_item_tags('http://search.yahoo.com/mrss/', 'description');
-		if (isset($description[0]['data']) && $description[0]['data'] != '') {
+		if (isset($description[0]['data']) && strlen($description[0]['data']) > 0) {
 			$this->description = $description[0]['data'];
 		} else {
 			// <media:description> is not set in feed when no description is given
@@ -132,7 +134,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 		// use <link> to set permalink
 		$link = $this->feedItem->get_item_tags('', 'link');
-		if (isset($link[0]['data']) && $link[0]['data'] != '') {
+		if (isset($link[0]['data']) && strlen($link[0]['data']) > 0) {
 			$this->permalink = $link[0]['data'];
 		}
 
@@ -153,11 +155,11 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 		$enclosure = $this->feedItem->get_enclosure();
 		if ($thumbnails = $enclosure->get_thumbnails()) {
-			if (isset($thumbnails[3]) && $thumbnails[3] =! '') {
+			if (isset($thumbnails[3]) && strlen($thumbnails[3]) > 0) {
 				$this->enclosures = array();
-				$this->enclosures[0]['src'] = $thumbnails[3];
-				$this->enclosures[0]['title'] = $this->title;
-				$this->enclosures[0]['type'] = 'image';
+				$this->enclosures['0']['src'] = $thumbnails[3];
+				$this->enclosures['0']['title'] = $this->title;
+				$this->enclosures['0']['type'] = 'image';
 			}
 		}
 

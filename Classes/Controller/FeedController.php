@@ -28,13 +28,8 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 
 	Public Function indexAction() {
-		$feedEntrys = $this->getFeedElements();
-
-		$feedEntrysResult = array();
-		//$feedEntrysResult[] = $feedEntrys[0];
-		$feedEntrysResult = $feedEntrys;
-
-		$this->view->assign('feedEntrys', $feedEntrysResult);
+		$feedItems = $this->getFeedItems();
+		$this->view->assign('feedItems', $feedItems);
 	}
 	
 	Public Function ajaxAction() {
@@ -44,12 +39,12 @@ Class Tx_Simplepie_Controller_FeedController
 		exit;
 	}
 
-	Private function getAllFeedElements() {
-		return $this->getFeedElements(true);
+	Private function getAllFeedItems() {
+		return $this->getFeedItems(true);
 	}
 	
-	Private function getFeedElements($disableItemCount = false, $elementfrom = 0, $elementcount = 0) {
-		$feedEntrys = array();
+	Private function getFeedItems($disableItemCount = false, $elementfrom = 0, $elementcount = 0) {
+		$feedItems = array();
 		$rawFeedItems = array();
 		
 		if ($this->settings['feedMaxItems'] > 0 && $elementcount == 0)
@@ -113,7 +108,7 @@ Class Tx_Simplepie_Controller_FeedController
 		/* item parsing */
 		foreach($rawFeedItems as $item) {
 			$itemParser = new Tx_Simplepie_Controller_FeedController_FeedItemParser();
-			$feedEntry = $itemParser->parseObject($item);
+			$feedItem = $itemParser->parseObject($item);
 
 /*
 			TO-DO:
@@ -137,37 +132,36 @@ Class Tx_Simplepie_Controller_FeedController
 				}
 				$feedItems[] = $tempFeedItem;
 			}
-			$feedEntry->setItems($feedItems);
+			$feedItem->setItems($feedItems);
 */
 			if (strlen($feed->get_image_url()) > 0) {
 				$filename = $this->handleCacheImage($feed->get_image_url());
-				$feedEntry->setFeedImageUrl($this->getResizedFeedImageLink($filename));
+				$feedItem->setFeedImageUrl($this->getResizedFeedImageLink($filename));
 			}
-			$feedEntry->setFeedTitle($feed->get_title());
+			$feedItem->setFeedTitle($feed->get_title());
 
-			$feedEntrys[] = $feedEntry;
+			$feedItems[] = $feedItem;
 		}
-		return $feedEntrys;
+		return $feedItems;
 	}
 
 	Private function getAjaxContent() {
 		$nextItem = t3lib_div::GPvar('item');
 
-		$entrys = array();
+		$items = array();
 		if ($this->settings['ajaxMode'] == 'SINGLE') {
-			$feedEntrys = $this->getFeedElements(false,$nextItem,1);
-			$entry = $feedEntrys[0];
-			$entrys[] = $entry;
+			$feedItems = $this->getFeedItems(false,$nextItem,1);
+			$item = $feedItems[0];
+			$items[] = $item;
 		}
 		
 		if ($this->settings['ajaxMode'] == 'PAGING') {
 			$page = t3lib_div::GPvar('item');
 			$pageitems = $this->settings['feedMaxItems'];
 			$startitem = $page * $pageitems;
-			$entrys = $this->getFeedElements(false,$startitem,$pageitems);
-			//$entrys = array_slice($feedEntrys, $startitem, $pageitems);
+			$items = $this->getFeedItems(false,$startitem,$pageitems);
 		}
-		$this->view->assign('feedEntrys', $entrys);
+		$this->view->assign('feedItems', $items);
 		return $this->view->render();
 		//return "test";
 	}
@@ -193,8 +187,8 @@ Class Tx_Simplepie_Controller_FeedController
 	Private function getResizedImageLink($filename) {
 		$ts = $this->getImageTS();
 		$ts['img.']['file'] = $filename;
-		$ts['img.']['file.']['maxH'] = $this->settings['feedEntryImageHeight'];
-		$ts['img.']['file.']['maxW'] = $this->settings['feedEntryImageWidth'];
+		$ts['img.']['file.']['maxH'] = $this->settings['feedItemImageHeight'];
+		$ts['img.']['file.']['maxW'] = $this->settings['feedItemImageWidth'];
 		$img = $this->contentObject->IMG_RESOURCE($ts['img.']);
 		return $img;
 	}

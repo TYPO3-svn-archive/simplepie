@@ -1,49 +1,53 @@
 <table border="1">
 	<tr>
 		<td>Author:</td>
-		<td><f:escape>{entry.author}</f:escape></td>
+		<td><f:escape>{item.author}</f:escape></td>
 	</tr>
 	<tr>
 		<td>Content:</td>
-		<td><f:escape>{entry.content}</f:escape></td>
+		<td><f:escape>{item.content}</f:escape></td>
 	</tr>
 	<tr>
 		<td>Date:</td>
-		<td>{entry.date}</td>
+		<td>{item.date}</td>
 	</tr>
 	<tr>
 		<td>Description:</td>
-		<td>{entry.description}</td>
+		<td>{item.description}</td>
 	</tr>
 	<tr>
 		<td>Permalink:</td>
-		<td>{entry.permalink} [<a href="{entry.permalink}">^</a>]</td>
+		<td>{item.permalink} [<a href="{item.permalink}">open</a>]</td>
 	</tr>
 	<tr>
 		<td>Timestamp:</td>
-		<td>{entry.timestamp}</td>
+		<td>{item.timestamp}</td>
 	</tr>
 	<tr>
 		<td>Title:</td>
-		<td><f:escape>{entry.title}</f:escape></td>
+		<td><f:escape>{item.title}</f:escape></td>
 	</tr>
 	<tr>
 		<td>Type:</td>
-		<td>{entry.type}</td>
+		<td>{item.type}</td>
 	</tr>
 	<tr>
 		<td>Enclosures</td>
 		<td>
-<f:if condition="{entry.items}">
+<f:if condition="{item.enclosures}">
 			<table border="1">
-	<f:for each="{entry.items}" as="item">
+	<f:for each="{item.enclosures}" as="enclosure">
 				<tr>
-					<td>Image:</td>
-					<td><img src="{item.link}" alt="" /><br /><f:escape>{item.link}</f:escape></td>
+					<td>src:</td>
+					<td><f:escape>{enclosure.src}</f:escape> [<a href="{enclosure.src}">open</a>]</td>
 				</tr>
 				<tr>
-					<td>Description:</td>
-					<td>{item.description}</td>
+					<td>title:</td>
+					<td><f:escape>{enclosure.title}</f:escape></td>
+				</tr>
+				<tr>
+					<td>type:</td>
+					<td><f:escape>{enclosure.type}</f:escape></td>
 				</tr>
 	</f:for>
 			</table>
