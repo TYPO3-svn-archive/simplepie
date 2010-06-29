@@ -1,6 +1,7 @@
 <?php
 
 require_once(t3lib_extMgm::extPath('simplepie', 'Resources/Private/Libs/simplepie.php'));
+require_once(t3lib_extMgm::extPath('simplepie', 'Classes/Controller/FeedItemParser.php'));
 require_once('Zend/Http/Client.php');
 
 Class Tx_Simplepie_Controller_FeedController
@@ -68,7 +69,13 @@ Class Tx_Simplepie_Controller_FeedController
 			$this->view->assign('feedtitle', $feed->get_title() . ' - ' . $feedSource->getUrl());
 
 			foreach ($feed->get_items() as $item) {
-				/* ueber Typoscript Variable setzen */
+				/**
+				 * TODO: über Typoscript Variable setzen
+				 */
+
+				$itemParser = new Tx_Simplepie_Controller_FeedController_FeedItemParser();
+				$itemParser->parseObject($item);
+
 				$feedEntry = new Tx_Simplepie_Domain_Model_FeedEntry();
 				$feedEntry->setAuthor($item->get_author());
 				$feedEntry->setTitle($item->get_title());
@@ -78,6 +85,7 @@ Class Tx_Simplepie_Controller_FeedController
 				$feedEntry->setPermalink($item->get_permalink());
 				$feedEntry->setContent($item->get_content());
 				$feedEntry->setTimestamp($item->get_date('U'));
+				$feedEntry->setType($this->getItemType($item));
 
 				$feedItems = array();
 				if ($enclosure = $item->get_enclosure()) {
@@ -107,6 +115,7 @@ Class Tx_Simplepie_Controller_FeedController
 				$itemcount++;
 			}
 		}
+
 		if ($this->settings['sorting'] == 'DESC') {
 			usort($feedEntrys, array("Tx_Simplepie_Domain_Model_feedEntry", "compareDesc"));
 		}
@@ -115,6 +124,20 @@ Class Tx_Simplepie_Controller_FeedController
 		}
 
 		return $feedEntrys;
+	}
+
+	/**
+	 * checks if a feed item comes from a known source as YouTube, Flickr & Co.
+	 */
+	Private function getItemType($item) {
+		$type = 'unknown';
+
+		$author = $item->get_item_tags('', 'author');
+		if (isset($author[0]['attribs']['urn:flickr:']['profile'])) {
+			$type = 'flickr';
+		}
+
+		return $type;
 	}
 
 	Private function getAjaxContent() {
