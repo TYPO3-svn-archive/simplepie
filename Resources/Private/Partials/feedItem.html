@@ -1,14 +1,65 @@
-FeedTitle: {entry.feedTitle}<br>
-FeedImage: <img src="{entry.feedImageUrl}"><br><br>
-<b>Timestamp: {entry.timestamp}</b><br>
-Title: {entry.title}<br>
-Link: {entry.permalink}<br>
-Content: {entry.content}<br>
-Description:{entry.description}<br>
-Author: {entry.author}<br>
-Datum: {entry.date}<br>
+<table border="1">
+	<tr>
+		<td>feedTitle:</td>
+		<td><f:escape>{entry.feedTitle}</f:escape></td>
+	</tr>
+	<tr>
+		<td>feedImageUrl:</td>
+		<td><f:escape>{entry.feedImageUrl}</f:escape></td>
+	</tr>
+</table>
 
-<f:for each="{entry.items}" as="item">
-Bild: <img src="{item.link}"><br>
-Description: {item.description}<br>
-</f:for>
+<table border="1">
+	<tr>
+		<td>Author:</td>
+		<td><f:escape>{entry.author}</f:escape></td>
+	</tr>
+	<tr>
+		<td>Content:</td>
+		<td><f:escape>{entry.content}</f:escape></td>
+	</tr>
+	<tr>
+		<td>Date:</td>
+		<td>{entry.date}</td>
+	</tr>
+	<tr>
+		<td>Description:</td>
+		<td>{entry.description}</td>
+	</tr>
+	<tr>
+		<td>Link:</td>
+		<td>{entry.link}</td>
+	</tr>
+	<tr>
+		<td>Timestamp:</td>
+		<td>{entry.timestamp}</td>
+	</tr>
+	<tr>
+		<td>Title:</td>
+		<td><f:escape>{entry.title}</f:escape></td>
+	</tr>
+	<tr>
+		<td>Type:</td>
+		<td>{entry.type}</td>
+	</tr>
+	<tr>
+		<td>Enclosures</td>
+		<td>
+<f:if condition="{entry.items}">
+			<table border="1">
+	<f:for each="{entry.items}" as="item">
+				<tr>
+					<td>Image:</td>
+					<td><img src="{item.link}" alt="" /><br /><f:escape>{item.link}</f:escape></td>
+				</tr>
+				<tr>
+					<td>Description:</td>
+					<td>{item.description}</td>
+				</tr>
+	</f:for>
+			</table>
+</f:if>
+		</td>
+	</tr>
+</table>
+<hr />
