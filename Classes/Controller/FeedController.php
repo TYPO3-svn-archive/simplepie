@@ -1,6 +1,7 @@
 <?php
 
 require_once(t3lib_extMgm::extPath('simplepie', 'Resources/Private/Libs/simplepie.php'));
+require_once(t3lib_extMgm::extPath('simplepie', 'Classes/Controller/SimplePie_Sort.php'));
 require_once(t3lib_extMgm::extPath('simplepie', 'Classes/Controller/FeedItemParser.php'));
 require_once('Zend/Http/Client.php');
 
@@ -47,23 +48,23 @@ Class Tx_Simplepie_Controller_FeedController
 		return $this->getFeedElements(true);
 	}
 	
-	Private function getFeedElements($disableItemCount = false) {
+	Private function getFeedElements($disableItemCount = false, $elementfrom = 0, $elementcount = 0) {
 		$feedEntrys = array();
-
+		$rawFeedItems = array();
+		
+		if ($this->settings['feedMaxItems'] > 0 && $elementcount == 0)
+			$elementcount = $this->settings['feedMaxItems'];
+		
 		$feedurls = explode(',', $this->settings['feedSelection']);
 		$itemsperfeed = explode(',', $this->settings['feedItemsCount']);
 		
 		$itemcount = 0;
 		for ($i = 0; $i < count($feedurls); $i++ ) {
-			// if (!$disableItemCount && $this->settings['feedMaxItems'] > 0 && $itemcount >= $this->settings['feedMaxItems']) {
-				// break;
-			// }
-			
 			$urlid = $feedurls[$i];
 			$feedSource = $this->feedSourceRepository->findByUid((int)$urlid);
-			$feed = new SimplePie($feedSource->getUrl());
+			
+			$feed = new Tx_Simplepie_Controller_FeedController_SimplePie_Sort($feedSource->getUrl());
 			$feed->enable_order_by_date(true);
-
 			// enable/disable caching
 			if ($this->settings['cacheDuration'] > 0) {
 				$feed->set_cache_location('typo3temp/simplepie_thumbnails/');
@@ -72,69 +73,65 @@ Class Tx_Simplepie_Controller_FeedController
 			} else {
 				$feed->enable_cache(false);
 			}
-
 			$feed->init();
-
 			$feed->handle_content_type();
 			$this->view->assign('feedtitle', $feed->get_title() . ' - ' . $feedSource->getUrl());
 
 			$feeditemcount = 0;
 			foreach ($feed->get_items() as $item) {
-				// if (!$disableItemCount && $this->settings['feedMaxItems'] > 0 && $itemcount >= $this->settings['feedMaxItems']) {
-					// break;
-				// }
 				if (!$disableItemCount && $i <= count($itemsperfeed) && $feeditemcount >= $itemsperfeed[$i] && $itemsperfeed[$i] > 0 ) {
 					break;
 				}
 				
-				$itemParser = new Tx_Simplepie_Controller_FeedController_FeedItemParser();
-				$feedEntry = $itemParser->parseObject($item);
-
-				$feedItems = array();
-				if ($enclosure = $item->get_enclosure()) {
-					$tempFeedItem = array(
-						'description' => $enclosure->get_description(),
-						'extension' => $enclosure->get_extension(),
-						'link' => str_replace('&amp;', '&', $enclosure->get_link()),
-						'thumbnail' => $enclosure->get_thumbnail(),
-						'title' => html_entity_decode($enclosure->get_title()),
-						'type' => $enclosure->get_real_type(),
-					);
-					if (strlen($tempFeedItem['link']) > 0) {
-						$filename = $this->handleCacheImage($tempFeedItem['link']);
-						$tempFeedItem['link'] = $this->getResizedImageLink($filename);
-					}
-					$feedItems[] = $tempFeedItem;
-				}
-				$feedEntry->setItems($feedItems);
-
-				if (strlen($feed->get_image_url()) > 0) {
-					$filename = $this->handleCacheImage($feed->get_image_url());
-					$feedEntry->setFeedImageUrl($this->getResizedFeedImageLink($filename));
-				}
-				$feedEntry->setFeedTitle($feed->get_title());
-
-				$feedEntrys[] = $feedEntry;
+				$rawFeedItems[] = $item;
 				$itemcount++;
 				$feeditemcount++;	
 			}
 		}
 
+		/* sorting */
 		if ($this->settings['sorting'] == 'DESC') {
-			usort($feedEntrys, array("Tx_Simplepie_Domain_Model_feedEntry", "compareDesc"));
+			usort($rawFeedItems, array("Tx_Simplepie_Controller_FeedController_SimplePie_Sort", "compareDesc"));
 		}
 		if ($this->settings['sorting'] == 'ASC') {
-			usort($feedEntrys, array("Tx_Simplepie_Domain_Model_feedEntry", "compareAsc"));
-		}
-		if ($this->settings['sorting'] == 'FEED') {
-			/* no sorting */
-		}
-		if ($this->settings['sorting'] == 'RANDOM') {
-			usort($feedEntrys, array("Tx_Simplepie_Domain_Model_feedEntry", "compareRandom"));
+			usort($rawFeedItems, array("Tx_Simplepie_Controller_FeedController_SimplePie_Sort", "compareAsc"));
 		}
 		
-		if (!$disableItemCount && $this->settings['feedMaxItems'] > 0) {
-			$feedEntrys = array_slice($feedEntrys, 0, $this->settings['feedMaxItems']);
+		/* max items check */
+		if (!$disableItemCount && $elementcount > 0) {
+			$rawFeedItems = array_slice($rawFeedItems, $elementfrom, $elementcount);
+		}
+		
+		/* item parsing */
+		foreach($rawFeedItems as $item) {
+			$itemParser = new Tx_Simplepie_Controller_FeedController_FeedItemParser();
+			$feedEntry = $itemParser->parseObject($item);
+
+			$feedItems = array();
+			if ($enclosure = $item->get_enclosure()) {
+				$tempFeedItem = array(
+					'description' => $enclosure->get_description(),
+					'extension' => $enclosure->get_extension(),
+					'link' => str_replace('&amp;', '&', $enclosure->get_link()),
+					'thumbnail' => $enclosure->get_thumbnail(),
+					'title' => html_entity_decode($enclosure->get_title()),
+					'type' => $enclosure->get_real_type(),
+				);
+				if (strlen($tempFeedItem['link']) > 0) {
+					$filename = $this->handleCacheImage($tempFeedItem['link']);
+					$tempFeedItem['link'] = $this->getResizedImageLink($filename);
+				}
+				$feedItems[] = $tempFeedItem;
+			}
+			$feedEntry->setItems($feedItems);
+
+			if (strlen($feed->get_image_url()) > 0) {
+				$filename = $this->handleCacheImage($feed->get_image_url());
+				$feedEntry->setFeedImageUrl($this->getResizedFeedImageLink($filename));
+			}
+			$feedEntry->setFeedTitle($feed->get_title());
+
+			$feedEntrys[] = $feedEntry;
 		}
 		return $feedEntrys;
 	}
@@ -143,9 +140,9 @@ Class Tx_Simplepie_Controller_FeedController
 		$nextItem = t3lib_div::GPvar('item');
 
 		$entrys = array();
-		$feedEntrys = $this->getAllFeedElements();
 		if ($this->settings['ajaxMode'] == 'SINGLE') {
-			$entry = $feedEntrys[$nextItem];
+			$feedEntrys = $this->getFeedElements(false,$nextItem,1);
+			$entry = $feedEntrys[0];
 			$entrys[] = $entry;
 		}
 		
@@ -153,7 +150,8 @@ Class Tx_Simplepie_Controller_FeedController
 			$page = t3lib_div::GPvar('item');
 			$pageitems = $this->settings['feedMaxItems'];
 			$startitem = $page * $pageitems;
-			$entrys = array_slice($feedEntrys, $startitem, $pageitems);
+			$entrys = $this->getFeedElements(false,$startitem,$pageitems);
+			//$entrys = array_slice($feedEntrys, $startitem, $pageitems);
 		}
 		$this->view->assign('feedEntrys', $entrys);
 		return $this->view->render();
