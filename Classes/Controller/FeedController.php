@@ -77,8 +77,15 @@ Class Tx_Simplepie_Controller_FeedController
 			$feed->handle_content_type();
 			$this->view->assign('feedtitle', $feed->get_title() . ' - ' . $feedSource->getUrl());
 
+			if ($this->settings['sorting'] == 'REVERSEFEED') {
+				$rawitems = array_reverse($feed->get_items());
+			}
+			else {
+				$rawitems = $feed->get_items();
+			}
+			
 			$feeditemcount = 0;
-			foreach ($feed->get_items() as $item) {
+			foreach ($rawitems as $item) {
 				if (!$disableItemCount && $i <= count($itemsperfeed) && $feeditemcount >= $itemsperfeed[$i] && $itemsperfeed[$i] > 0 ) {
 					break;
 				}
@@ -96,6 +103,7 @@ Class Tx_Simplepie_Controller_FeedController
 		if ($this->settings['sorting'] == 'ASC') {
 			usort($rawFeedItems, array("Tx_Simplepie_Controller_FeedController_SimplePie_Sort", "compareAsc"));
 		}
+		
 		
 		/* max items check */
 		if (!$disableItemCount && $elementcount > 0) {

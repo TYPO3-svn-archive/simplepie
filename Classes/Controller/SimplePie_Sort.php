@@ -2,8 +2,8 @@
 class Tx_Simplepie_Controller_FeedController_SimplePie_Sort extends SimplePie {
 	
 	static function compareDesc($a, $b) {
-		$ats = $a->get_date();
-		$bts = $b->get_date();
+		$ats = $a->get_date('U');
+		$bts = $b->get_date('U');
 
 		if ($ats == $bts)
 			return 0;

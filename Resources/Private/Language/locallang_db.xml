@@ -28,6 +28,7 @@
 			<label index="feedlist.orderBy.dateAsc">Date ascending</label>
 			<label index="feedlist.orderBy.dateDesc">Date descending</label>
 			<label index="feedlist.orderBy.feed">Feed</label>
+			<label index="feedlist.orderBy.reversefeed">Feed reverse</label>
 			<label index="feedlist.orderBy.random">Random</label>
 			<label index="feedlist.feedMaxItems">Total count of feed items</label>
 			<label index="feedlist.beginAfterItem">Start after item</label>
@@ -71,6 +72,7 @@
 			<label index="feedlist.orderBy.dateAsc">Alt nach neu</label>
 			<label index="feedlist.orderBy.dateDesc">Neu nach alt</label>
 			<label index="feedlist.orderBy.feed">Position im Feed</label>
+			<label index="feedlist.orderBy.reversefeed">Umgekehrte Position im Feed</label>
 			<label index="feedlist.orderBy.random">Zufall</label>
 			<label index="feedlist.feedMaxItems">Anzahl Datensätze</label>
 			<label index="feedlist.beginAfterItem">Starte Liste nach Datensatz Nr.</label>

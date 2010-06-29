@@ -72,6 +72,10 @@
 										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.orderBy.feed</numIndex>
 										<numIndex index="1">FEED</numIndex>
 									</numIndex>
+									<numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.orderBy.reversefeed</numIndex>
+										<numIndex index="1">REVERSEFEED</numIndex>
+									</numIndex>
 									<!--
 									<numIndex index="4" type="array">
 										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.orderBy.random</numIndex>
