@@ -17,7 +17,7 @@
 	</tr>
 	<tr>
 		<td>Permalink:</td>
-		<td>{item.permalink} [<a href="{item.permalink}">open</a>]</td>
+		<td>{item.permalink} [<a href="<f:escape>{item.permalink}</f:escape>">open</a>]</td>
 	</tr>
 	<tr>
 		<td>Timestamp:</td>
@@ -32,14 +32,26 @@
 		<td>{item.type}</td>
 	</tr>
 	<tr>
-		<td>Enclosures</td>
+		<td>Enclosures:</td>
 		<td>
 <f:if condition="{item.enclosures}">
-			<table border="1">
 	<f:for each="{item.enclosures}" as="enclosure">
+			<table border="1">
+				<tr>
+					<td>duration:</td>
+					<td><f:escape>{enclosure.duration}</f:escape></td>
+				</tr>
+				<tr>
+					<td>medium:</td>
+					<td><f:escape>{enclosure.medium}</f:escape></td>
+				</tr>
 				<tr>
 					<td>src:</td>
-					<td><f:escape>{enclosure.src}</f:escape> [<a href="{enclosure.src}">open</a>]</td>
+					<td>{enclosure.src} [<a href="<f:escape>{enclosure.src}</f:escape>">open</a>]</td>
+				</tr>
+				<tr>
+					<td>thumbnail.src:</td>
+					<td>{enclosure.thumbnail.src} [<a href="<f:escape>{enclosure.thumbnail.src}</f:escape>">open</a>]</td>
 				</tr>
 				<tr>
 					<td>title:</td>
@@ -49,8 +61,8 @@
 					<td>type:</td>
 					<td><f:escape>{enclosure.type}</f:escape></td>
 				</tr>
-	</f:for>
 			</table>
+	</f:for>
 </f:if>
 		</td>
 	</tr>

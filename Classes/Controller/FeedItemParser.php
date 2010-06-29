@@ -39,7 +39,20 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$this->content = $item->get_content();
 		$this->timestamp = $item->get_date('U');
 		$this->type = $this->getItemType();
-		// TODO: add enclosures
+		// enclosures
+		$enclosureCount = 0;
+		foreach ($item->get_enclosures() as $enclosure) {
+			$enclosureData = array(
+				'duration' => $enclosure->get_duration(),
+				'medium' => $enclosure->get_medium(),
+				'src' => html_entity_decode($enclosure->get_link()),
+				'thumbnail' => array('src' => html_entity_decode($enclosure->get_thumbnail())),
+				'title' => html_entity_decode($enclosure->get_title()),
+				'type' => $enclosure->get_real_type(),
+			);
+			$this->enclosures[$enclosureCount] = $enclosureData;
+			$enclosureCount++;
+		}
 
 		// do some basic cleanup
 		if ($this->content == $this->description) {
@@ -138,6 +151,32 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			$this->permalink = $link[0]['data'];
 		}
 
+		// enclosures: set medium=image
+		$this->enclosures[0]['medium'] = 'image';
+
+		// enclosures: set thumbnail size
+		// TO-DO: set by TS
+		$thumbSize = 'small';
+		$thumbUrl = $this->enclosures[0]['thumbnail']['src'];
+		switch (strtolower($thumbSize)) {
+			case 'square':
+				$thumbUrl = preg_replace('/(_[m|t|s|b]){0,1}\.jpg$/', '_s.jpg', $thumbUrl);
+				break;
+			case 'thumbnail':
+				$thumbUrl = preg_replace('/(_[m|t|s|b]){0,1}\.jpg$/', '_t.jpg', $thumbUrl);
+				break;
+			case 'small':
+				$thumbUrl = preg_replace('/(_[m|t|s|b]){0,1}\.jpg$/', '_m.jpg', $thumbUrl);
+				break;
+			case 'medium':
+				$thumbUrl = preg_replace('/(_[m|t|s|b]){0,1}\.jpg$/', '.jpg', $thumbUrl);
+				break;
+			case 'large':
+				$thumbUrl = preg_replace('/(_[m|t|s|b]){0,1}\.jpg$/', '_b.jpg', $thumbUrl);
+				break;
+		}
+		$this->enclosures[0]['thumbnail']['src'] = $thumbUrl;
+
 		// decode entities
 		$this->author->name = html_entity_decode($this->author->name);
 		$this->description = html_entity_decode($this->description);
@@ -153,13 +192,13 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 	 */
 	Private Function parseYouTubeItem() {
 
+		// enclosures: use biggest thumbnail if specified
 		$enclosure = $this->feedItem->get_enclosure();
 		if ($thumbnails = $enclosure->get_thumbnails()) {
 			if (isset($thumbnails[3]) && strlen($thumbnails[3]) > 0) {
-				$this->enclosures = array();
-				$this->enclosures['0']['src'] = $thumbnails[3];
-				$this->enclosures['0']['title'] = $this->title;
-				$this->enclosures['0']['type'] = 'image';
+				for ($i=0; $i<count($this->enclosures); $i++) {
+					$this->enclosures[$i]['thumbnail']['src'] = $thumbnails[3];
+				}
 			}
 		}
 
