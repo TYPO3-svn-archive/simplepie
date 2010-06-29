@@ -115,6 +115,12 @@ Class Tx_Simplepie_Controller_FeedController
 			$itemParser = new Tx_Simplepie_Controller_FeedController_FeedItemParser();
 			$feedEntry = $itemParser->parseObject($item);
 
+/*
+			TO-DO:
+			- move enclosures to itemParser
+			- then check if enclosure is present an chache thumbnails
+			- get dimensions of thumbnails
+
 			$feedItems = array();
 			if ($enclosure = $item->get_enclosure()) {
 				$tempFeedItem = array(
@@ -132,7 +138,7 @@ Class Tx_Simplepie_Controller_FeedController
 				$feedItems[] = $tempFeedItem;
 			}
 			$feedEntry->setItems($feedItems);
-
+*/
 			if (strlen($feed->get_image_url()) > 0) {
 				$filename = $this->handleCacheImage($feed->get_image_url());
 				$feedEntry->setFeedImageUrl($this->getResizedFeedImageLink($filename));
