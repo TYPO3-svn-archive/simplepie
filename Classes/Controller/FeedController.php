@@ -74,18 +74,7 @@ Class Tx_Simplepie_Controller_FeedController
 				 */
 
 				$itemParser = new Tx_Simplepie_Controller_FeedController_FeedItemParser();
-				$itemParser->parseObject($item);
-
-				$feedEntry = new Tx_Simplepie_Domain_Model_FeedEntry();
-				$feedEntry->setAuthor($item->get_author());
-				$feedEntry->setTitle($item->get_title());
-				$feedEntry->setDate($item->get_date());
-				$feedEntry->setCopyright($item->get_copyright());
-				$feedEntry->setDescription($item->get_description());
-				$feedEntry->setPermalink($item->get_permalink());
-				$feedEntry->setContent($item->get_content());
-				$feedEntry->setTimestamp($item->get_date('U'));
-				$feedEntry->setType($this->getItemType($item));
+				$feedEntry = $itemParser->parseObject($item);
 
 				$feedItems = array();
 				if ($enclosure = $item->get_enclosure()) {
@@ -124,20 +113,6 @@ Class Tx_Simplepie_Controller_FeedController
 		}
 
 		return $feedEntrys;
-	}
-
-	/**
-	 * checks if a feed item comes from a known source as YouTube, Flickr & Co.
-	 */
-	Private function getItemType($item) {
-		$type = 'unknown';
-
-		$author = $item->get_item_tags('', 'author');
-		if (isset($author[0]['attribs']['urn:flickr:']['profile'])) {
-			$type = 'flickr';
-		}
-
-		return $type;
 	}
 
 	Private function getAjaxContent() {
