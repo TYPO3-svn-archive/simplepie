@@ -112,6 +112,14 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$description = $this->feedItem->get_item_tags('http://search.yahoo.com/mrss/', 'description');
 		if (isset($description[0]['data']) && $description[0]['data'] != '') {
 			$this->description = $description[0]['data'];
+		} else {
+			// <media:description> is not set in feed when no description is given
+			$this->description = false;
+		}
+		// use <link> to set permalink
+		$link = $this->feedItem->get_item_tags('', 'link');
+		if (isset($link[0]['data']) && $link[0]['data'] != '') {
+			$this->permalink = $link[0]['data'];
 		}
 	}
 
