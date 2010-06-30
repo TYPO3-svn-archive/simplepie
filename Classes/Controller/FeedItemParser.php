@@ -200,6 +200,9 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		}
 		$this->enclosures[0]['thumbnail']['src'] = $thumbUrl;
 
+		// set author link
+		$this->author->link = 'http://www.flickr.com/photos/' . $this->author->name;
+
 		// decode entities
 		$this->author->name = html_entity_decode($this->author->name);
 		$this->description = html_entity_decode($this->description);
@@ -244,6 +247,9 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		if (is_array($rating[0]['attribs'][''])) {
 			$this->rating = $rating[0]['attribs'][''];
 		}
+
+		// set author link
+		$this->author->link = 'http://youtube.com/' . $this->author->name;
 
 		// statistics
 		$statistics = $this->feedItem->get_item_tags('http://gdata.youtube.com/schemas/2007', 'statistics');

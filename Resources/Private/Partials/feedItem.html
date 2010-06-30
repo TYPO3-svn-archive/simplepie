@@ -32,10 +32,12 @@
 		<td>Date:</td>
 		<td>{item.date}</td>
 	</tr>
+<f:if condition="{item.description}">
 	<tr>
 		<td>Description:</td>
 		<td>{item.description}</td>
 	</tr>
+</f:if>
 	<tr>
 		<td>Permalink:</td>
 		<td>{item.permalink} [<a href="<f:escape>{item.permalink}</f:escape>">open</a>]</td>
@@ -100,10 +102,12 @@
 <f:if condition="{item.enclosures}">
 	<f:for each="{item.enclosures}" as="enclosure">
 			<table border="1">
+			<f:if condition="{enclosure.duration}">
 				<tr>
 					<td>duration:</td>
 					<td><f:escape>{enclosure.duration}</f:escape></td>
 				</tr>
+			</f:if>
 				<tr>
 					<td>medium:</td>
 					<td><f:escape>{enclosure.medium}</f:escape></td>
