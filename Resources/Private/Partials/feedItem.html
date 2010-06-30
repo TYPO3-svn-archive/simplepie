@@ -1,7 +1,26 @@
 <table border="1">
 	<tr>
 		<td>Author:</td>
-		<td><f:escape>{item.author}</f:escape></td>
+		<td>
+			<table border="1">
+				<tr>
+					<td>name:</td>
+					<td><f:escape>{item.author.name}</f:escape></td>
+				</tr>
+<f:if condition="{item.author.e-mail}">
+				<tr>
+					<td>e-mail:</td>
+					<td><f:escape>{item.author.e-mail}</f:escape></td>
+				</tr>
+</f:if>
+<f:if condition="{item.author.link}">
+				<tr>
+					<td>link:</td>
+					<td>{item.author.link} [<a href="<f:escape>{item.author.link}</f:escape>">open</a>]</td>
+				</tr>
+</f:if>
+			</table>
+		</td>
 	</tr>
 <f:if condition="{item.content}">
 	<tr>
@@ -46,6 +65,7 @@
 		</td>
 	</tr>
 </f:if>
+<f:if condition="{item.statistics}">
 	<tr>
 		<td>Statistics:</td>
 		<td>
@@ -61,6 +81,7 @@
 			</table>
 		</td>
 	</tr>
+</f:if>
 	<tr>
 		<td>Timestamp:</td>
 		<td>{item.timestamp}</td>

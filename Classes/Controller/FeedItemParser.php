@@ -72,7 +72,8 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			case 'flickr':
 				$this->parseFlickrItem();
 				break;
-			case 'twitter':
+			case 'twitter_static':
+				$this->parseTwitterItem('static');
 				break;
 			case 'youtube':
 				$this->parseYouTubeItem();
@@ -81,7 +82,11 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 		// create FeedItem object
 		$feedItem = new Tx_Simplepie_Domain_Model_FeedItem();
-		$feedItem->setAuthor($this->author->name);
+		$feedItem->setAuthor(array(
+			'name' => $this->author->name,
+			'e-mail' => $this->author->email,
+			'link' => $this->author->link
+		));
 		$feedItem->setTitle($this->title);
 		$feedItem->setDate($this->date);
 		$feedItem->setCopyright($this->copyright);
@@ -121,6 +126,19 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		 */
 		if ($id && stripos($id, 'http://gdata.youtube.com/feeds/api/videos/') === 0) {
 			$type = 'youtube';
+		}
+
+		/**
+		 * Twitter
+		 *
+		 * ATTENTION: Calls to the twitter search api (http://search.twitter.com/search.atom?q=from%3A[twitter user]
+		 * are limited (see http://apiwiki.twitter.com/Rate-limiting) and sometimes only deliver tweets of the
+		 * last few days. So older tweets cannot be accessed trough the api.
+		 * The 'static' feed (http://twitter.com/statuses/user_timeline/[twitter user id].rss works perfectly!
+		 */
+		$twitterSource = $this->feedItem->get_item_tags('http://api.twitter.com', 'source');
+		if (isset($twitterSource[0]['data']) && $twitterSource[0]['data'] == 'web') {
+			$type = 'twitter_static';
 		}
 
 		return $type;
@@ -188,8 +206,19 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$this->content = html_entity_decode($this->content);
 	}
 
-	Private Function parseTwitterItem() {
-		
+	Private Function parseTwitterItem($type='static') {
+		switch (strtolower($type)) {
+			case 'static':
+				// extract author name from title
+				$author = '';
+				preg_match('/^([^:]*):/', $this->title, $author);
+				if (is_array($author) && strlen($author[1]) > 1) {
+					$this->author->name = trim($author[1]);
+					$this->author->link = 'http://twitter.com/' . $this->author->name;
+					$this->title = trim(preg_replace('/^([^:]*):/', '', $this->title));
+				}
+				break;
+		}
 	}
 
 	/**
