@@ -2,18 +2,21 @@
 
 class Tx_Simplepie_Domain_Model_FeedItem extends Tx_Extbase_DomainObject_AbstractEntity {
 
-	protected $title = '';
-	protected $date = '';
 	protected $author = '';
-	protected $copyright = '';
-	protected $description = '';
-	protected $permalink = '';
 	protected $content = '';
+	protected $copyright = '';
+	protected $date = '';
+	protected $description = '';
 	protected $enclosures = array();
 	protected $feedImageUrl = '';
 	protected $feedTitle = '';
+	protected $permalink = '';
+	protected $rating = array();
+	protected $statistics = array();
 	protected $timestamp = 0;
+	protected $title = '';
 	protected $type = 'unknown';
+
 
 	function getTitle() {
 		return $this->title;
@@ -53,6 +56,14 @@ class Tx_Simplepie_Domain_Model_FeedItem extends Tx_Extbase_DomainObject_Abstrac
 
 	function getFeedTitle() {
 		return $this->feedTitle;
+	}
+
+	function getRating() {
+		return $this->rating;
+	}
+
+	function getStatistics() {
+		return $this->statistics;
 	}
 
 	function getTimestamp() {
@@ -101,6 +112,14 @@ class Tx_Simplepie_Domain_Model_FeedItem extends Tx_Extbase_DomainObject_Abstrac
 
 	function setFeedTitle($feedTitle) {
 		$this->feedTitle = $feedTitle;
+	}
+
+	function setRating($rating) {
+		$this->rating = $rating;
+	}
+
+	function setStatistics($statistics) {
+		$this->statistics = $statistics;
 	}
 
 	function setTimestamp($timestamp) {

@@ -3,10 +3,12 @@
 		<td>Author:</td>
 		<td><f:escape>{item.author}</f:escape></td>
 	</tr>
+<f:if condition="{item.content}">
 	<tr>
 		<td>Content:</td>
 		<td><f:escape>{item.content}</f:escape></td>
 	</tr>
+</f:if>
 	<tr>
 		<td>Date:</td>
 		<td>{item.date}</td>
@@ -18,6 +20,46 @@
 	<tr>
 		<td>Permalink:</td>
 		<td>{item.permalink} [<a href="<f:escape>{item.permalink}</f:escape>">open</a>]</td>
+	</tr>
+<f:if condition="{item.rating}">
+	<tr>
+		<td>Rating:</td>
+		<td>
+			<table border="1">
+				<tr>
+					<td>average:</td>
+					<td>{item.rating.average}</td>
+				</tr>
+				<tr>
+					<td>max:</td>
+					<td>{item.rating.max}</td>
+				</tr>
+				<tr>
+					<td>min:</td>
+					<td>{item.rating.min}</td>
+				</tr>
+				<tr>
+					<td>numRaters:</td>
+					<td>{item.rating.numRaters}</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</f:if>
+	<tr>
+		<td>Statistics:</td>
+		<td>
+			<table border="1">
+				<tr>
+					<td>favoriteCount:</td>
+					<td>{item.statistics.favoriteCount}</td>
+				</tr>
+				<tr>
+					<td>viewCount:</td>
+					<td>{item.statistics.viewCount}</td>
+				</tr>
+			</table>
+		</td>
 	</tr>
 	<tr>
 		<td>Timestamp:</td>

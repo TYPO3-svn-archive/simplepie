@@ -2,20 +2,23 @@
 
 Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
-	protected $title = '';
-	protected $date = '';
 	protected $author = '';
-	protected $copyright = '';
-	protected $description = '';
-	protected $permalink = '';
 	protected $content = '';
-	protected $items = '';
+	protected $copyright = '';
+	protected $date = '';
+	protected $description = '';
+	protected $enclosures = array();
 	protected $feedImageUrl = '';
 	protected $feedTitle = '';
+	protected $items = '';
+	protected $permalink = '';
+	protected $rating = array();
+	protected $statistics = array();
 	protected $timestamp = 0;
+	protected $title = '';
 	protected $type = 'unknown';
 	protected $viewCount = false;
-	protected $enclosures = array();
+
 
 	protected $feedItem;
 
@@ -88,6 +91,8 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$feedItem->setTimestamp($this->timestamp);
 		$feedItem->setType($this->type);
 		$feedItem->setEnclosures($this->enclosures);
+		$feedItem->setStatistics($this->statistics);
+		$feedItem->setRating($this->rating);
 
 		return $feedItem;
 	}
@@ -194,7 +199,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 		// enclosures: use biggest thumbnail if specified
 		$enclosure = $this->feedItem->get_enclosure();
-		if ($thumbnails = $enclosure->get_thumbnails()) {
+		if ($enclosure && $thumbnails = $enclosure->get_thumbnails()) {
 			if (isset($thumbnails[3]) && strlen($thumbnails[3]) > 0) {
 				for ($i=0; $i<count($this->enclosures); $i++) {
 					$this->enclosures[$i]['thumbnail']['src'] = $thumbnails[3];
@@ -202,7 +207,23 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			}
 		}
 
-		// TO-DO: Add viewCount
+		// decode permalink
+		$this->permalink = html_entity_decode($this->permalink);
+
+		// ratings
+		$rating = $this->feedItem->get_item_tags('http://schemas.google.com/g/2005', 'rating');
+		if (is_array($rating[0]['attribs'][''])) {
+			$this->rating = $rating[0]['attribs'][''];
+		}
+
+		// statistics
+		$statistics = $this->feedItem->get_item_tags('http://gdata.youtube.com/schemas/2007', 'statistics');
+		if (isset($statistics[0]['attribs']['']['favoriteCount']) && strlen($statistics[0]['attribs']['']['favoriteCount']) > 0) {
+			$this->statistics['favoriteCount'] = round($statistics[0]['attribs']['']['favoriteCount']);
+		}
+		if (isset($statistics[0]['attribs']['']['viewCount']) && strlen($statistics[0]['attribs']['']['viewCount']) > 0) {
+			$this->statistics['viewCount'] = round($statistics[0]['attribs']['']['viewCount']);
+		}
 	}
 
 }
