@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book version="5.0" xml:id="tx_simplepie"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xl="http://www.w3.org/1999/xlink"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:xhtml="http://www.w3.org/1999/xhtml"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:ns="http://docbook.org/ns/docbook"
+      xmlns:mathml="http://www.w3.org/1998/Math/MathML">
+  <title>EXT: SimplePie</title>
+
+  <!-- Meta information -->
+
+  <info>
+    <abstract>
+      <para>A TYPO3 extension to aggregate and display various web feeds using
+      SimplePie</para>
+    </abstract>
+
+    <author>
+      <personname>
+        <firstname>Jochen</firstname>
+
+        <surname>Landvoigt</surname>
+      </personname>
+
+      <email>j.landvoigt@siwa.at</email>
+    </author>
+
+    <author>
+      <personname>
+        <firstname>Georg</firstname>
+
+        <surname>Leitner</surname>
+      </personname>
+
+      <email>georg.leitner@wien.oevp.at</email>
+    </author>
+
+    <author>
+      <personname>
+        <firstname>Matthias</firstname>
+
+        <surname>Zwittag</surname>
+      </personname>
+
+      <email>m.zwittag@siwa.at</email>
+    </author>
+
+    <copyright>
+      <year>2010 Jochen Landvoigt, Georg Leitner, Matthias Zwittag</year>
+    </copyright>
+  </info>
+
+  <preface>
+    <title>SimplePie Feedreader</title>
+
+    <para>Extension key: simplepie</para>
+
+    <para>Keywords: RSS, atom, feed reader, feed aggregator</para>
+
+    <para>This document is published under the Open Content License available
+    from <uri>http://www.opencontent.org/opl.shtml</uri></para>
+
+    <para>The content of this document is related to <emphasis
+    role="bold">TYPO3</emphasis> - a GNU/GPL CMS/Framework available from
+    <uri>http://www.typo3.org</uri></para>
+  </preface>
+
+  <!-- Chapters -->
+
+  <xi:include href="Introduction.xml" />
+
+  <xi:include href="Users_manual.xml" />
+
+  <xi:include href="Administration.xml" />
+
+  <xi:include href="Configuration.xml" />
+
+  <xi:include href="Known_problems.xml" />
+
+  <xi:include href="To-Do.xml" />
+
+  <!-- Appendixes -->
+</book>

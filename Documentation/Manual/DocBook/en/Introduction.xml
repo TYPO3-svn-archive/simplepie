@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.0" xml:id="tx_simplepie.introduction"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:ns6="http://www.w3.org/1999/xlink"
+         xmlns:ns5="http://www.w3.org/2000/svg"
+         xmlns:ns4="http://www.w3.org/1999/xhtml"
+         xmlns:ns3="http://www.w3.org/1998/Math/MathML"
+         xmlns:ns="http://docbook.org/ns/docbook">
+  <title>Introduction</title>
+
+  <section xml:id="tx_simplepie.introduction.overview">
+    <title>Overview</title>
+
+    <para><emphasis role="bold">SimplePie</emphasis>
+    (<uri>http://simplepie.org/</uri>) is a very fast and easy-to-use class,
+    written in PHP, that puts the 'simple' back into 'really simple
+    syndication'.</para>
+  </section>
+
+  <section xml:id="tx_simplepie.introduction.screenshots">
+    <title>Screenshots</title>
+
+    <para>...</para>
+  </section>
+</chapter>
