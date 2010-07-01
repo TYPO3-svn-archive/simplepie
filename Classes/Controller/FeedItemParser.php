@@ -75,6 +75,9 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			case 'twitter_static':
 				$this->parseTwitterItem('static');
 				break;
+			case 'twitter_api':
+				$this->parseTwitterItem('api');
+				break;
 			case 'youtube':
 				$this->parseYouTubeItem();
 				break;
@@ -83,9 +86,11 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		// create FeedItem object
 		$feedItem = new Tx_Simplepie_Domain_Model_FeedItem();
 		$feedItem->setAuthor(array(
-			'name' => $this->author->name,
 			'e-mail' => $this->author->email,
-			'link' => $this->author->link
+			'link' => $this->author->link,
+			'name' => $this->author->name,
+			'realName' => $this->author->realName,
+			'thumbnail' => $this->author->thumbnail
 		));
 		$feedItem->setTitle($this->title);
 		$feedItem->setDate($this->date);
@@ -109,12 +114,13 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$type = 'unknown';
 
 		$author = $this->feedItem->get_item_tags('', 'author');
+		$id = $this->feedItem->get_id();
+
 		// Flickr
 		if (isset($author[0]['attribs']['urn:flickr:']['profile'])) {
 			$type = 'flickr';
 		}
 
-		$id = $this->feedItem->get_id();
 		/**
 		 * YouTube
 		 *
@@ -139,6 +145,9 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$twitterSource = $this->feedItem->get_item_tags('http://api.twitter.com', 'source');
 		if (isset($twitterSource[0]['data']) && $twitterSource[0]['data'] == 'web') {
 			$type = 'twitter_static';
+		}
+		if ($id && stripos($id, 'tag:search.twitter.com') === 0) {
+			$type = 'twitter_api';
 		}
 
 		return $type;
@@ -219,6 +228,24 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 					$this->author->name = trim($author[1]);
 					$this->author->link = 'http://twitter.com/' . $this->author->name;
 					$this->title = trim(preg_replace('/^([^:]*):/', '', $this->title));
+				}
+				break;
+			case 'api':
+				// get profile image
+				$twitterImage = $this->feedItem->get_item_tags('http://www.w3.org/2005/Atom', 'link');
+				if (is_array($twitterImage)) {
+					foreach ($twitterImage as $image) {
+						if (isset($image['attribs']['']['rel']) && $image['attribs']['']['rel'] == 'image') {
+							$this->author->thumbnail['src'] = $image['attribs']['']['href'];
+							break;
+						}
+					}
+				}
+				// set fullName
+				preg_match('/([^(]*)\(([^)]*)\)/', $this->author->name, $author);
+				if (is_array($author) && strlen($author[1]) > 1) {
+					$this->author->name = trim($author[1]);
+					$this->author->realName = trim($author[2]);
 				}
 				break;
 		}

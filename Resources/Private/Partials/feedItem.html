@@ -1,12 +1,8 @@
 <table border="1">
 	<tr>
-		<td>Author:</td>
+		<td>author:</td>
 		<td>
 			<table border="1">
-				<tr>
-					<td>name:</td>
-					<td><f:escape>{item.author.name}</f:escape></td>
-				</tr>
 <f:if condition="{item.author.e-mail}">
 				<tr>
 					<td>e-mail:</td>
@@ -19,32 +15,48 @@
 					<td>{item.author.link} [<a href="<f:escape>{item.author.link}</f:escape>">open</a>]</td>
 				</tr>
 </f:if>
+				<tr>
+					<td>name:</td>
+					<td><f:escape>{item.author.name}</f:escape></td>
+				</tr>
+<f:if condition="{item.author.realName}">
+				<tr>
+					<td>realName:</td>
+					<td><f:escape>{item.author.realName}</f:escape></td>
+				</tr>
+</f:if>
+<f:if condition="{item.author.thumbnail.src}">
+				<tr>
+					<td>thumbnail.src:</td>
+					<td>{item.author.thumbnail.src} [<a href="<f:escape>{item.author.thumbnail.src}</f:escape>">open</a>]</td>
+				</tr>
+</f:if>
 			</table>
 		</td>
 	</tr>
 <f:if condition="{item.content}">
 	<tr>
-		<td>Content:</td>
+		<td>content:</td>
 		<td><f:escape>{item.content}</f:escape></td>
 	</tr>
 </f:if>
 	<tr>
-		<td>Date:</td>
+		<td>date:</td>
 		<td>{item.date}</td>
 	</tr>
 <f:if condition="{item.description}">
 	<tr>
-		<td>Description:</td>
+		<td>description:</td>
 		<td>{item.description}</td>
 	</tr>
 </f:if>
 	<tr>
-		<td>Permalink:</td>
+		<td>permalink:</td>
 		<td>{item.permalink} [<a href="<f:escape>{item.permalink}</f:escape>">open</a>]</td>
 	</tr>
 <f:if condition="{item.rating}">
 	<tr>
-		<td>Rating:</td>
+		<td>rating:</td>
 		<td>
 			<table border="1">
 				<tr>
@@ -69,7 +81,7 @@
 </f:if>
 <f:if condition="{item.statistics}">
 	<tr>
-		<td>Statistics:</td>
+		<td>statistics:</td>
 		<td>
 			<table border="1">
 				<tr>
@@ -85,22 +97,22 @@
 	</tr>
 </f:if>
 	<tr>
-		<td>Timestamp:</td>
+		<td>timestamp:</td>
 		<td>{item.timestamp}</td>
 	</tr>
 	<tr>
-		<td>Title:</td>
+		<td>title:</td>
 		<td><f:escape>{item.title}</f:escape></td>
 	</tr>
 	<tr>
-		<td>Type:</td>
+		<td>type:</td>
 		<td>{item.type}</td>
 	</tr>
-	<tr>
-		<td>Enclosures:</td>
-		<td>
 <f:if condition="{item.enclosures}">
-	<f:for each="{item.enclosures}" as="enclosure">
+	<tr>
+		<td>enclosures:</td>
+		<td>
+		<f:for each="{item.enclosures}" as="enclosure">
 			<table border="1">
 			<f:if condition="{enclosure.duration}">
 				<tr>
@@ -129,9 +141,9 @@
 					<td><f:escape>{enclosure.type}</f:escape></td>
 				</tr>
 			</table>
-	</f:for>
-</f:if>
+		</f:for>
 		</td>
 	</tr>
+</f:if>
 </table>
 <hr />
