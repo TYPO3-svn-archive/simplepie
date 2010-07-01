@@ -30,8 +30,9 @@ Class Tx_Simplepie_Controller_FeedController
 	Public Function indexAction() {
 		$feedItems = $this->getFeedItems();
 		$this->view->assign('feedItems', $feedItems);
+		$this->view->assign('pid', $GLOBALS['TSFE']->id);
 	}
-	
+
 	Public Function ajaxAction() {
 		$this->jsonArray['content'] = $this->getAjaxContent();
 		$content = json_encode($this->jsonArray);
@@ -42,22 +43,22 @@ Class Tx_Simplepie_Controller_FeedController
 	Private function getAllFeedItems() {
 		return $this->getFeedItems(true);
 	}
-	
+
 	Private function getFeedItems($disableItemCount = false, $elementfrom = 0, $elementcount = 0) {
 		$feedItems = array();
 		$rawFeedItems = array();
-		
+
 		if ($this->settings['feedMaxItems'] > 0 && $elementcount == 0)
 			$elementcount = $this->settings['feedMaxItems'];
-		
+
 		$feedurls = explode(',', $this->settings['feedSelection']);
 		$itemsperfeed = explode(',', $this->settings['feedItemsCount']);
-		
+
 		$itemcount = 0;
 		for ($i = 0; $i < count($feedurls); $i++ ) {
 			$urlid = $feedurls[$i];
 			$feedSource = $this->feedSourceRepository->findByUid((int)$urlid);
-			
+
 			$feed = new Tx_Simplepie_Controller_FeedController_SimplePie_Sort($feedSource->getUrl());
 			$feed->enable_order_by_date(true);
 			// enable/disable caching
@@ -78,16 +79,16 @@ Class Tx_Simplepie_Controller_FeedController
 			else {
 				$rawitems = $feed->get_items();
 			}
-			
+
 			$feeditemcount = 0;
 			foreach ($rawitems as $item) {
 				if (!$disableItemCount && $i <= count($itemsperfeed) && $feeditemcount >= $itemsperfeed[$i] && $itemsperfeed[$i] > 0 ) {
 					break;
 				}
-				
+
 				$rawFeedItems[] = $item;
 				$itemcount++;
-				$feeditemcount++;	
+				$feeditemcount++;
 			}
 		}
 
@@ -98,13 +99,13 @@ Class Tx_Simplepie_Controller_FeedController
 		if ($this->settings['sorting'] == 'ASC') {
 			usort($rawFeedItems, array("Tx_Simplepie_Controller_FeedController_SimplePie_Sort", "compareAsc"));
 		}
-		
-		
+
+
 		/* max items check */
 		if (!$disableItemCount && $elementcount > 0) {
 			$rawFeedItems = array_slice($rawFeedItems, $elementfrom, $elementcount);
 		}
-		
+
 		/* item parsing */
 		foreach($rawFeedItems as $item) {
 			$itemParser = new Tx_Simplepie_Controller_FeedController_FeedItemParser();
@@ -112,8 +113,8 @@ Class Tx_Simplepie_Controller_FeedController
 
 /*
 			TO-DO:
-			- move enclosures to itemParser
-			- then check if enclosure is present an chache thumbnails
+			- move enclosures to itemParser (DONE)
+			- then check if enclosure is present and chache thumbnails
 			- get dimensions of thumbnails
 
 			$feedItems = array();
@@ -146,7 +147,7 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 
 	Private function getAjaxContent() {
-		$nextItem = t3lib_div::GPvar('item');
+		$nextItem = t3lib_div::_GP('item');
 
 		$items = array();
 		if ($this->settings['ajaxMode'] == 'SINGLE') {
@@ -154,7 +155,7 @@ Class Tx_Simplepie_Controller_FeedController
 			$item = $feedItems[0];
 			$items[] = $item;
 		}
-		
+
 		if ($this->settings['ajaxMode'] == 'PAGING') {
 			$page = t3lib_div::GPvar('item');
 			$pageitems = $this->settings['feedMaxItems'];

@@ -1,0 +1,13 @@
+<h2>Rss Demo</h2>
+
+<div class="simplepie_ajax_next">
+	<a href="/?id={pid}&amp;no_cache=1&amp;type=4711&amp;item=2&amp;tx_simplepie_pi1[action]=ajax&amp;tx_simplepie_pi1[controller]=Feed">Test AJAX</a>
+</div>
+
+<div>{feedtitle}</div>
+
+<div class="simplepie_ajax_content">
+<f:for each="{feedItems}" as="item">
+	<f:render partial="FeedItem" arguments="{item: item}" />
+</f:for>
+</div>
