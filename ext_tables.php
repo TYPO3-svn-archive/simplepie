@@ -13,7 +13,7 @@ $TCA['tx_simplepie_domain_model_feedsource'] = Array (
 		'crdate' => 'crdate',
 		'delete' => 'deleted',
 		'enablecolumns' => Array ( 'disabled' => 'hidden' ),
-		'dynamicConfigFile' => $ePath . 'Configuration/TCA/tca.php',
+		'dynamicConfigFile' => $ePath . 'Configuration/TCA/TCA.php',
 		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Private/Backend/icon_tx_simplepie_feedsource.gif',
 	),
 );
@@ -29,7 +29,7 @@ $pluginSignature = strtolower($extensionName) . '_pi1';
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 'layout,select_key,recursive';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
-t3lib_extMgm::addPiFlexFormValue($pluginSignature, 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_list.xml');
+t3lib_extMgm::addPiFlexFormValue($pluginSignature, 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/FeedList.xml');
 
 if (TYPO3_MODE == 'BE') {
 	// Adds a wizard icon to the content element wizard.
