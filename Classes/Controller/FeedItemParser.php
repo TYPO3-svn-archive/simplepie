@@ -33,13 +33,13 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$this->feedItem = $item;
 
 		// set SiplePie values
-		$this->author = $item->get_author();
-		$this->title = $item->get_title();
+		$this->author = trim($item->get_author());
+		$this->title = trim($item->get_title());
 		$this->date = $item->get_date();
-		$this->copyright = $item->get_copyright();
-		$this->description = $item->get_description();
-		$this->permalink = $item->get_permalink();
-		$this->content = $item->get_content();
+		$this->copyright = trim($item->get_copyright());
+		$this->description = trim($item->get_description());
+		$this->permalink = trim($item->get_permalink());
+		$this->content = trim($item->get_content());
 		$this->timestamp = $item->get_date('U');
 		$this->type = $this->getItemType();
 		// enclosures
@@ -67,7 +67,8 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 		// special feed types
 		switch ($this->type) {
-			case 'facebook':
+			case 'facebook_page':
+				$this->parseFacebookPageItem();
 				break;
 			case 'flickr':
 				$this->parseFlickrItem();
@@ -115,6 +116,8 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 		$author = $this->feedItem->get_item_tags('', 'author');
 		$id = $this->feedItem->get_id();
+		$feed = $this->feedItem->get_feed();
+		$feedBase = $feed->get_base();
 
 		// Flickr
 		if (isset($author[0]['attribs']['urn:flickr:']['profile'])) {
@@ -150,11 +153,64 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			$type = 'twitter_api';
 		}
 
+		/**
+		 * Facebook
+		 */
+		if ($feedBase && $feedBase == 'http://www.facebook.com/') {
+			$type = 'facebook';
+			$linkRelSelf = $feed->get_links('self');
+			if (isset($linkRelSelf[0]) && stripos($linkRelSelf[0], 'http://www.facebook.com/feeds/page.php?') === 0) {
+				$type = 'facebook_page';
+			}
+		}
+
 		return $type;
 	}
 
-	Private Function parseFacebookItem() {
-		
+	Private Function parseFacebookPageItem() {
+		/*
+			Profilbild im <logo>-Tag des Feeds
+			Links im html-Code (Description) sind absolut: Base aus <link href="http://www.facebook.com/" />
+			Links:
+			Titel auch am Anfang des html-Codes (evtl. aus Inhalt löschen und folgende (<br(\s*)/>)* löschen)
+			Titel manchmal leer (Link auf krone.at) > was, wenn nur der Titel angezeigt wird (evtl. Link anzeigen, falls vorhanden)?
+			Diversen Unsinn aus Links entfernen: id="" title="" target="" onclick="" style="" onmousedown="UntrustedLink.bootstrap($(this), "7187aPq1090P9V4RQFgocZARREQ", event);"
+		*/
+		// kill useless html crap
+		$this->description = preg_replace('/^(\s*(<br(\s*\/)?>)\s*)*/i', '', $this->description);
+		$this->description = preg_replace('/((\s)*(title|target|id|onclick|style)=""(\s)*)+/i', ' ', $this->description);
+		$this->description = preg_replace('/(<img([^>])*)(\s)*><\/img>/i', "$1 />", $this->description);
+		$this->description = preg_replace('/\s*(onmousedown="UntrustedLink\.bootstrap\(\$\(this\), ")[^"]*", event\);"\s*/i', ' ', $this->description);
+
+		// profile image
+		$feed = $this->feedItem->get_feed();
+		$feedLogo = $feed->get_feed_tags('http://www.w3.org/2005/Atom', 'logo');
+		if (isset($feedLogo[0]['data']) && strlen($feedLogo[0]['data']) > 0) {
+			$this->author->thumbnail['src'] = $feedLogo[0]['data'];
+		}
+
+		$this->permalink = html_entity_decode($this->permalink);
+
+		// Correct title
+		$this->title = trim(html_entity_decode($this->title));
+
+		// if no title extract it from description
+		if ($this->title == '') {
+			$this->title = str_replace("\n", '', $this->description);
+			$this->title = trim(strip_tags(preg_replace('/(\s)*<br(\s)*(\/)*>(\s)*/i', "\n", $this->title), "\n"));
+			$firstBreak = strpos($this->title, "\n");
+			$this->description = substr($this->title, $firstBreak);
+			$this->description = preg_replace('/^(\s*(<br(\s*\/)?>)\s*)*/i', '', $this->description);
+			$this->title = substr($this->title, 0, $firstBreak);
+		}
+		// if title in description, extract it
+		if (strpos($this->description, $this->title) === 0) {
+			$this->description = str_replace($this->title, '', $this->description);
+			// remove trailing spaces and breaks
+			$this->description = preg_replace('/^(\s*(<br(\s*\/)?>)\s*)*/i', '', $this->description);
+		}
+
+		$this->description = trim($this->description);
 	}
 
 	/**

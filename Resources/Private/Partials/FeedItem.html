@@ -1,3 +1,5 @@
+{namespace sp=Tx_Simplepie_ViewHelpers}
+
 <table border="1">
 <f:if condition="{item.author}">
 	<tr>
@@ -13,7 +15,7 @@
 <f:if condition="{item.author.link}">
 				<tr>
 					<td>link:</td>
-					<td>{item.author.link} [<a href="<f:escape>{item.author.link}</f:escape>">open</a>]</td>
+					<td>{item.author.link} [<a href="{item.author.link}">open</a>]</td>
 				</tr>
 </f:if>
 <f:if condition="{item.author.name}">
@@ -31,7 +33,7 @@
 <f:if condition="{item.author.thumbnail.src}">
 				<tr>
 					<td>thumbnail.src:</td>
-					<td>{item.author.thumbnail.src} [<a href="<f:escape>{item.author.thumbnail.src}</f:escape>">open</a>]</td>
+					<td>{item.author.thumbnail.src} [<a href="{item.author.thumbnail.src}">open</a>]</td>
 				</tr>
 </f:if>
 			</table>
@@ -41,7 +43,7 @@
 <f:if condition="{item.content}">
 	<tr>
 		<td>content:</td>
-		<td><f:escape>{item.content}</f:escape></td>
+		<td>{item.content}<hr /><sp:null>{item.content}</sp:null></td>
 	</tr>
 </f:if>
 	<tr>
@@ -51,12 +53,12 @@
 <f:if condition="{item.description}">
 	<tr>
 		<td>description:</td>
-		<td>{item.description}</td>
+		<td>{item.description}<hr /><sp:null>{item.description}</sp:null></td>
 	</tr>
 </f:if>
 	<tr>
 		<td>permalink:</td>
-		<td>{item.permalink} [<a href="<f:escape>{item.permalink}</f:escape>">open</a>]</td>
+		<td>{item.permalink} [<a href="{item.permalink}">open</a>]</td>
 	</tr>
 <f:if condition="{item.rating}">
 	<tr>
@@ -106,7 +108,7 @@
 	</tr>
 	<tr>
 		<td>title:</td>
-		<td><f:escape>{item.title}</f:escape></td>
+		<td>{item.title}<hr /><sp:null>{item.title}</sp:null></td>
 	</tr>
 	<tr>
 		<td>type:</td>
@@ -130,11 +132,11 @@
 				</tr>
 				<tr>
 					<td>src:</td>
-					<td>{enclosure.src} [<a href="<f:escape>{enclosure.src}</f:escape>">open</a>]</td>
+					<td>{enclosure.src} [<a href="{enclosure.src}">open</a>]</td>
 				</tr>
 				<tr>
 					<td>thumbnail.src:</td>
-					<td>{enclosure.thumbnail.src} [<a href="<f:escape>{enclosure.thumbnail.src}</f:escape>">open</a>]</td>
+					<td>{enclosure.thumbnail.src} [<a href="{enclosure.thumbnail.src}">open</a>]</td>
 				</tr>
 				<tr>
 					<td>title:</td>

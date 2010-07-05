@@ -31,6 +31,7 @@ Class Tx_Simplepie_Controller_FeedController
 		$feedItems = $this->getFeedItems();
 		$this->view->assign('feedItems', $feedItems);
 		$this->view->assign('pid', $GLOBALS['TSFE']->id);
+		$this->view->assign('fluidTest', 'hello<br /> w<b>o</b>rld!');
 	}
 
 	Public Function ajaxAction() {
