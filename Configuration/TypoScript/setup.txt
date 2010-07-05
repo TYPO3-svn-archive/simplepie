@@ -1,6 +1,10 @@
 plugin.tx_simplepie {
 	settings {
-
+		controllers {
+			Feed {
+			
+			}
+		}
 	}
 	persistence {
 		storagePid = {$plugin.tx_simplepie.persistence.storagePid}
