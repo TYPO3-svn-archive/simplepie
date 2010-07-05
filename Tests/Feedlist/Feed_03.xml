@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss>
+	<channel>
+		<title>Testfeed 3</title>
+		<item>
+			<title>title: III (3) / pubDate: V (5) / feedPosition: I (1)</title>
+			<guid>3-1</guid>
+			<pubDate>Sun, 19 May 2002 14:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>title: V (5) / pubDate: III (3) / feedPosition: II (2)</title>
+			<guid>3-2</guid>
+			<pubDate>Sun, 19 May 2002 12:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>title: I (1) / pubDate: IV (4) / feedPosition: III (3)</title>
+			<guid>3-3</guid>
+			<pubDate>Sun, 19 May 2002 13:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>title: II (2) / pubDate: I (1) / feedPosition: IV (4)</title>
+			<guid>3-4</guid>
+			<pubDate>Sun, 19 May 2002 10:00:00 GMT</pubDate>
+		</item>
+		<item>
+			<title>title: IV (4) / pubDate: II (2) / feedPosition: V (5)</title>
+			<guid>3-5</guid>
+			<pubDate>Sun, 19 May 2002 11:00:00 GMT</pubDate>
+		</item>
+	</channel>
+</rss>

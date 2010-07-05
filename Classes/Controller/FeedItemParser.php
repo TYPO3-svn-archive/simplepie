@@ -85,13 +85,13 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 		// create FeedItem object
 		$feedItem = new Tx_Simplepie_Domain_Model_FeedItem();
-		$feedItem->setAuthor(array(
+		$feedItem->setAuthor(array_filter(array(
 			'e-mail' => $this->author->email,
 			'link' => $this->author->link,
 			'name' => $this->author->name,
 			'realName' => $this->author->realName,
 			'thumbnail' => $this->author->thumbnail
-		));
+		)));
 		$feedItem->setTitle($this->title);
 		$feedItem->setDate($this->date);
 		$feedItem->setCopyright($this->copyright);

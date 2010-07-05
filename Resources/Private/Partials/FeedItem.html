@@ -1,4 +1,5 @@
 <table border="1">
+<f:if condition="{item.author}">
 	<tr>
 		<td>author:</td>
 		<td>
@@ -15,10 +16,12 @@
 					<td>{item.author.link} [<a href="<f:escape>{item.author.link}</f:escape>">open</a>]</td>
 				</tr>
 </f:if>
+<f:if condition="{item.author.name}">
 				<tr>
 					<td>name:</td>
 					<td><f:escape>{item.author.name}</f:escape></td>
 				</tr>
+</f:if>
 <f:if condition="{item.author.realName}">
 				<tr>
 					<td>realName:</td>
@@ -34,6 +37,7 @@
 			</table>
 		</td>
 	</tr>
+</f:if>
 <f:if condition="{item.content}">
 	<tr>
 		<td>content:</td>

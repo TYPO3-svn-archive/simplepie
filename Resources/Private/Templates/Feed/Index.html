@@ -4,7 +4,18 @@
 	<a href="/?id={pid}&amp;no_cache=1&amp;type=4711&amp;item=2&amp;tx_simplepie_pi1[action]=ajax&amp;tx_simplepie_pi1[controller]=Feed">Test AJAX</a>
 </div>
 
-<div>{feedtitle}</div>
+<div>
+	<table border="1">
+		<tr>
+			<td>feed.title</td>
+			<td>{feed.title}</td>
+		</tr>
+		<tr>
+			<td>feed.sorting</td>
+			<td>{feed.sorting}</td>
+		</tr>
+	</table>
+</div>
 
 <div class="simplepie_ajax_content">
 <f:for each="{feedItems}" as="item">

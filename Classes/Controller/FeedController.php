@@ -71,12 +71,17 @@ Class Tx_Simplepie_Controller_FeedController
 			}
 			$feed->init();
 			$feed->handle_content_type();
-			$this->view->assign('feedtitle', $feed->get_title() . ' - ' . $feedSource->getUrl());
+			$this->view->assign(
+				'feed', array(
+					'title' => $feed->get_title(),
+					'source' => $feedSource->getUrl(),
+					'sorting' => $this->settings['sorting'],
+				)
+			);
 
 			if ($this->settings['sorting'] == 'REVERSEFEED') {
 				$rawitems = array_reverse($feed->get_items());
-			}
-			else {
+			} else {
 				$rawitems = $feed->get_items();
 			}
 
