@@ -1,12 +1,36 @@
 plugin.tx_simplepie {
-  settings {
-#    type = normal
-  }
-  persistence {
-    storagePid = {$plugin.tx_simplepie.persistence.storagePid}
-  }
-  view.templateRootPath = {$plugin.tx_simplepie.view.templateRootPath}
+	settings {
+
+	}
+	persistence {
+		storagePid = {$plugin.tx_simplepie.persistence.storagePid}
+	}
+	view {
+		templateRootPath = {$plugin.tx_simplepie.view.templateRootPath}
+	}
+	lib {
+		jqueryBib = TEXT
+		jqueryBib.value (
+<script src="http://www.google.com/jsapi"></script>
+<script>
+  // Load jQuery
+  google.load("jquery", "1.3.2");
+</script>
+)
+		jqueryBib.if {
+			isTrue = {$plugin.tx_simplepie.loadJQuery}
+		}
+	}
 }
+page.headerData.10000 < plugin.tx_simplepie.lib.jqueryBib
+
+page.headerData.10001 = TEXT
+page.headerData.10001.value = <script type="text/javascript">jQuery.noConflict();</script>
+page.headerData.10002 = TEXT
+page.headerData.10002.value = <script src="typo3conf/ext/simplepie/Resources/Public/Javascript/simplepie_ajax.js"></script>
+
+// AJAX Pagetype
+
 #[globalVar = GP:type = 4711]
 #plugin.tx_simplepie.settings.type = ajax
 #[end]
@@ -44,20 +68,4 @@ simplepieAjaxReq {
   10 = COA
   10 < styles.content.get
   10.stdWrap.prepend >
-
 }
-
-temp.jqueryBib = TEXT
-temp.jqueryBib.value (
-<script src="http://www.google.com/jsapi"></script>
-<script>
-  // Load jQuery
-  google.load("jquery", "1.3.2");
-</script>
-)
-page.headerData.741 < temp.jqueryBib
-
-page.headerData.742 = TEXT
-page.headerData.742.value = <script type="text/javascript">jQuery.noConflict();</script>
-page.headerData.743 = TEXT
-page.headerData.743.value = <script src="typo3conf/ext/simplepie/Resources/Public/Javascript/simplepie_ajax.js"></script>

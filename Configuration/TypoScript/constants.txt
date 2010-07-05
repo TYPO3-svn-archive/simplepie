@@ -11,4 +11,6 @@ plugin.tx_simplepie {
 		 # cat=plugin.tx_simplepie//a; type=int+; label=Default storage PID
 		storagePid =
 	}
+	# cat=plugin.tx_simplepie//a; type=boolean; label=Load jQuery Library
+	loadJQuery = 1
 }
