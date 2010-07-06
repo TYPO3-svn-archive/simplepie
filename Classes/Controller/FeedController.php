@@ -46,6 +46,7 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 
 	Private function getFeedItems($disableItemCount = false, $elementfrom = 0, $elementcount = 0) {
+		$this->prepareSettings();
 		$feedItems = array();
 		$rawFeedItems = array();
 
@@ -61,7 +62,8 @@ Class Tx_Simplepie_Controller_FeedController
 			$feedSource = $this->feedSourceRepository->findByUid((int)$urlid);
 
 			$feed = new Tx_Simplepie_Controller_FeedController_SimplePie_Sort($feedSource->getUrl());
-			$feed->enable_order_by_date(true);
+			//$feed->enable_order_by_date(true);
+			$feed->enable_order_by_date(false);
 			// enable/disable caching
 			if ($this->settings['cacheDuration'] > 0) {
 				$feed->set_cache_location('typo3temp/simplepie_thumbnails/');
@@ -257,6 +259,18 @@ Class Tx_Simplepie_Controller_FeedController
 		unset($ts['img.']['file.']['width.']);
 		unset($ts['img.']['file.']['height.']);
 		return $ts;
+	}
+	
+	Private function prepareSettings() {
+		if (strlen($this->settings['controllers']['Feed']['sorting']) > 0 && $this->settings['sorting'] == 'DEFAULT') {
+			$this->settings['sorting'] = $this->settings['controllers']['Feed']['sorting'];
+		}
+		if ($this->settings['controllers']['Feed']['feedMaxItems'] > 0 && strlen($this->settings['feedMaxItems']) == 0) {
+			$this->settings['feedMaxItems'] = $this->settings['controllers']['Feed']['feedMaxItems'];
+		}
+		if ($this->settings['controllers']['Feed']['cacheDuration'] > 0 && strlen($this->settings['cacheDuration']) == 0) {
+			$this->settings['cacheDuration'] = $this->settings['controllers']['Feed']['cacheDuration'];
+		}
 	}
 }
 ?>

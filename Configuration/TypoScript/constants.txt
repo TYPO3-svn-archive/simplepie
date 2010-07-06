@@ -18,6 +18,16 @@ plugin.tx_simplepie {
 				imageScaleMode = proportionally
 			}
 		}
+		controllers {
+			Feed {
+				# cat=plugin.tx_simplepie//c; type=int[1-9999]; label=Number of items in result
+				feedMaxItems = 20
+				# cat=plugin.tx_simplepie//d; type=options[ASC,DESC,FEED,REVERSEFEED]; label=Sorting Mode
+				sorting = DESC
+				# cat=plugin.tx_simplepie//e; type=int[60-9999]; label=Cache duration(sec)
+				cacheDuration = 300
+			}
+		}
 	}
 	view {
 		 # cat=plugin.tx_simplepie/file; type=string; label=Path to template root (FE)
@@ -31,6 +41,6 @@ plugin.tx_simplepie {
 		 # cat=plugin.tx_simplepie//a; type=int+; label=Default storage PID
 		storagePid =
 	}
-	# cat=plugin.tx_simplepie//a; type=boolean; label=Load jQuery Library
+	# cat=plugin.tx_simplepie//b; type=boolean; label=Load jQuery Library
 	loadJQuery = 1
 }
