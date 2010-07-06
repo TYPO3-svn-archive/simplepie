@@ -168,7 +168,7 @@
 							</config>
 						</TCEforms>
 					</settings.feedImageHeight>
-					<settings.scale>
+					<settings.feedImageScaleMode>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedLogo.scaleMode</label>
 							<config>
@@ -195,8 +195,8 @@
 								<size>1</size>
 							</config>
 						</TCEforms>
-					</settings.scale>
-					<settings.feedEntryImageWidth>
+					</settings.feedImageScaleMode>
+					<settings.feedItemImageWidth>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedItem.image.width</label>
 							<config>
@@ -207,8 +207,8 @@
 								<checkbox></checkbox>
 							</config>
 						</TCEforms>
-					</settings.feedEntryImageWidth>
-					<settings.feedEntryImageHeight>
+					</settings.feedItemImageWidth>
+					<settings.feedItemImageHeight>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedItem.image.height</label>
 							<config>
@@ -219,8 +219,8 @@
 								<checkbox></checkbox>
 							</config>
 						</TCEforms>
-					</settings.feedEntryImageHeight>
-					<settings.feedEntryImageScale>
+					</settings.feedItemImageHeight>
+					<settings.feedItemImageScaleMode>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedItem.image.scaleMode</label>
 							<config>
@@ -247,7 +247,7 @@
 								<size>1</size>
 							</config>
 						</TCEforms>
-					</settings.feedEntryImageScale>
+					</settings.feedItemImageScaleMode>
 				</el>
 			</ROOT>
 		</sImage>
