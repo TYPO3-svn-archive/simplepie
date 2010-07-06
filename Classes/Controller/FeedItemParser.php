@@ -33,7 +33,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$this->feedItem = $item;
 
 		// set SiplePie values
-		$this->author = trim($item->get_author());
+		$this->author = $item->get_author();
 		$this->title = trim($item->get_title());
 		$this->date = $item->get_date();
 		$this->copyright = trim($item->get_copyright());
@@ -169,12 +169,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 	Private Function parseFacebookPageItem() {
 		/*
-			Profilbild im <logo>-Tag des Feeds
 			Links im html-Code (Description) sind absolut: Base aus <link href="http://www.facebook.com/" />
-			Links:
-			Titel auch am Anfang des html-Codes (evtl. aus Inhalt löschen und folgende (<br(\s*)/>)* löschen)
-			Titel manchmal leer (Link auf krone.at) > was, wenn nur der Titel angezeigt wird (evtl. Link anzeigen, falls vorhanden)?
-			Diversen Unsinn aus Links entfernen: id="" title="" target="" onclick="" style="" onmousedown="UntrustedLink.bootstrap($(this), "7187aPq1090P9V4RQFgocZARREQ", event);"
 		*/
 		// kill useless html crap
 		$this->description = preg_replace('/^(\s*(<br(\s*\/)?>)\s*)*/i', '', $this->description);
