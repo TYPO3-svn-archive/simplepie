@@ -211,8 +211,23 @@ Class Tx_Simplepie_Controller_FeedController
 	Private function getResizedItemImageLink($filename) {
 		$ts = $this->getImageTS();
 		$ts['img.']['file'] = $filename;
-		$ts['img.']['file.']['maxH'] = $this->settings['feedItemImageHeight'];
-		$ts['img.']['file.']['maxW'] = $this->settings['feedItemImageWidth'];
+		switch (strtolower($this->settings['feedItem']['enclosure']['imageScaleMode'])) {
+			case 'crop':
+				$ts['img.']['file.']['height'] = $this->settings['feedItem']['enclosure']['imageHeight'] . 'c';
+				$ts['img.']['file.']['width'] = $this->settings['feedItem']['enclosure']['imageHeight'] . 'c';
+				break;
+			case 'disproportionally':
+				$ts['img.']['file.']['minH'] = $this->settings['feedItem']['enclosure']['imageHeight'];
+				$ts['img.']['file.']['minW'] = $this->settings['feedItem']['enclosure']['imageHeight'];
+				$ts['img.']['file.']['maxH'] = $this->settings['feedItem']['enclosure']['imageHeight'];
+				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['enclosure']['imageHeight'];
+				break;
+			default:
+				// proportionally
+				$ts['img.']['file.']['maxH'] = $this->settings['feedItem']['enclosure']['imageHeight'];
+				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['enclosure']['imageHeight'];
+				break;
+		}
 		$img = $this->contentObject->IMG_RESOURCE($ts['img.']);
 		return $img;
 	}
