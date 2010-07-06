@@ -119,33 +119,26 @@ Class Tx_Simplepie_Controller_FeedController
 
 /*
 			TO-DO:
-			- move enclosures to itemParser (DONE)
-			- then check if enclosure is present and chache thumbnails
-			- get dimensions of thumbnails
-
-			$feedItems = array();
-			if ($enclosure = $item->get_enclosure()) {
-				$tempFeedItem = array(
-					'description' => $enclosure->get_description(),
-					'extension' => $enclosure->get_extension(),
-					'link' => str_replace('&amp;', '&', $enclosure->get_link()),
-					'thumbnail' => $enclosure->get_thumbnail(),
-					'title' => html_entity_decode($enclosure->get_title()),
-					'type' => $enclosure->get_real_type(),
-				);
-				if (strlen($tempFeedItem['link']) > 0) {
-					$filename = $this->handleCacheImage($tempFeedItem['link']);
-					$tempFeedItem['link'] = $this->getResizedImageLink($filename);
-				}
-				$feedItems[] = $tempFeedItem;
-			}
-			$feedItem->setItems($feedItems);
+			- get dimensions of resized thumbnails
 */
-			if (strlen($feed->get_image_url()) > 0) {
-				$filename = $this->handleCacheImage($feed->get_image_url());
-				$feedItem->setFeedImageUrl($this->getResizedFeedImageLink($filename));
+
+			// cache author thumbnail
+			$author = $feedItem->getAuthor();
+			if (isset($author['thumbnail']['src']) && strlen($author['thumbnail']['src']) > 0) {
+				$filename = $this->handleCacheImage($author['thumbnail']['src']);
+				$author['thumbnail']['src'] = $this->getResizedItemAuthorImageLink($filename);
+				$feedItem->setAuthor($author);
 			}
-			$feedItem->setFeedTitle($feed->get_title());
+
+			// cache enclosures
+			$enclosures = $feedItem->getEnclosures();
+			for ($i=0; $i<count($enclosures); $i++) {
+				if (isset($enclosures[$i]['thumbnail']['src']) && strlen($enclosures[$i]['thumbnail']['src']) > 0) {
+					$filename = $this->handleCacheImage($enclosures[$i]['thumbnail']['src']);
+					$enclosures[$i]['thumbnail']['src'] = $this->getResizedItemImageLink($filename);
+				}
+			}
+			$feedItem->setEnclosures($enclosures);
 
 			$feedItems[] = $feedItem;
 		}
@@ -191,7 +184,16 @@ Class Tx_Simplepie_Controller_FeedController
 		return $filename;
 	}
 
-	Private function getResizedImageLink($filename) {
+	Private function getResizedItemAuthorImageLink($filename) {
+		$ts = $this->getImageTS();
+		$ts['img.']['file'] = $filename;
+		$ts['img.']['file.']['maxH'] = $this->settings['feedItemAuthorImageHeight'];
+		$ts['img.']['file.']['maxW'] = $this->settings['feedItemAuthorImageWidth'];
+		$img = $this->contentObject->IMG_RESOURCE($ts['img.']);
+		return $img;
+	}
+
+	Private function getResizedItemImageLink($filename) {
 		$ts = $this->getImageTS();
 		$ts['img.']['file'] = $filename;
 		$ts['img.']['file.']['maxH'] = $this->settings['feedItemImageHeight'];

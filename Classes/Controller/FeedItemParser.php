@@ -84,6 +84,15 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 				break;
 		}
 
+		// set feed logo as author thumbnail
+		if (!$this->author->thumbnail['src']) {
+			$feed = $this->feedItem->get_feed();
+			$feedImageUrl = $feed->get_image_url();
+			if ($feedImageUrl && strlen($feedImageUrl) > 0) {
+				$this->author->thumbnail['src'] = $feedImageUrl;
+			}
+		}
+
 		// create FeedItem object
 		$feedItem = new Tx_Simplepie_Domain_Model_FeedItem();
 		$feedItem->setAuthor(array_filter(array(
