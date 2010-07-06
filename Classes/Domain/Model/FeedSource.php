@@ -12,11 +12,6 @@ class Tx_Simplepie_Domain_Model_FeedSource extends Tx_Extbase_DomainObject_Abstr
 	* @var string
 	*/
 	protected $url = '';
-	/**
-	* 
-	* @var int
-	*/
-	protected $anzahl = '';
 	
 	public function getName() {
 		return $this->name;
@@ -26,20 +21,12 @@ class Tx_Simplepie_Domain_Model_FeedSource extends Tx_Extbase_DomainObject_Abstr
 		return $this->url;
 	}
 	
-	public function getAnzahl() {
-		return $this->anzahl;
-	}
-	
 	public function setName($name) {
 		$this->name = $name;
 	}
 	
 	public function setUrl($url) {
 		$this->url = $url;
-	}
-	
-	public function setAnzahl($anzahl) {
-		$this->anzahl = $anzahl;
 	}
 }
 ?>
