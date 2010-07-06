@@ -1,5 +1,17 @@
 plugin.tx_simplepie {
 	settings {
+		feedItem {
+			author {
+				imageHeight = {$plugin.tx_simplepie.settings.feedItem.author.imageHeight}
+				imageWidth = {$plugin.tx_simplepie.settings.feedItem.author.imageWidth}
+				imageScaleMode = {$plugin.tx_simplepie.settings.feedItem.author.imageScaleMode}
+			}
+			enclosure {
+				imageHeight = {$plugin.tx_simplepie.settings.feedItem.enclosure.imageHeight}
+				imageWidth = {$plugin.tx_simplepie.settings.feedItem.enclosure.imageWidth}
+				imageScaleMode = {$plugin.tx_simplepie.settings.feedItem.enclosure.imageScaleMode}
+			}
+		}
 		controllers {
 			Feed {
 			

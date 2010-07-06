@@ -187,8 +187,23 @@ Class Tx_Simplepie_Controller_FeedController
 	Private function getResizedItemAuthorImageLink($filename) {
 		$ts = $this->getImageTS();
 		$ts['img.']['file'] = $filename;
-		$ts['img.']['file.']['maxH'] = $this->settings['feedItemAuthorImageHeight'];
-		$ts['img.']['file.']['maxW'] = $this->settings['feedItemAuthorImageWidth'];
+		switch (strtolower($this->settings['feedItem']['author']['imageScaleMode'])) {
+			case 'crop':
+				$ts['img.']['file.']['height'] = $this->settings['feedItem']['author']['imageHeight'] . 'c';
+				$ts['img.']['file.']['width'] = $this->settings['feedItem']['author']['imageHeight'] . 'c';
+				break;
+			case 'disproportionally':
+				$ts['img.']['file.']['minH'] = $this->settings['feedItem']['author']['imageHeight'];
+				$ts['img.']['file.']['minW'] = $this->settings['feedItem']['author']['imageHeight'];
+				$ts['img.']['file.']['maxH'] = $this->settings['feedItem']['author']['imageHeight'];
+				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['author']['imageHeight'];
+				break;
+			default:
+				// proportionally
+				$ts['img.']['file.']['maxH'] = $this->settings['feedItem']['author']['imageHeight'];
+				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['author']['imageHeight'];
+				break;
+		}
 		$img = $this->contentObject->IMG_RESOURCE($ts['img.']);
 		return $img;
 	}
@@ -221,6 +236,8 @@ Class Tx_Simplepie_Controller_FeedController
 		unset($ts['img.']['titleText.']);
 		$ts['img.']['titleText'] = $acttitle;
 		unset($ts['img.']['imageLinkWrap.']);
+		unset($ts['img.']['file.']['width.']);
+		unset($ts['img.']['file.']['height.']);
 		return $ts;
 	}
 }
