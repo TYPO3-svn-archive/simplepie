@@ -117,16 +117,15 @@ Class Tx_Simplepie_Controller_FeedController
 			$itemParser = new Tx_Simplepie_Controller_FeedController_FeedItemParser();
 			$feedItem = $itemParser->parseObject($item);
 
-/*
-			TO-DO:
-			- get dimensions of resized thumbnails
-*/
-
 			// cache author thumbnail
 			$author = $feedItem->getAuthor();
 			if (isset($author['thumbnail']['src']) && strlen($author['thumbnail']['src']) > 0) {
 				$filename = $this->handleCacheImage($author['thumbnail']['src']);
 				$author['thumbnail']['src'] = $this->getResizedItemAuthorImageLink($filename);
+				if (is_array($GLOBALS['TSFE']->lastImgResourceInfo) && count($GLOBALS['TSFE']->lastImgResourceInfo) > 0) {
+					$author['thumbnail']['width'] = $GLOBALS['TSFE']->lastImgResourceInfo[0];
+					$author['thumbnail']['height'] = $GLOBALS['TSFE']->lastImgResourceInfo[1];
+				}
 				$feedItem->setAuthor($author);
 			}
 
@@ -136,6 +135,10 @@ Class Tx_Simplepie_Controller_FeedController
 				if (isset($enclosures[$i]['thumbnail']['src']) && strlen($enclosures[$i]['thumbnail']['src']) > 0) {
 					$filename = $this->handleCacheImage($enclosures[$i]['thumbnail']['src']);
 					$enclosures[$i]['thumbnail']['src'] = $this->getResizedItemImageLink($filename);
+					if (is_array($GLOBALS['TSFE']->lastImgResourceInfo) && count($GLOBALS['TSFE']->lastImgResourceInfo) > 0) {
+						$enclosures[$i]['thumbnail']['width'] = $GLOBALS['TSFE']->lastImgResourceInfo[0];
+						$enclosures[$i]['thumbnail']['height'] = $GLOBALS['TSFE']->lastImgResourceInfo[1];
+					}
 				}
 			}
 			$feedItem->setEnclosures($enclosures);
