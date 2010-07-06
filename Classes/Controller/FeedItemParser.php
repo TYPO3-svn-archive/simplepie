@@ -168,14 +168,12 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 	}
 
 	Private Function parseFacebookPageItem() {
-		/*
-			Links im html-Code (Description) sind absolut: Base aus <link href="http://www.facebook.com/" />
-		*/
 		// kill useless html crap
 		$this->description = preg_replace('/^(\s*(<br(\s*\/)?>)\s*)*/i', '', $this->description);
 		$this->description = preg_replace('/((\s)*(title|target|id|onclick|style)=""(\s)*)+/i', ' ', $this->description);
 		$this->description = preg_replace('/(<img([^>])*)(\s)*><\/img>/i', "$1 />", $this->description);
 		$this->description = preg_replace('/\s*(onmousedown="UntrustedLink\.bootstrap\(\$\(this\), ")[^"]*", event\);"\s*/i', ' ', $this->description);
+		$this->description = preg_replace('/\s*target="_blank"\s*/i', ' ', $this->description);
 
 		// profile image
 		$feed = $this->feedItem->get_feed();
