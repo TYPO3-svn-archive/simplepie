@@ -42,6 +42,7 @@
 			<label index="feedlist.feedItem.image.height">Feed item image height</label>
 			<label index="feedlist.feedItem.image.scaleMode">Feed item scale mode</label>
 			<label index="feedlist.ajax">Ajax</label>
+			<label index="feedlist.ajax.uid">Ajax Container UID</label>
 			<label index="feedlist.ajax.mode">Ajax mode</label>
 			<label index="feedlist.ajax.mode.single">Single element</label>
 			<label index="feedlist.ajax.mode.paging">Paging</label>
@@ -86,6 +87,7 @@
 			<label index="feedlist.feedItem.image.height">Maximale Höhe für Bilder in Feed-Elementen</label>
 			<label index="feedlist.feedItem.image.scaleMode">Skalierung der Bilder in Feed-Elementen</label>
 			<label index="feedlist.ajax">Ajax</label>
+			<label index="feedlist.ajax.uid">Ajax Container UID</label>
 			<label index="feedlist.ajax.mode">Ajax mode</label>
 			<label index="feedlist.ajax.mode.single">einzelnes Element</label>
 			<label index="feedlist.ajax.mode.paging">seitenweise</label>

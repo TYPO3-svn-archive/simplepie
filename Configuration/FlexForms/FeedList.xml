@@ -276,6 +276,17 @@
 							</config>
 						</TCEforms>
 					</settings.ajaxMode>
+					<settings.ajaxUid>
+						<TCEforms>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.ajax.uid</label>
+							<config>
+								<type>input</type>
+								<size>5</size>
+								<max>3</max>
+								<eval>num</eval>
+							</config>
+						</TCEforms>
+					</settings.ajaxUid>
 				</el>
 			</ROOT>
 		</sAjax>

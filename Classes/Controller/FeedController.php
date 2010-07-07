@@ -25,20 +25,30 @@ Class Tx_Simplepie_Controller_FeedController
 	Public Function initializeAction() {
 		$this->feedSourceRepository =& t3lib_div::makeInstance ('Tx_Simplepie_Domain_Repository_FeedSourceRepository');
 		$this->contentObject = t3lib_div::makeInstance('tslib_cObj');
+		$this->prepareSettings();
 	}
 
 	Public Function indexAction() {
+		if ($this->settings['jQueryDisable'] == 0) {
+			$GLOBALS['TSFE']->additionalHeaderData['multicontent'] .= $this->javascriptInclude();
+		}
+		
 		$feedItems = $this->getFeedItems();
 		$this->view->assign('feedItems', $feedItems);
 		$this->view->assign('pid', $GLOBALS['TSFE']->id);
+		$this->view->assign('ajaxuid', $this->settings['ajaxUid']);
 		$this->view->assign('fluidTest', 'hello<br /> w<b>o</b>rld!');
+		//print "UID:" . print_r($this->settings['tuid'], true);
+		// $this->cObj->data['uid']		
 	}
 
 	Public Function ajaxAction() {
-		$this->jsonArray['content'] = $this->getAjaxContent();
-		$content = json_encode($this->jsonArray);
-		print $content;
-		exit;
+		if ($this->settings['ajaxUid'] == t3lib_div::_GET('ajaxuid')) {
+			$this->jsonArray['content'] = $this->getAjaxContent();
+			$content = json_encode($this->jsonArray);
+			print $content;
+			exit;
+		}
 	}
 
 	Private function getAllFeedItems() {
@@ -46,7 +56,6 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 
 	Private function getFeedItems($disableItemCount = false, $elementfrom = 0, $elementcount = 0) {
-		$this->prepareSettings();
 		$feedItems = array();
 		$rawFeedItems = array();
 
@@ -151,7 +160,7 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 
 	Private function getAjaxContent() {
-		$nextItem = t3lib_div::_GP('item');
+		$nextItem = t3lib_div::_GET('item');
 
 		$items = array();
 		if ($this->settings['ajaxMode'] == 'SINGLE') {
@@ -271,6 +280,40 @@ Class Tx_Simplepie_Controller_FeedController
 		if ($this->settings['controllers']['Feed']['cacheDuration'] > 0 && strlen($this->settings['cacheDuration']) == 0) {
 			$this->settings['cacheDuration'] = $this->settings['controllers']['Feed']['cacheDuration'];
 		}
+	}
+	
+	Private function javascriptInclude() {
+		$ajaxuid = $this->settings['ajaxUid'];
+		$jscontent = '<script type="text/javascript">
+			var nextItem'. $ajaxuid . ' = 0;
+			jQuery(document).ready(function(){
+				// click on next/prev link
+				jQuery(".simplepie_ajax_next'. $ajaxuid . '").click(function(){
+					nextItem'. $ajaxuid . ' = nextItem'. $ajaxuid . ' + 1;
+					getItem'. $ajaxuid . '();
+				});
+				jQuery(".simplepie_ajax_prev'. $ajaxuid . '").click(function(){
+					nextItem'. $ajaxuid . ' = nextItem'. $ajaxuid . ' - 1;
+					getItem'. $ajaxuid . '();
+				});
+			});
+
+			function getItem'. $ajaxuid . '() {
+				jQuery(".simplepie_ajax_loading'. $ajaxuid . '").fadeIn();
+				jQuery.ajax({
+					url: "index.php",
+					processData: "false",
+					data: "id=96&type=4711&item=" + nextItem'. $ajaxuid . ' + "&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed&ajaxuid='. $ajaxuid . '",
+					dataType: "json",
+					success: function(ret){
+						// place new content
+						jQuery(".simplepie_ajax_content'. $ajaxuid . '").html(ret.content);
+					}
+				});
+				jQuery(".simplepie_ajax_loading'. $ajaxuid . '").fadeOut();
+			}
+			</script>';
+			return $jscontent;
 	}
 }
 ?>

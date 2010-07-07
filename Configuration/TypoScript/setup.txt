@@ -19,6 +19,7 @@ plugin.tx_simplepie {
 				cacheDuration = {$plugin.tx_simplepie.settings.controllers.Feed.cacheDuration}
 			}
 		}
+		jQueryDisable = {$plugin.tx_simplepie.jQueryDisable}
 	}
 	persistence {
 		storagePid = {$plugin.tx_simplepie.persistence.storagePid}
@@ -38,14 +39,20 @@ plugin.tx_simplepie {
 		jqueryBib.if {
 			isTrue = {$plugin.tx_simplepie.loadJQuery}
 		}
+		jqueryNoConflict = TEXT
+		jqueryNoConflict.value = <script type="text/javascript">jQuery.noConflict();</script>
+		jqueryNoConflict.if {
+			isTrue = {$plugin.tx_simplepie.jQueryNoConflict}
+		}
 	}
 }
-page.headerData.10000 < plugin.tx_simplepie.lib.jqueryBib
-
-page.headerData.10001 = TEXT
-page.headerData.10001.value = <script type="text/javascript">jQuery.noConflict();</script>
-page.headerData.10002 = TEXT
-page.headerData.10002.value = <script src="typo3conf/ext/simplepie/Resources/Public/Javascript/simplepie_ajax.js"></script>
+page.headerData.10000 = COA
+page.headerData.10000 {
+	1 < plugin.tx_simplepie.lib.jqueryBib
+	2 < plugin.tx_simplepie.lib.jqueryNoConflict
+#	3 = TEXT
+#	3.value = <script type="text/javascript" src="typo3conf/ext/simplepie/Resources/Public/Javascript/simplepie_ajax.js"></script>
+}
 
 // AJAX Pagetype
 

@@ -41,6 +41,10 @@ plugin.tx_simplepie {
 		 # cat=plugin.tx_simplepie//a; type=int+; label=Default storage PID
 		storagePid =
 	}
-	# cat=plugin.tx_simplepie//b; type=boolean; label=Load jQuery Library
+	# cat=plugin.tx_simplepie//ba; type=boolean; label=Load jQuery Library
 	loadJQuery = 1
+	# cat=plugin.tx_simplepie//bb; type=boolean; label=jQuery no conflict
+	jQueryNoConflict = 1
+	# cat=plugin.tx_simplepie//bc; type=boolean; label=disable jQuery methods
+	jQueryDisable = 0
 }

@@ -1,7 +1,15 @@
 <h2>Rss Demo</h2>
 
-<div class="simplepie_ajax_next">
-	Test AJAX
+<div class="simplepie_ajax_loading{ajaxuid}">
+	<!-- Loading gif -->
+</div>
+
+
+<div class="simplepie_ajax_prev{ajaxuid}">
+	<< prev item
+</div>
+<div class="simplepie_ajax_next{ajaxuid}">
+	next item >>
 </div>
 
 <div>
@@ -17,7 +25,7 @@
 	</table>
 </div>
 
-<div class="simplepie_ajax_content">
+<div class="simplepie_ajax_content{ajaxuid}">
 <f:for each="{feedItems}" as="item">
 	<f:render partial="FeedItem" arguments="{item: item}" />
 </f:for>
