@@ -7,9 +7,13 @@ plugin.tx_simplepie {
 				imageScaleMode = {$plugin.tx_simplepie.settings.feedItem.author.imageScaleMode}
 			}
 			enclosure {
-				imageHeight = {$plugin.tx_simplepie.settings.feedItem.enclosure.imageHeight}
-				imageWidth = {$plugin.tx_simplepie.settings.feedItem.enclosure.imageWidth}
-				imageScaleMode = {$plugin.tx_simplepie.settings.feedItem.enclosure.imageScaleMode}
+				default {
+					imageHeight = {$plugin.tx_simplepie.settings.feedItem.enclosure.default.imageHeight}
+					imageWidth = {$plugin.tx_simplepie.settings.feedItem.enclosure.default.imageWidth}
+					imageScaleMode = {$plugin.tx_simplepie.settings.feedItem.enclosure.default.imageScaleMode}
+				}
+				youtube < .default
+				flickr < .default
 			}
 		}
 		controllers {

@@ -156,7 +156,7 @@ Class Tx_Simplepie_Controller_FeedController
 			for ($i=0; $i<count($enclosures); $i++) {
 				if (isset($enclosures[$i]['thumbnail']['src']) && strlen($enclosures[$i]['thumbnail']['src']) > 0) {
 					$filename = $this->handleCacheImage($enclosures[$i]['thumbnail']['src']);
-					$enclosures[$i]['thumbnail']['src'] = $this->getResizedItemImageLink($filename);
+					$enclosures[$i]['thumbnail']['src'] = $this->getResizedItemImageLink($filename, $feedItem->getType());
 					if (is_array($GLOBALS['TSFE']->lastImgResourceInfo) && count($GLOBALS['TSFE']->lastImgResourceInfo) > 0) {
 						$enclosures[$i]['thumbnail']['width'] = $GLOBALS['TSFE']->lastImgResourceInfo[0];
 						$enclosures[$i]['thumbnail']['height'] = $GLOBALS['TSFE']->lastImgResourceInfo[1];
@@ -209,7 +209,7 @@ Class Tx_Simplepie_Controller_FeedController
 		return $filename;
 	}
 
-	Private function getResizedItemAuthorImageLink($filename) {
+	Private function getResizedItemAuthorImageLink($filename, $type = 'default') {
 		$ts = $this->getImageTS();
 		$ts['img.']['file'] = $filename;
 		switch (strtolower($this->settings['feedItem']['author']['imageScaleMode'])) {
@@ -233,31 +233,31 @@ Class Tx_Simplepie_Controller_FeedController
 		return $img;
 	}
 
-	Private function getResizedItemImageLink($filename) {
+	Private function getResizedItemImageLink($filename, $type = 'default') {
 		$ts = $this->getImageTS();
 		$ts['img.']['file'] = $filename;
-		switch (strtolower($this->settings['feedItem']['enclosure']['imageScaleMode'])) {
+		switch (strtolower($this->settings['feedItem']['enclosure'][$type]['imageScaleMode'])) {
 			case 'crop':
-				$ts['img.']['file.']['height'] = $this->settings['feedItem']['enclosure']['imageHeight'] . 'c';
-				$ts['img.']['file.']['width'] = $this->settings['feedItem']['enclosure']['imageHeight'] . 'c';
+				$ts['img.']['file.']['height'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'] . 'c';
+				$ts['img.']['file.']['width'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'] . 'c';
 				break;
 			case 'disproportionally':
-				$ts['img.']['file.']['minH'] = $this->settings['feedItem']['enclosure']['imageHeight'];
-				$ts['img.']['file.']['minW'] = $this->settings['feedItem']['enclosure']['imageHeight'];
-				$ts['img.']['file.']['maxH'] = $this->settings['feedItem']['enclosure']['imageHeight'];
-				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['enclosure']['imageHeight'];
+				$ts['img.']['file.']['minH'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'];
+				$ts['img.']['file.']['minW'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'];
+				$ts['img.']['file.']['maxH'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'];
+				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'];
 				break;
 			default:
 				// proportionally
-				$ts['img.']['file.']['maxH'] = $this->settings['feedItem']['enclosure']['imageHeight'];
-				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['enclosure']['imageHeight'];
+				$ts['img.']['file.']['maxH'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'];
+				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'];
 				break;
 		}
 		$img = $this->contentObject->IMG_RESOURCE($ts['img.']);
 		return $img;
 	}
 
-	Private function getResizedFeedImageLink($filename) {
+	Private function getResizedFeedImageLink($filename, $type = 'default') {
 		$ts = $this->getImageTS();
 		$ts['img.']['file'] = $filename;
 		$ts['img.']['file.']['maxH'] = $this->settings['feedImageHeight'];

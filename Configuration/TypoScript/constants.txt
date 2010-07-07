@@ -10,12 +10,14 @@ plugin.tx_simplepie {
 				imageScaleMode = proportionally
 			}
 			enclosure {
-				# cat=plugin.tx_simplepie/dims/d; type=int[10-999]; label=Height of enclosure images
-				imageHeight = 100
-				# cat=plugin.tx_simplepie/dims/e; type=int[10-999]; label=Width of enclosure images
-				imageWidth = 100
-				# cat=plugin.tx_simplepie/dims/f; type=options[crop,disproportionally,proportionally]; label=Enclosure images scale mode: Defines how to stretch images to make them fit the given width/height. "proportionally" will stretch them proportionally to fit height or width, "disproportionally" will stretch them disproportionally to fit both height and width. "crop" will preserve the proportions and the image will be scaled to fit around a rectangle with width/height dimensions.
-				imageScaleMode = proportionally
+				default {
+					# cat=plugin.tx_simplepie/dims/d; type=int[10-999]; label=Default Height of enclosure images
+					imageHeight = 100
+					# cat=plugin.tx_simplepie/dims/e; type=int[10-999]; label=Default Width of enclosure images
+					imageWidth = 100
+					# cat=plugin.tx_simplepie/dims/f; type=options[crop,disproportionally,proportionally]; label=Default Enclosure images scale mode: Defines how to stretch images to make them fit the given width/height. "proportionally" will stretch them proportionally to fit height or width, "disproportionally" will stretch them disproportionally to fit both height and width. "crop" will preserve the proportions and the image will be scaled to fit around a rectangle with width/height dimensions.
+					imageScaleMode = proportionally
+				}
 			}
 		}
 		controllers {
