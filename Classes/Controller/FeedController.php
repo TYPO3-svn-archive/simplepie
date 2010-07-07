@@ -64,6 +64,7 @@ Class Tx_Simplepie_Controller_FeedController
 
 		$feedurls = explode(',', $this->settings['feedSelection']);
 		$itemsperfeed = explode(',', $this->settings['feedItemsCount']);
+		$beginafteritem = explode(',', $this->settings['beginAfterItem']);
 
 		$itemcount = 0;
 		for ($i = 0; $i < count($feedurls); $i++ ) {
@@ -99,6 +100,11 @@ Class Tx_Simplepie_Controller_FeedController
 
 			$feeditemcount = 0;
 			foreach ($rawitems as $item) {
+				if (count($beginafteritem) > 1 && $feeditemcount < $beginafteritem[$i]) {
+					$itemcount++;
+					$feeditemcount++;
+					continue;
+				}
 				if (!$disableItemCount && $i <= count($itemsperfeed) && $feeditemcount >= $itemsperfeed[$i] && $itemsperfeed[$i] > 0 ) {
 					break;
 				}
@@ -118,6 +124,11 @@ Class Tx_Simplepie_Controller_FeedController
 		}
 
 
+		/* start after item check */
+		if (count($beginafteritem) == 1 && $this->settings['beginAfterItem'] > 0) {
+			$rawFeedItems = array_slice($rawFeedItems, $this->settings['beginAfterItem']);
+		}
+		
 		/* max items check */
 		if (!$disableItemCount && $elementcount > 0) {
 			$rawFeedItems = array_slice($rawFeedItems, $elementfrom, $elementcount);

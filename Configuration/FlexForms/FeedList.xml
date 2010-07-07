@@ -105,10 +105,9 @@
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.beginAfterItem</label>
 							<config>
 								<type>input</type>
-								<size>5</size>
-								<max>2</max>
+								<size>20</size>
+								<max>20</max>
 								<checkbox></checkbox>
-								<eval>num</eval>
 							</config>
 						</TCEforms>
 					</settings.beginAfterItem>
