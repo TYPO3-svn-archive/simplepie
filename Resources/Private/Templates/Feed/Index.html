@@ -1,4 +1,5 @@
-<h2>Rss Demo</h2>
+<!-- BEGIN simplepie -->
+<div class="simplepie<f:if condition="{feed.styleClass}"> {feed.styleClass}</f:if>">
 
 <div class="simplepie_ajax_loading{ajaxuid}">
 	<!-- Loading gif -->
@@ -23,6 +24,10 @@
 			<td>feed.sorting</td>
 			<td>{feed.sorting}</td>
 		</tr>
+		<tr>
+			<td>feed.styleClass</td>
+			<td>{feed.styleClass}</td>
+		</tr>
 	</table>
 </div>
 
@@ -31,3 +36,4 @@
 	<f:render partial="FeedItem" arguments="{item: item}" />
 </f:for>
 </div>
+</div><!-- END simplepie -->

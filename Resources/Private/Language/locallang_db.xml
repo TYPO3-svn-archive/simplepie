@@ -33,6 +33,7 @@
 			<label index="feedlist.feedMaxItems">Total count of feed items</label>
 			<label index="feedlist.beginAfterItem">Start after item</label>
 			<label index="feedlist.sheet.layout">Layout</label>
+			<label index="feedlist.listStyleClass">CSS class of list</label>
 			<label index="feedlist.feedLogo">Feed Logo</label>
 			<label index="feedlist.feedLogo.show">Show feed logo</label>
 			<label index="feedlist.feedLogo.width">Feed logo width</label>
@@ -78,6 +79,7 @@
 			<label index="feedlist.feedMaxItems">Anzahl Datensätze</label>
 			<label index="feedlist.beginAfterItem">Starte Liste nach Datensatz Nr.</label>
 			<label index="feedlist.sheet.layout">Darstellung</label>
+			<label index="feedlist.listStyleClass">CSS-Klasse der Liste</label>
 			<label index="feedlist.feedLogo">Feed-Logo</label>
 			<label index="feedlist.feedLogo.show">Feed-Logo anzeigen</label>
 			<label index="feedlist.feedLogo.width">Breite des Feed-Logos</label>

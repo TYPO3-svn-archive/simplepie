@@ -22,12 +22,14 @@ plugin.tx_simplepie {
 		}
 		controllers {
 			Feed {
-				# cat=plugin.tx_simplepie//c; type=int[1-9999]; label=Number of items in result
-				feedMaxItems = 20
-				# cat=plugin.tx_simplepie//d; type=options[ASC,DESC,FEED,REVERSEFEED]; label=Sorting Mode
-				sorting = DESC
-				# cat=plugin.tx_simplepie//e; type=int[60-9999]; label=Cache duration(sec)
+				# cat=plugin.tx_simplepie//; type=int[60-9999]; label=Cache duration(sec)
 				cacheDuration = 300
+				# cat=plugin.tx_simplepie//; type=string; label=List style class: Used to set a CSS style class of a feed list
+				listStyleClass = 
+				# cat=plugin.tx_simplepie//; type=int[1-9999]; label=Number of items in result
+				feedMaxItems = 20
+				# cat=plugin.tx_simplepie//; type=options[ASC,DESC,FEED,REVERSEFEED]; label=Sorting Mode
+				sorting = DESC
 			}
 		}
 	}

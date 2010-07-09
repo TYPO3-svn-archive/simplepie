@@ -94,6 +94,7 @@ Class Tx_Simplepie_Controller_FeedController
 				$feed->handle_content_type();
 				$this->view->assign(
 					'feed', array(
+						'styleClass' => $this->settings['feedListStyleClass'],
 						'title' => $feed->get_title(),
 						'source' => $feedSource->getUrl(),
 						'sorting' => $this->settings['sorting'],
@@ -305,6 +306,16 @@ Class Tx_Simplepie_Controller_FeedController
 		}
 		if ($this->settings['controllers']['Feed']['cacheDuration'] > 0 && strlen($this->settings['cacheDuration']) == 0) {
 			$this->settings['cacheDuration'] = $this->settings['controllers']['Feed']['cacheDuration'];
+		}
+		if (strlen($this->settings['controllers']['Feed']['feedListStyleClass']) > 0 && $this->settings['sorting'] == 'DEFAULT') {
+			$this->settings['sorting'] = $this->settings['controllers']['Feed']['sorting'];
+		}
+		if (strlen($this->settings['feedListStyleClass']) > 0) {
+			// FF or TS
+			$this->settings['feedListStyleClass'] = trim($this->settings['feedListStyleClass']);
+		} else {
+			// use TS
+			$this->settings['feedListStyleClass'] = trim($this->settings['controllers']['Feed']['feedListStyleClass']);
 		}
 	}
 	

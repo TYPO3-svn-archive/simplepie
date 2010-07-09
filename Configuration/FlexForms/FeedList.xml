@@ -114,13 +114,24 @@
 				</el>
 			</ROOT>
 		</sMain>
-		<sImage>
+		<sLayout>
 			<ROOT>
 				<TCEforms>
 					<sheetTitle>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.sheet.layout</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
+					<settings.feedListStyleClass>
+						<TCEforms>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.listStyleClass</label>
+							<config>
+								<type>input</type>
+								<size>10</size>
+								<max>20</max>
+								<checkbox></checkbox>
+							</config>
+						</TCEforms>
+					</settings.feedListStyleClass>
 					<settings.showFeedLogo>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedLogo.show</label>
@@ -249,7 +260,7 @@
 					</settings.feedItemImageScaleMode>
 				</el>
 			</ROOT>
-		</sImage>
+		</sLayout>
 		<sAjax>
 			<ROOT>
 				<TCEforms>

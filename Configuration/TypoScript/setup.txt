@@ -18,9 +18,10 @@ plugin.tx_simplepie {
 		}
 		controllers {
 			Feed {
+				cacheDuration = {$plugin.tx_simplepie.settings.controllers.Feed.cacheDuration}
+				feedListStyleClass = {$plugin.tx_simplepie.settings.controllers.Feed.listStyleClass}
 				feedMaxItems = {$plugin.tx_simplepie.settings.controllers.Feed.feedMaxItems}
 				sorting = {$plugin.tx_simplepie.settings.controllers.Feed.sorting}
-				cacheDuration = {$plugin.tx_simplepie.settings.controllers.Feed.cacheDuration}
 			}
 		}
 		jQueryDisable = {$plugin.tx_simplepie.jQueryDisable}
