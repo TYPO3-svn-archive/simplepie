@@ -121,7 +121,7 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<settings.feedListStyleClass>
+					<settings.controllers.Feed.listStyleClass>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.listStyleClass</label>
 							<config>
@@ -131,7 +131,7 @@
 								<checkbox></checkbox>
 							</config>
 						</TCEforms>
-					</settings.feedListStyleClass>
+					</settings.controllers.Feed.listStyleClass>
 					<settings.showFeedLogo>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedLogo.show</label>
