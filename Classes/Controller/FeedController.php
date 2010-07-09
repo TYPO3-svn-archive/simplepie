@@ -75,6 +75,9 @@ Class Tx_Simplepie_Controller_FeedController
 				$urlid = $feedurls[$i];
 				$feedSource = $this->feedSourceRepository->findByUid((int)$urlid);
 
+				if ($feedSource == null) {
+					break;
+				}
 				$feed = new Tx_Simplepie_Controller_FeedController_SimplePie_Sort($feedSource->getUrl());
 				//$feed->enable_order_by_date(true);
 				$feed->enable_order_by_date(false);
@@ -136,6 +139,12 @@ Class Tx_Simplepie_Controller_FeedController
 		
 		/* max items check */
 		if (!$disableItemCount && $elementcount > 0) {
+			$page = t3lib_div::GPvar('item');
+			$pageitems = $this->settings['feedMaxItems'];
+			$startitem = $page * $pageitems;
+			if ($startitem >= count($rawFeedItems)) {
+				$elementfrom = ($elementfrom % count($rawFeedItems));
+			}
 			$rawFeedItems = array_slice($rawFeedItems, $elementfrom, $elementcount);
 		}
 
