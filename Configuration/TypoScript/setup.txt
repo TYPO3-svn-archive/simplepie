@@ -42,11 +42,19 @@ plugin.tx_simplepie {
 )
 		jqueryBib.if {
 			isTrue = {$plugin.tx_simplepie.loadJQuery}
+			isPositive = 1
+			isPositive.if {
+				isFalse = {$plugin.tx_simplepie.jQueryDisable}
+			}
 		}
 		jqueryNoConflict = TEXT
 		jqueryNoConflict.value = <script type="text/javascript">jQuery.noConflict();</script>
 		jqueryNoConflict.if {
 			isTrue = {$plugin.tx_simplepie.jQueryNoConflict}
+			isPositive = 1
+			isPositive.if {
+				isFalse = {$plugin.tx_simplepie.jQueryDisable}
+			}
 		}
 	}
 }

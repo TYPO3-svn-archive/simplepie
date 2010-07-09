@@ -39,6 +39,7 @@ Class Tx_Simplepie_Controller_FeedController
 		$this->view->assign('pid', $GLOBALS['TSFE']->id);
 		//$this->view->assign('ajaxuid', $this->settings['ajaxUid']);
 		$this->view->assign('ajaxuid', $cObj['uid']);
+		$this->view->assign('jQueryDisable', $this->settings['jQueryDisable']);
 		$this->view->assign('fluidTest', 'hello<br /> w<b>o</b>rld!');
 		//print "UID:" . print_r($this->settings['tuid'], true);
 		//print($cObj['uid']);		
