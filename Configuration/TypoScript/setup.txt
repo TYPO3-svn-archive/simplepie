@@ -31,6 +31,8 @@ plugin.tx_simplepie {
 	}
 	view {
 		templateRootPath = {$plugin.tx_simplepie.view.templateRootPath}
+		partialRootPath = {$plugin.tx_simplepie.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_simplepie.view.layoutRootPath}
 	}
 	lib {
 		jqueryBib = TEXT
