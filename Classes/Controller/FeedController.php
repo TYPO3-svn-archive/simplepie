@@ -33,17 +33,20 @@ Class Tx_Simplepie_Controller_FeedController
 			$GLOBALS['TSFE']->additionalHeaderData['multicontent'] .= $this->javascriptInclude();
 		}
 		
+		$cObj = $this->request->getContentObjectData();
 		$feedItems = $this->getFeedItems();
 		$this->view->assign('feedItems', $feedItems);
 		$this->view->assign('pid', $GLOBALS['TSFE']->id);
-		$this->view->assign('ajaxuid', $this->settings['ajaxUid']);
+		//$this->view->assign('ajaxuid', $this->settings['ajaxUid']);
+		$this->view->assign('ajaxuid', $cObj['uid']);
 		$this->view->assign('fluidTest', 'hello<br /> w<b>o</b>rld!');
 		//print "UID:" . print_r($this->settings['tuid'], true);
-		// $this->cObj->data['uid']		
+		//print($cObj['uid']);		
 	}
 
 	Public Function ajaxAction() {
-		if ($this->settings['ajaxUid'] == t3lib_div::_GET('ajaxuid')) {
+		$cObj = $this->request->getContentObjectData();
+		if ($cObj['uid'] == t3lib_div::_GET('ajaxuid')) {
 			$this->jsonArray['content'] = $this->getAjaxContent();
 			$content = json_encode($this->jsonArray);
 			print $content;
@@ -67,51 +70,53 @@ Class Tx_Simplepie_Controller_FeedController
 		$beginafteritem = explode(',', $this->settings['beginAfterItem']);
 
 		$itemcount = 0;
-		for ($i = 0; $i < count($feedurls); $i++ ) {
-			$urlid = $feedurls[$i];
-			$feedSource = $this->feedSourceRepository->findByUid((int)$urlid);
+		if ($feedurls[0] != '') {
+			for ($i = 0; $i < count($feedurls); $i++ ) {
+				$urlid = $feedurls[$i];
+				$feedSource = $this->feedSourceRepository->findByUid((int)$urlid);
 
-			$feed = new Tx_Simplepie_Controller_FeedController_SimplePie_Sort($feedSource->getUrl());
-			//$feed->enable_order_by_date(true);
-			$feed->enable_order_by_date(false);
-			// enable/disable caching
-			if ($this->settings['cacheDuration'] > 0) {
-				$feed->set_cache_location('typo3temp/simplepie_thumbnails/');
-				$feed->set_cache_duration($this->settings['cacheDuration']);
-				$feed->enable_cache(true);
-			} else {
-				$feed->enable_cache(false);
-			}
-			$feed->init();
-			$feed->handle_content_type();
-			$this->view->assign(
-				'feed', array(
-					'title' => $feed->get_title(),
-					'source' => $feedSource->getUrl(),
-					'sorting' => $this->settings['sorting'],
-				)
-			);
+				$feed = new Tx_Simplepie_Controller_FeedController_SimplePie_Sort($feedSource->getUrl());
+				//$feed->enable_order_by_date(true);
+				$feed->enable_order_by_date(false);
+				// enable/disable caching
+				if ($this->settings['cacheDuration'] > 0) {
+					$feed->set_cache_location('typo3temp/simplepie_thumbnails/');
+					$feed->set_cache_duration($this->settings['cacheDuration']);
+					$feed->enable_cache(true);
+				} else {
+					$feed->enable_cache(false);
+				}
+				$feed->init();
+				$feed->handle_content_type();
+				$this->view->assign(
+					'feed', array(
+						'title' => $feed->get_title(),
+						'source' => $feedSource->getUrl(),
+						'sorting' => $this->settings['sorting'],
+					)
+				);
 
-			if ($this->settings['sorting'] == 'REVERSEFEED') {
-				$rawitems = array_reverse($feed->get_items());
-			} else {
-				$rawitems = $feed->get_items();
-			}
+				if ($this->settings['sorting'] == 'REVERSEFEED') {
+					$rawitems = array_reverse($feed->get_items());
+				} else {
+					$rawitems = $feed->get_items();
+				}
 
-			$feeditemcount = 0;
-			foreach ($rawitems as $item) {
-				if (count($beginafteritem) > 1 && $feeditemcount < $beginafteritem[$i]) {
+				$feeditemcount = 0;
+				foreach ($rawitems as $item) {
+					if (count($beginafteritem) > 1 && $feeditemcount < $beginafteritem[$i]) {
+						$itemcount++;
+						$feeditemcount++;
+						continue;
+					}
+					if (!$disableItemCount && $i <= count($itemsperfeed) && $feeditemcount >= $itemsperfeed[$i] && $itemsperfeed[$i] > 0 ) {
+						break;
+					}
+
+					$rawFeedItems[] = $item;
 					$itemcount++;
 					$feeditemcount++;
-					continue;
 				}
-				if (!$disableItemCount && $i <= count($itemsperfeed) && $feeditemcount >= $itemsperfeed[$i] && $itemsperfeed[$i] > 0 ) {
-					break;
-				}
-
-				$rawFeedItems[] = $item;
-				$itemcount++;
-				$feeditemcount++;
 			}
 		}
 
@@ -294,7 +299,10 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 	
 	Private function javascriptInclude() {
-		$ajaxuid = $this->settings['ajaxUid'];
+		$cObj = $this->request->getContentObjectData();
+		$ajaxuid = $cObj['uid'];
+		//$ajaxuid = $this->settings['ajaxUid'];
+		$pid = $GLOBALS['TSFE']->id;
 		$jscontent = '<script type="text/javascript">
 			var nextItem'. $ajaxuid . ' = 0;
 			jQuery(document).ready(function(){
@@ -314,7 +322,7 @@ Class Tx_Simplepie_Controller_FeedController
 				jQuery.ajax({
 					url: "index.php",
 					processData: "false",
-					data: "id=96&type=4711&item=" + nextItem'. $ajaxuid . ' + "&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed&ajaxuid='. $ajaxuid . '",
+					data: "id=' . $pid . '&type=4711&item=" + nextItem'. $ajaxuid . ' + "&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed&ajaxuid='. $ajaxuid . '",
 					dataType: "json",
 					success: function(ret){
 						// place new content
