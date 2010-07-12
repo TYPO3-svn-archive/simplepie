@@ -220,10 +220,16 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 	 */
 	Private Function parseFlickrItem() {
 
-		// correct name/email: nobody@flickr.com ([Flickr Account Name])
+		// correct name/email: nobody@flickr.com ([Real Name])
 		if (preg_match('/^nobody@flickr\.com/', $this->author->email)) {
 			$this->author->name = preg_replace('/^([^(]*)\((.*)\)$/', "$2", $this->author->email);
 			$this->author->email = '';
+		}
+
+		// set author link
+		$authorLink = $this->feedItem->get_item_tags('', 'author');
+		if (isset($authorLink[0]['attribs']['urn:flickr:']['profile']) && strlen($authorLink[0]['attribs']['urn:flickr:']['profile']) > 0) {
+			$this->author->link = $authorLink[0]['attribs']['urn:flickr:']['profile'];
 		}
 
 		// use <media:description> instead of <description>
@@ -266,9 +272,6 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 				break;
 		}
 		$this->enclosures[0]['thumbnail']['src'] = $thumbUrl;
-
-		// set author link
-		$this->author->link = 'http://www.flickr.com/photos/' . $this->author->name;
 
 		// decode entities
 		$this->author->name = html_entity_decode($this->author->name);
