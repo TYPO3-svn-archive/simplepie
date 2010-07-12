@@ -105,7 +105,10 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$feedItem->setTitle($this->title);
 		$feedItem->setDate($this->date);
 		$feedItem->setCopyright($this->copyright);
-		$feedItem->setDescription($this->description);
+		$feedItem->setDescription(array(
+			'html' => $this->description,
+			'plain' => strip_tags(html_entity_decode($this->description))
+		));
 		$feedItem->setPermalink($this->permalink);
 		$feedItem->setContent($this->content);
 		$feedItem->setTimestamp($this->timestamp);

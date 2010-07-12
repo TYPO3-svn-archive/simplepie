@@ -76,7 +76,18 @@
 <f:if condition="{item.description}">
 	<tr>
 		<td>description:</td>
-		<td>{item.description}<hr /><sp:null>{item.description}</sp:null></td>
+		<td>
+			<table border="1">
+				<tr>
+					<td>item.description.html:</td>
+					<td>{item.description.html}<hr /><sp:null>{item.description.html}</sp:null></td>
+				</tr>
+				<tr>
+					<td>item.description.plain:</td>
+					<td>{item.description.plain}<hr /><sp:null>{item.description.plain}</sp:null></td>
+				</tr>
+			</table>
+		</td>
 	</tr>
 </f:if>
 	<tr>
