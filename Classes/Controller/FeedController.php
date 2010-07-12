@@ -231,18 +231,18 @@ Class Tx_Simplepie_Controller_FeedController
 		switch (strtolower($this->settings['feedItem']['author']['imageScaleMode'])) {
 			case 'crop':
 				$ts['img.']['file.']['height'] = $this->settings['feedItem']['author']['imageHeight'] . 'c';
-				$ts['img.']['file.']['width'] = $this->settings['feedItem']['author']['imageHeight'] . 'c';
+				$ts['img.']['file.']['width'] = $this->settings['feedItem']['author']['imageWidth'] . 'c';
 				break;
 			case 'disproportionally':
 				$ts['img.']['file.']['minH'] = $this->settings['feedItem']['author']['imageHeight'];
-				$ts['img.']['file.']['minW'] = $this->settings['feedItem']['author']['imageHeight'];
+				$ts['img.']['file.']['minW'] = $this->settings['feedItem']['author']['imageWidth'];
 				$ts['img.']['file.']['maxH'] = $this->settings['feedItem']['author']['imageHeight'];
-				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['author']['imageHeight'];
+				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['author']['imageWidth'];
 				break;
 			default:
 				// proportionally
 				$ts['img.']['file.']['maxH'] = $this->settings['feedItem']['author']['imageHeight'];
-				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['author']['imageHeight'];
+				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['author']['imageWidth'];
 				break;
 		}
 		$img = $this->contentObject->IMG_RESOURCE($ts['img.']);
@@ -255,18 +255,18 @@ Class Tx_Simplepie_Controller_FeedController
 		switch (strtolower($this->settings['feedItem']['enclosure'][$type]['imageScaleMode'])) {
 			case 'crop':
 				$ts['img.']['file.']['height'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'] . 'c';
-				$ts['img.']['file.']['width'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'] . 'c';
+				$ts['img.']['file.']['width'] = $this->settings['feedItem']['enclosure'][$type]['imageWidth'] . 'c';
 				break;
 			case 'disproportionally':
 				$ts['img.']['file.']['minH'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'];
-				$ts['img.']['file.']['minW'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'];
+				$ts['img.']['file.']['minW'] = $this->settings['feedItem']['enclosure'][$type]['imageWidth'];
 				$ts['img.']['file.']['maxH'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'];
-				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'];
+				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['enclosure'][$type]['imageWidth'];
 				break;
 			default:
 				// proportionally
 				$ts['img.']['file.']['maxH'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'];
-				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['enclosure'][$type]['imageHeight'];
+				$ts['img.']['file.']['maxW'] = $this->settings['feedItem']['enclosure'][$type]['imageWidth'];
 				break;
 		}
 		$img = $this->contentObject->IMG_RESOURCE($ts['img.']);
