@@ -18,6 +18,22 @@ plugin.tx_simplepie {
 					# cat=plugin.tx_simplepie/dims/f; type=options[crop,disproportionally,proportionally]; label=Default Enclosure images scale mode: Defines how to stretch images to make them fit the given width/height. "proportionally" will stretch them proportionally to fit height or width, "disproportionally" will stretch them disproportionally to fit both height and width. "crop" will preserve the proportions and the image will be scaled to fit around a rectangle with width/height dimensions.
 					imageScaleMode = proportionally
 				}
+				flickr {
+					# cat=plugin.tx_simplepie/dims/g; type=int[10-999]; label=Height of Flickr images
+					imageHeight = 110
+					# cat=plugin.tx_simplepie/dims/h; type=int[10-999]; label=Width of Flickr images
+					imageWidth = 125
+					# cat=plugin.tx_simplepie/dims/i; type=options[crop,disproportionally,proportionally]; label=Flickr images scale mode: Defines how to stretch images to make them fit the given width/height. "proportionally" will stretch them proportionally to fit height or width, "disproportionally" will stretch them disproportionally to fit both height and width. "crop" will preserve the proportions and the image will be scaled to fit around a rectangle with width/height dimensions.
+					imageScaleMode = crop
+				}
+				youtube {
+					# cat=plugin.tx_simplepie/dims/g; type=int[10-999]; label=Height of YouTube thumbnails
+					imageHeight = 100
+					# cat=plugin.tx_simplepie/dims/h; type=int[10-999]; label=Width of YouTube thumbnails
+					imageWidth = 100
+					# cat=plugin.tx_simplepie/dims/i; type=options[crop,disproportionally,proportionally]; label=YouTube thumbnails scale mode: Defines how to stretch images to make them fit the given width/height. "proportionally" will stretch them proportionally to fit height or width, "disproportionally" will stretch them disproportionally to fit both height and width. "crop" will preserve the proportions and the image will be scaled to fit around a rectangle with width/height dimensions.
+					imageScaleMode = proportionally
+				}
 			}
 		}
 		controllers {
