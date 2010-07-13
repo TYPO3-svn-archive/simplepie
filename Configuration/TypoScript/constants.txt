@@ -7,7 +7,7 @@ plugin.tx_simplepie {
 				# cat=plugin.tx_simplepie/dims/b; type=int[10-999]; label=Width of author image
 				imageWidth = 48
 				# cat=plugin.tx_simplepie/dims/c; type=options[crop,disproportionally,proportionally]; label=Author image scale mode: Defines how to stretch images to make them fit the given width/height. "proportionally" will stretch them proportionally to fit height or width, "disproportionally" will stretch them disproportionally to fit both height and width. "crop" will preserve the proportions and the image will be scaled to fit around a rectangle with width/height dimensions.
-				imageScaleMode = proportionally
+				imageScaleMode = crop
 			}
 			enclosure {
 				default {
@@ -28,11 +28,21 @@ plugin.tx_simplepie {
 				}
 				youtube {
 					# cat=plugin.tx_simplepie/dims/g; type=int[10-999]; label=Height of YouTube thumbnails
-					imageHeight = 100
+					imageHeight = 110
 					# cat=plugin.tx_simplepie/dims/h; type=int[10-999]; label=Width of YouTube thumbnails
-					imageWidth = 100
+					imageWidth = 125
 					# cat=plugin.tx_simplepie/dims/i; type=options[crop,disproportionally,proportionally]; label=YouTube thumbnails scale mode: Defines how to stretch images to make them fit the given width/height. "proportionally" will stretch them proportionally to fit height or width, "disproportionally" will stretch them disproportionally to fit both height and width. "crop" will preserve the proportions and the image will be scaled to fit around a rectangle with width/height dimensions.
-					imageScaleMode = proportionally
+					imageScaleMode = crop
+				}
+				facebook_page {
+					# cat=plugin.tx_simplepie/dims/j; type=int[10-999]; label=Height of Facebook (page) thumbnails
+					imageHeight = 80
+					# cat=plugin.tx_simplepie/dims/k; type=int[10-999]; label=Width of Facebook (page) thumbnails
+					imageWidth = 97
+					# cat=plugin.tx_simplepie/dims/l; type=options[crop,disproportionally,proportionally]; label=Facebook (page) thumbnails scale mode: Defines how to stretch images to make them fit the given width/height. "proportionally" will stretch them proportionally to fit height or width, "disproportionally" will stretch them disproportionally to fit both height and width. "crop" will preserve the proportions and the image will be scaled to fit around a rectangle with width/height dimensions.
+					imageScaleMode = crop
+					# cat=plugin.tx_simplepie//; type=string; label=Facebook (page) author link URL: Facebook doesn't include a link to the authors profile page. Use the placeholder "{id}" to insert the Facebook page ID, which is extracted from the feed source. Currently you can link to 'posted.php', 'notes.php' and 'album.php?profile=1'
+					authorLinkUrl = http://www.facebook.com/posted.php?id={id}
 				}
 			}
 		}

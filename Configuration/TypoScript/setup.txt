@@ -22,6 +22,12 @@ plugin.tx_simplepie {
 					imageWidth = {$plugin.tx_simplepie.settings.feedItem.enclosure.youtube.imageWidth}
 					imageScaleMode = {$plugin.tx_simplepie.settings.feedItem.enclosure.youtube.imageScaleMode}
 				}
+				facebook_page {
+					imageHeight = {$plugin.tx_simplepie.settings.feedItem.enclosure.facebook_page.imageHeight}
+					imageWidth = {$plugin.tx_simplepie.settings.feedItem.enclosure.facebook_page.imageWidth}
+					imageScaleMode = {$plugin.tx_simplepie.settings.feedItem.enclosure.facebook_page.imageScaleMode}
+					authorLinkUrl = {$plugin.tx_simplepie.settings.feedItem.enclosure.facebook_page.authorLinkUrl}
+				}
 			}
 		}
 		controllers {

@@ -195,18 +195,18 @@
 					</td>
 				</tr>
 </f:if>
-				<tr>
-					<td>thumbnail.src:</td>
-					<td>{enclosure.thumbnail.src} [<a href="{enclosure.thumbnail.src}">open</a>]</td>
-				</tr>
+<f:if condition="{enclosure.title}">
 				<tr>
 					<td>title:</td>
 					<td><f:escape>{enclosure.title}</f:escape></td>
 				</tr>
+</f:if>
+<f:if condition="{enclosure.type}">
 				<tr>
 					<td>type:</td>
 					<td><f:escape>{enclosure.type}</f:escape></td>
 				</tr>
+</f:if>
 			</table>
 		</f:for>
 		</td>

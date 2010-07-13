@@ -13,6 +13,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 	protected $items = '';
 	protected $permalink = '';
 	protected $rating = array();
+	protected $settings = '';
 	protected $statistics = array();
 	protected $timestamp = 0;
 	protected $title = '';
@@ -28,9 +29,10 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 	 *
 	 * $item	object	SimplePie item object
 	 */
-	Public Function parseObject($item) {
+	Public Function parseObject($item, $settings) {
 
 		$this->feedItem = $item;
+		$this->settings = $settings;
 
 		// set SiplePie values
 		$this->author = $item->get_author();
@@ -107,7 +109,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$feedItem->setCopyright($this->copyright);
 		$feedItem->setDescription(array(
 			'html' => $this->description,
-			'plain' => strip_tags(html_entity_decode($this->description))
+			'plain' => strip_tags(preg_replace('/<br[\s\/]*>/i', ' ', (html_entity_decode($this->description))))
 		));
 		$feedItem->setPermalink($this->permalink);
 		$feedItem->setContent($this->content);
@@ -179,6 +181,27 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		return $type;
 	}
 
+	/**
+	 * Function that looks through the given string and extracts image urls
+	 *
+	 * @param	string	data to find images in
+	 * @return	array	urls of images found
+	 */
+	Private Function findImages($data) {
+
+		preg_match_all('/<img [^>]*src="([^"]*)"([^>]*)>/i', $data, $imageUrls);
+
+		if (is_array($imageUrls[1])) {
+			for ($i=0; $i<count($imageUrls[1]);$i++) {
+				$imageUrls[1][$i] = html_entity_decode($imageUrls[1][$i]);
+			}
+
+			return $imageUrls[1];
+		} else {
+			return false;
+		}
+	}
+
 	Private Function parseFacebookPageItem() {
 		// kill useless html crap
 		$this->description = preg_replace('/^(\s*(<br(\s*\/)?>)\s*)*/i', '', $this->description);
@@ -194,6 +217,25 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			$this->author->thumbnail['src'] = $feedLogo[0]['data'];
 		}
 
+		// author link: http://www.facebook.com/posted.php?id={FacebookID}
+		$selfLink = html_entity_decode($feed->subscribe_url());
+		parse_str(parse_url($selfLink, PHP_URL_QUERY), $selfLinkParams);
+		if (isset($selfLinkParams['id']) && $selfLinkParams['id'] > 0) {
+			$this->author->link = str_replace('{id}', $selfLinkParams['id'], $this->settings['feedItem']['enclosure']['facebook_page']['authorLinkUrl']);
+		}
+
+		// set images as enclosures
+		$thumbUrls = $this->findImages($this->description);
+		foreach ($thumbUrls as $thumbUrl) {
+			$imageUrl = preg_replace('/(_[n|s])\.jpg$/', '_n.jpg', $thumbUrl);
+			$this->enclosures[] = array(
+				'thumbnail' => array('src' => $thumbUrl),
+				'src' => $imageUrl,
+				'medium' => 'image',
+				'type' => 'image/jpeg',
+			);
+		}
+
 		$this->permalink = html_entity_decode($this->permalink);
 
 		// Correct title
@@ -204,9 +246,14 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			$this->title = str_replace("\n", '', $this->description);
 			$this->title = trim(strip_tags(preg_replace('/(\s)*<br(\s)*(\/)*>(\s)*/i', "\n", $this->title), "\n"));
 			$firstBreak = strpos($this->title, "\n");
-			$this->description = substr($this->title, $firstBreak);
-			$this->description = preg_replace('/^(\s*(<br(\s*\/)?>)\s*)*/i', '', $this->description);
-			$this->title = substr($this->title, 0, $firstBreak);
+			if ($firstBreak > 0) {
+				$this->description = substr($this->title, $firstBreak);
+				$this->description = preg_replace('/^(\s*(<br(\s*\/)?>)\s*)*/i', '', $this->description);
+				$this->title = strip_tags(substr($this->title, 0, $firstBreak));
+			} else {
+				$this->title = strip_tags($this->description);
+				$this->description = '';
+			}
 		}
 		// if title in description, extract it
 		if (strpos($this->description, $this->title) === 0) {
@@ -214,7 +261,6 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			// remove trailing spaces and breaks
 			$this->description = preg_replace('/^(\s*(<br(\s*\/)?>)\s*)*/i', '', $this->description);
 		}
-
 		$this->description = trim($this->description);
 	}
 

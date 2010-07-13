@@ -153,7 +153,7 @@ Class Tx_Simplepie_Controller_FeedController
 		/* item parsing */
 		foreach($rawFeedItems as $item) {
 			$itemParser = new Tx_Simplepie_Controller_FeedController_FeedItemParser();
-			$feedItem = $itemParser->parseObject($item);
+			$feedItem = $itemParser->parseObject($item, $this->settings);
 
 			// cache author thumbnail
 			$author = $feedItem->getAuthor();
