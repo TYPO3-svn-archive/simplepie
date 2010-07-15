@@ -310,6 +310,9 @@ Class Tx_Simplepie_Controller_FeedController
 		if (strlen($this->settings['controllers']['Feed']['listStyleClass']) > 0) {
 			$this->settings['controllers']['Feed']['listStyleClass'] = trim($this->settings['controllers']['Feed']['listStyleClass']);
 		}
+		if (strlen($this->settings['feedItem']['linkTarget']) < 1) {
+			$this->settings['feedItem']['linkTarget'] = '_self';
+		}
 	}
 	
 	Private function javascriptInclude() {

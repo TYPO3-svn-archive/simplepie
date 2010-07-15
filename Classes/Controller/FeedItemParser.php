@@ -36,7 +36,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 		// set SiplePie values
 		$this->author = $item->get_author();
-		$this->title = trim($item->get_title());
+		$this->title = html_entity_decode(trim($item->get_title()));
 		$this->date = $item->get_date();
 		$this->copyright = trim($item->get_copyright());
 		$this->description = trim($item->get_description());
@@ -348,9 +348,6 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 				}
 				// set description
 				$target = $this->settings['feedItem']['linkTarget'];
-				if (!$target || strlen($target) < 1) {
-					$target = '_self';
-				}
 				$this->description = $this->title;
 				$this->description = preg_replace("#(^|[\n ])([\w]+?://[\w]+[^ \"\n\r\t< ]*)#", "\\1<a href=\"\\2\" target=\"" . $target . "\">\\2</a>", $this->description);
 				$this->description = preg_replace("#(^|[\n ])((www|ftp)\.[^ \"\t\n\r< ]*)#", "\\1<a href=\"http://\\2\" target=\"" . $target . "\">\\2</a>", $this->description);
