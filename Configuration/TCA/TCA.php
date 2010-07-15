@@ -4,7 +4,7 @@ If(!defined('TYPO3_MODE')) Die ('Access denied.');
 $TCA['tx_simplepie_domain_model_feedsource'] = array(
 	'ctrl' => $TCA['tx_simplepie_domain_model_feedsource']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'hidden,name,url,anzahl'
+		'showRecordFieldList' => 'hidden,name,url'
 	),
 	'columns' => array(
 		'hidden' => array(
@@ -35,7 +35,7 @@ $TCA['tx_simplepie_domain_model_feedsource'] = array(
 		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'hidden, name, url, anzahl')
+		'0' => array('showitem' => 'hidden, name, url')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => '')
