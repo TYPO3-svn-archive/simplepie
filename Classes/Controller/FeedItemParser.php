@@ -135,7 +135,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 		// Flickr
 		if (isset($author[0]['attribs']['urn:flickr:']['profile'])) {
-			$type = 'flickr';
+			return 'flickr';
 		}
 
 		/**
@@ -148,7 +148,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		 * See http://gdata.youtube.com/demo/ for more options.
 		 */
 		if ($id && stripos($id, 'http://gdata.youtube.com/feeds/api/videos/') === 0) {
-			$type = 'youtube';
+			return 'youtube';
 		}
 
 		/**
@@ -159,12 +159,13 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		 * last few days. So older tweets cannot be accessed trough the api.
 		 * The 'static' feed (http://twitter.com/statuses/user_timeline/[twitter user id].rss works perfectly!
 		 */
-		$twitterSource = $this->feedItem->get_item_tags('http://api.twitter.com', 'source');
-		if (isset($twitterSource[0]['data']) && $twitterSource[0]['data'] == 'web') {
-			$type = 'twitter_static';
+		$feedTitle = $feed->get_title();
+		$feedDescription = $feed->get_description();
+		if (strpos($feedDescription, 'Twitter updates from') === 0 && strpos($feedTitle, 'Twitter / ') === 0) {
+			return 'twitter_static';
 		}
 		if ($id && stripos($id, 'tag:search.twitter.com') === 0) {
-			$type = 'twitter_api';
+			return 'twitter_api';
 		}
 
 		/**
@@ -174,7 +175,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			$type = 'facebook';
 			$linkRelSelf = $feed->get_links('self');
 			if (isset($linkRelSelf[0]) && stripos($linkRelSelf[0], 'http://www.facebook.com/feeds/page.php?') === 0) {
-				$type = 'facebook_page';
+				return 'facebook_page';
 			}
 		}
 
@@ -331,7 +332,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 	Private Function parseTwitterItem($type='static') {
 		switch (strtolower($type)) {
 			case 'static':
-				// extract author name from title
+				// extract realName from title
 				$author = '';
 				preg_match('/^([^:]*):/', $this->title, $author);
 				if (is_array($author) && strlen($author[1]) > 1) {
@@ -339,6 +340,22 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 					$this->author->link = 'http://twitter.com/' . $this->author->name;
 					$this->title = trim(preg_replace('/^([^:]*):/', '', $this->title));
 				}
+				// extract author realName from feed.description
+				$feed = $this->feedItem->get_feed();
+				$feedDescription = $feed->get_description();
+				if (strlen($feedDescription) > 0) {
+					$this->author->realName = trim(preg_replace('/Twitter updates from ([^\/]*)\/(.*)/', '$1', $feedDescription));
+				}
+				// set description
+				$target = $this->settings['feedItem']['linkTarget'];
+				if (!$target || strlen($target) < 1) {
+					$target = '_self';
+				}
+				$this->description = $this->title;
+				$this->description = preg_replace("#(^|[\n ])([\w]+?://[\w]+[^ \"\n\r\t< ]*)#", "\\1<a href=\"\\2\" target=\"" . $target . "\">\\2</a>", $this->description);
+				$this->description = preg_replace("#(^|[\n ])((www|ftp)\.[^ \"\t\n\r< ]*)#", "\\1<a href=\"http://\\2\" target=\"" . $target . "\">\\2</a>", $this->description);
+				$this->description = preg_replace('/@(\S+)/', '<a href="http://www.twitter.com/$1" target="' . $target . '">@$1</a>', $this->description);
+				$this->description = preg_replace('/#(\S+)/', '<a href="http://search.twitter.com/search?q=$1" target="' . $target . '">#$1</a>', $this->description);
 				break;
 			case 'api':
 				// get profile image
@@ -351,13 +368,33 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 						}
 					}
 				}
-				// set fullName
+				// set realName
 				preg_match('/([^(]*)\(([^)]*)\)/', $this->author->name, $author);
 				if (is_array($author) && strlen($author[1]) > 1) {
 					$this->author->name = trim($author[1]);
 					$this->author->realName = trim($author[2]);
 				}
 				break;
+		}
+		// set default author.thumbnail
+		if (
+			(!isset($this->author->thumbnail['src']) || $this->author->thumbnail['src'] == '')
+			&& isset($this->settings['feedItem']['author']['defaultImage'])
+			&& strlen($this->settings['feedItem']['author']['defaultImage']) > 0
+		) {
+			$this->author->thumbnail['src'] = $this->settings['feedItem']['author']['defaultImage'];
+		}
+		// set defined author.thumbnail
+		if (
+			is_array($this->settings['feedItem']['author']['flickr']['profileImages'])
+			&& count($this->settings['feedItem']['author']['flickr']['profileImages']) > 0
+		) {
+			foreach($this->settings['feedItem']['author']['flickr']['profileImages'] as $accountName => $profileImage) {
+				if(strtolower($accountName) == strtolower($this->author->name)) {
+					$this->author->thumbnail['src'] = $profileImage;
+					break;
+				}
+			}
 		}
 	}
 

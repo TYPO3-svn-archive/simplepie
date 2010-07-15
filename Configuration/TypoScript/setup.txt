@@ -5,6 +5,9 @@ plugin.tx_simplepie {
 				imageHeight = {$plugin.tx_simplepie.settings.feedItem.author.imageHeight}
 				imageWidth = {$plugin.tx_simplepie.settings.feedItem.author.imageWidth}
 				imageScaleMode = {$plugin.tx_simplepie.settings.feedItem.author.imageScaleMode}
+				defaultImage = {$plugin.tx_simplepie.settings.feedItem.author.defaultImage}
+				flickr.profileImages {
+				}
 			}
 			enclosure {
 				default {
@@ -29,6 +32,7 @@ plugin.tx_simplepie {
 					authorLinkUrl = {$plugin.tx_simplepie.settings.feedItem.enclosure.facebook_page.authorLinkUrl}
 				}
 			}
+			linkTarget = {$plugin.tx_simplepie.settings.feedItem.linkTarget}
 		}
 		controllers {
 			Feed {

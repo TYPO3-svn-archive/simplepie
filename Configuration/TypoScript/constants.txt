@@ -8,6 +8,8 @@ plugin.tx_simplepie {
 				imageWidth = 48
 				# cat=plugin.tx_simplepie/dims/c; type=options[crop,disproportionally,proportionally]; label=Author image scale mode: Defines how to stretch images to make them fit the given width/height. "proportionally" will stretch them proportionally to fit height or width, "disproportionally" will stretch them disproportionally to fit both height and width. "crop" will preserve the proportions and the image will be scaled to fit around a rectangle with width/height dimensions.
 				imageScaleMode = crop
+				# cat=plugin.tx_simplepie/file; type=string; label=Default author image: If no author image url is provided by the feed this image is set as author image.
+				defaultImage = http://s.twimg.com/a/1279056489/images/default_profile_3_bigger.png
 			}
 			enclosure {
 				default {
@@ -45,6 +47,8 @@ plugin.tx_simplepie {
 					authorLinkUrl = http://www.facebook.com/posted.php?id={id}
 				}
 			}
+			# cat=plugin.tx_simplepie//; type=string; label=Link target: Set the target-parameter of external links (_blank, _self, _parent, _top, ...)
+			linkTarget = _self
 		}
 		controllers {
 			Feed {
@@ -60,11 +64,11 @@ plugin.tx_simplepie {
 		}
 	}
 	view {
-		 # cat=plugin.tx_simplepie/file; type=string; label=Path to template root (FE)
+		# cat=plugin.tx_simplepie/file; type=string; label=Path to template root (FE)
 		templateRootPath = EXT:simplepie/Resources/Private/Templates/
-		 # cat=plugin.tx_simplepie/file; type=string; label=Path to template partials (FE)
+		# cat=plugin.tx_simplepie/file; type=string; label=Path to template partials (FE)
 		partialRootPath = EXT:simplepie/Resources/Private/Partials/
-		 # cat=plugin.tx_simplepie/file; type=string; label=Path to template layouts (FE)
+		# cat=plugin.tx_simplepie/file; type=string; label=Path to template layouts (FE)
 		layoutRootPath = EXT:simplepie/Resources/Private/Layouts/
 	}
 	persistence {
