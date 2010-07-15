@@ -63,12 +63,12 @@ Class Tx_Simplepie_Controller_FeedController
 		$feedItems = array();
 		$rawFeedItems = array();
 
-		if ($this->settings['feedMaxItems'] > 0 && $elementcount == 0)
-			$elementcount = $this->settings['feedMaxItems'];
+		if ($this->settings['flexform']['controllers']['Feed']['feedMaxItems'] > 0 && $elementcount == 0)
+			$elementcount = $this->settings['flexform']['controllers']['Feed']['feedMaxItems'];
 
-		$feedurls = explode(',', $this->settings['feedSelection']);
-		$itemsperfeed = explode(',', $this->settings['feedItemsCount']);
-		$beginafteritem = explode(',', $this->settings['beginAfterItem']);
+		$feedurls = explode(',', $this->settings['flexform']['controllers']['Feed']['feedSelection']);
+		$itemsperfeed = explode(',', $this->settings['flexform']['controllers']['Feed']['feedItemsCount']);
+		$beginafteritem = explode(',', $this->settings['flexform']['controllers']['Feed']['beginAfterItem']);
 
 		$itemcount = 0;
 		if ($feedurls[0] != '') {
@@ -83,9 +83,9 @@ Class Tx_Simplepie_Controller_FeedController
 				//$feed->enable_order_by_date(true);
 				$feed->enable_order_by_date(false);
 				// enable/disable caching
-				if ($this->settings['cacheDuration'] > 0) {
+				if ($this->settings['flexform']['controllers']['Feed']['cacheDuration'] > 0) {
 					$feed->set_cache_location('typo3temp/simplepie_thumbnails/');
-					$feed->set_cache_duration($this->settings['cacheDuration']);
+					$feed->set_cache_duration($this->settings['flexform']['controllers']['Feed']['cacheDuration']);
 					$feed->enable_cache(true);
 				} else {
 					$feed->enable_cache(false);
@@ -94,14 +94,14 @@ Class Tx_Simplepie_Controller_FeedController
 				$feed->handle_content_type();
 				$this->view->assign(
 					'feed', array(
-						'styleClass' => $this->settings['controllers']['Feed']['listStyleClass'],
+						'styleClass' => $this->settings['flexform']['controllers']['Feed']['listStyleClass'],
 						'title' => $feed->get_title(),
 						'source' => $feedSource->getUrl(),
-						'sorting' => $this->settings['sorting'],
+						'sorting' => $this->settings['flexform']['controllers']['Feed']['sorting'],
 					)
 				);
 
-				if ($this->settings['sorting'] == 'REVERSEFEED') {
+				if ($this->settings['flexform']['controllers']['Feed']['sorting'] == 'REVERSEFEED') {
 					$rawitems = array_reverse($feed->get_items());
 				} else {
 					$rawitems = $feed->get_items();
@@ -126,23 +126,23 @@ Class Tx_Simplepie_Controller_FeedController
 		}
 
 		/* sorting */
-		if ($this->settings['sorting'] == 'DESC') {
+		if ($this->settings['flexform']['controllers']['Feed']['sorting'] == 'DESC') {
 			usort($rawFeedItems, array("Tx_Simplepie_Controller_FeedController_SimplePie_Sort", "compareDesc"));
 		}
-		if ($this->settings['sorting'] == 'ASC') {
+		if ($this->settings['flexform']['controllers']['Feed']['sorting'] == 'ASC') {
 			usort($rawFeedItems, array("Tx_Simplepie_Controller_FeedController_SimplePie_Sort", "compareAsc"));
 		}
 
 
 		/* start after item check */
-		if (count($beginafteritem) == 1 && $this->settings['beginAfterItem'] > 0) {
-			$rawFeedItems = array_slice($rawFeedItems, $this->settings['beginAfterItem']);
+		if (count($beginafteritem) == 1 && $this->settings['flexform']['controllers']['Feed']['beginAfterItem'] > 0) {
+			$rawFeedItems = array_slice($rawFeedItems, $this->settings['flexform']['controllers']['Feed']['beginAfterItem']);
 		}
 		
 		/* max items check */
 		if (!$disableItemCount && $elementcount > 0) {
 			$page = t3lib_div::GPvar('item');
-			$pageitems = $this->settings['feedMaxItems'];
+			$pageitems = $this->settings['flexform']['controllers']['Feed']['feedMaxItems'];
 			$startitem = $page * $pageitems;
 			if ($startitem >= count($rawFeedItems)) {
 				$elementfrom = ($elementfrom % count($rawFeedItems));
@@ -190,15 +190,15 @@ Class Tx_Simplepie_Controller_FeedController
 		$nextItem = t3lib_div::_GET('item');
 
 		$items = array();
-		if ($this->settings['ajaxMode'] == 'SINGLE') {
+		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'SINGLE') {
 			$feedItems = $this->getFeedItems(false,$nextItem,1);
 			$item = $feedItems[0];
 			$items[] = $item;
 		}
 
-		if ($this->settings['ajaxMode'] == 'PAGING') {
+		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGING') {
 			$page = t3lib_div::GPvar('item');
-			$pageitems = $this->settings['feedMaxItems'];
+			$pageitems = $this->settings['flexform']['controllers']['Feed']['feedMaxItems'];
 			$startitem = $page * $pageitems;
 			$items = $this->getFeedItems(false,$startitem,$pageitems);
 		}
@@ -276,8 +276,8 @@ Class Tx_Simplepie_Controller_FeedController
 	Private function getResizedFeedImageLink($filename, $type = 'default') {
 		$ts = $this->getImageTS();
 		$ts['img.']['file'] = $filename;
-		$ts['img.']['file.']['maxH'] = $this->settings['feedImageHeight'];
-		$ts['img.']['file.']['maxW'] = $this->settings['feedImageWidth'];
+		$ts['img.']['file.']['maxH'] = $this->settings['flexform']['controllers']['Feed']['feedImageHeight'];
+		$ts['img.']['file.']['maxW'] = $this->settings['flexform']['controllers']['Feed']['feedImageWidth'];
 		$img = $this->contentObject->IMG_RESOURCE($ts['img.']);
 		return $img;
 	}
@@ -298,20 +298,20 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 	
 	Private function prepareSettings() {
-		if (strlen($this->settings['controllers']['Feed']['sorting']) > 0 && $this->settings['sorting'] == 'DEFAULT') {
-			$this->settings['sorting'] = $this->settings['controllers']['Feed']['sorting'];
+		if (strlen($this->settings['controllers']['Feed']['sorting']) > 0 && $this->settings['flexform']['controllers']['Feed']['sorting'] == 'DEFAULT') {
+			$this->settings['flexform']['controllers']['Feed']['sorting'] = $this->settings['controllers']['Feed']['sorting'];
 		}
-		if ($this->settings['controllers']['Feed']['feedMaxItems'] > 0 && strlen($this->settings['feedMaxItems']) == 0) {
-			$this->settings['feedMaxItems'] = $this->settings['controllers']['Feed']['feedMaxItems'];
+		if ($this->settings['controllers']['Feed']['feedMaxItems'] > 0 && strlen($this->settings['flexform']['controllers']['Feed']['feedMaxItems']) == 0) {
+			$this->settings['flexform']['controllers']['Feed']['feedMaxItems'] = $this->settings['controllers']['Feed']['feedMaxItems'];
 		}
-		if ($this->settings['controllers']['Feed']['cacheDuration'] > 0 && strlen($this->settings['cacheDuration']) == 0) {
-			$this->settings['cacheDuration'] = $this->settings['controllers']['Feed']['cacheDuration'];
+		if ($this->settings['controllers']['Feed']['cacheDuration'] > 0 && strlen($this->settings['flexform']['controllers']['Feed']['cacheDuration']) == 0) {
+			$this->settings['flexform']['controllers']['Feed']['cacheDuration'] = $this->settings['controllers']['Feed']['cacheDuration'];
 		}
-		if (strlen($this->settings['controllers']['Feed']['listStyleClass']) > 0) {
-			$this->settings['controllers']['Feed']['listStyleClass'] = trim($this->settings['controllers']['Feed']['listStyleClass']);
+		if (strlen($this->settings['flexform']['controllers']['Feed']['listStyleClass']) > 0) {
+			$this->settings['flexform']['controllers']['Feed']['listStyleClass'] = trim($this->settings['flexform']['controllers']['Feed']['listStyleClass']);
 		}
-		if (strlen($this->settings['feedItem']['linkTarget']) < 1) {
-			$this->settings['feedItem']['linkTarget'] = '_self';
+		if (strlen($this->settings['flexform']['controllers']['Feed']['feedItem']['linkTarget']) < 1) {
+			$this->settings['flexform']['controllers']['Feed']['feedItem']['linkTarget'] = '_self';
 		}
 	}
 	

@@ -7,7 +7,7 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<settings.feedSelection>
+					<settings.flexform.controllers.Feed.feedSelection>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedSources</label>
 							<config>
@@ -37,8 +37,8 @@
 								</add>
 							</wizards>
 						</TCEforms>
-					</settings.feedSelection>
-					<settings.feedItemsCount>
+					</settings.flexform.controllers.Feed.feedSelection>
+					<settings.flexform.controllers.Feed.feedItemsCount>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedItemsCount</label>
 							<config>
@@ -49,8 +49,8 @@
 								<!-- <eval>num</eval> -->
 							</config>
 						</TCEforms>
-					</settings.feedItemsCount>
-					<settings.sorting>
+					</settings.flexform.controllers.Feed.feedItemsCount>
+					<settings.flexform.controllers.Feed.sorting>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.orderBy</label>
 							<config>
@@ -87,8 +87,8 @@
 								<size>1</size>
 							</config>
 						</TCEforms>
-					</settings.sorting>
-					<settings.feedMaxItems>
+					</settings.flexform.controllers.Feed.sorting>
+					<settings.flexform.controllers.Feed.feedMaxItems>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedMaxItems</label>
 							<config>
@@ -99,8 +99,8 @@
 								<eval>num</eval>
 							</config>
 						</TCEforms>
-					</settings.feedMaxItems>
-					<settings.beginAfterItem>
+					</settings.flexform.controllers.Feed.feedMaxItems>
+					<settings.flexform.controllers.Feed.beginAfterItem>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.beginAfterItem</label>
 							<config>
@@ -110,7 +110,7 @@
 								<checkbox></checkbox>
 							</config>
 						</TCEforms>
-					</settings.beginAfterItem>
+					</settings.flexform.controllers.Feed.beginAfterItem>
 				</el>
 			</ROOT>
 		</sMain>
@@ -121,7 +121,7 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<settings.controllers.Feed.listStyleClass>
+					<settings.flexform.controllers.Feed.listStyleClass>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.listStyleClass</label>
 							<config>
@@ -131,8 +131,8 @@
 								<checkbox></checkbox>
 							</config>
 						</TCEforms>
-					</settings.controllers.Feed.listStyleClass>
-					<settings.showFeedLogo>
+					</settings.flexform.controllers.Feed.listStyleClass>
+					<settings.flexform.controllers.Feed.showFeedLogo>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedLogo.show</label>
 							<config>
@@ -153,8 +153,8 @@
 								</items>
 							</config>
 						</TCEforms>
-					</settings.showFeedLogo>
-					<settings.feedImageWidth>
+					</settings.flexform.controllers.Feed.showFeedLogo>
+					<settings.flexform.controllers.Feed.feedImageWidth>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedLogo.width</label>
 							<config>
@@ -165,8 +165,8 @@
 								<checkbox></checkbox>
 							</config>
 						</TCEforms>
-					</settings.feedImageWidth>
-					<settings.feedImageHeight>
+					</settings.flexform.controllers.Feed.feedImageWidth>
+					<settings.flexform.controllers.Feed.feedImageHeight>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedLogo.height</label>
 							<config>
@@ -177,8 +177,8 @@
 								<checkbox></checkbox>
 							</config>
 						</TCEforms>
-					</settings.feedImageHeight>
-					<settings.feedImageScaleMode>
+					</settings.flexform.controllers.Feed.feedImageHeight>
+					<settings.flexform.controllers.Feed.feedImageScaleMode>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedLogo.scaleMode</label>
 							<config>
@@ -205,8 +205,8 @@
 								<size>1</size>
 							</config>
 						</TCEforms>
-					</settings.feedImageScaleMode>
-					<settings.feedItemImageWidth>
+					</settings.flexform.controllers.Feed.feedImageScaleMode>
+					<settings.flexform.controllers.Feed.feedItemImageWidth>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedItem.image.width</label>
 							<config>
@@ -217,8 +217,8 @@
 								<checkbox></checkbox>
 							</config>
 						</TCEforms>
-					</settings.feedItemImageWidth>
-					<settings.feedItemImageHeight>
+					</settings.flexform.controllers.Feed.feedItemImageWidth>
+					<settings.flexform.controllers.Feed.feedItemImageHeight>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedItem.image.height</label>
 							<config>
@@ -229,8 +229,8 @@
 								<checkbox></checkbox>
 							</config>
 						</TCEforms>
-					</settings.feedItemImageHeight>
-					<settings.feedItemImageScaleMode>
+					</settings.flexform.controllers.Feed.feedItemImageHeight>
+					<settings.flexform.controllers.Feed.feedItemImageScaleMode>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedItem.image.scaleMode</label>
 							<config>
@@ -257,7 +257,7 @@
 								<size>1</size>
 							</config>
 						</TCEforms>
-					</settings.feedItemImageScaleMode>
+					</settings.flexform.controllers.Feed.feedItemImageScaleMode>
 				</el>
 			</ROOT>
 		</sLayout>
@@ -268,7 +268,7 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<settings.ajaxMode>
+					<settings.flexform.controllers.Feed.ajaxMode>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.ajax.mode</label>
 							<config>
@@ -285,7 +285,7 @@
 								</items>
 							</config>
 						</TCEforms>
-					</settings.ajaxMode>
+					</settings.flexform.controllers.Feed.ajaxMode>
 				</el>
 			</ROOT>
 		</sAjax>
@@ -297,7 +297,7 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<settings.cacheDuration>
+					<settings.flexform.controllers.FeedcacheDuration>
 						<TCEforms>
 							<displayCond>HIDE_FOR_NON_ADMINS</displayCond>
 							<exclude>1</exclude>
@@ -310,8 +310,8 @@
 								<checkbox></checkbox>
 							</config>
 						</TCEforms>
-					</settings.cacheDuration>
-					<settings.tsconfig>
+					</settings.flexform.controllers.FeedcacheDuration>
+					<settings.flexform.controllers.Feedtsconfig>
 						<TCEforms>
 							<displayCond>HIDE_FOR_NON_ADMINS</displayCond>
 							<exclude>1</exclude>
@@ -322,7 +322,7 @@
 								<rows>10</rows>
 							</config>
 						</TCEforms>
-					</settings.tsconfig>
+					</settings.flexform.controllers.Feedtsconfig>
 				</el>
 			</ROOT>
 		</sMisc>
