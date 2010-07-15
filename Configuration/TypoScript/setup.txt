@@ -55,11 +55,8 @@ plugin.tx_simplepie {
 	lib {
 		jqueryBib = TEXT
 		jqueryBib.value (
-<script src="http://www.google.com/jsapi"></script>
-<script>
-  // Load jQuery
-  google.load("jquery", "1.3.2");
-</script>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">google.load("jquery", "1.3.2"); // Load jQuery</script>
 )
 		jqueryBib.if {
 			isTrue = {$plugin.tx_simplepie.loadJQuery}
