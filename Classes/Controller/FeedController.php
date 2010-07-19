@@ -191,6 +191,7 @@ Class Tx_Simplepie_Controller_FeedController
 
 		$items = array();
 		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'SINGLE') {
+			$pageitems = $this->settings['flexform']['controllers']['Feed']['feedMaxItems'];
 			$feedItems = $this->getFeedItems(false,$nextItem,1);
 			$item = $feedItems[0];
 			$items[] = $item;
@@ -317,13 +318,35 @@ Class Tx_Simplepie_Controller_FeedController
 	
 	Private function javascriptInclude() {
 		$cObj = $this->request->getContentObjectData();
+		$pageitems = $this->settings['flexform']['controllers']['Feed']['feedMaxItems'];
 		$ajaxuid = $cObj['uid'];
 		//$ajaxuid = $this->settings['ajaxUid'];
 		$pid = $GLOBALS['TSFE']->id;
-		$jscontent = '<script type="text/javascript">
-			var nextItem'. $ajaxuid . ' = 0;
-			jQuery(document).ready(function(){
-				// click on next/prev link
+		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'SINGLE') {
+			$jsnavfunc = '
+				jQuery(".simplepie_ajax_next'. $ajaxuid . '").click(function(){
+					if (dir'. $ajaxuid . ' == "prev") {
+						nextItem'. $ajaxuid . ' = nextItem'. $ajaxuid . ' + pageitems'. $ajaxuid . ';
+					} else {
+						nextItem'. $ajaxuid . ' = nextItem'. $ajaxuid . ' + 1;
+					}
+					dir'. $ajaxuid . ' = "next";
+					getNextSingleItem'. $ajaxuid . '();
+				});
+				jQuery(".simplepie_ajax_prev'. $ajaxuid . '").click(function(){
+					if (dir'. $ajaxuid . ' == "next") {
+						nextItem'. $ajaxuid . ' = nextItem'. $ajaxuid . ' - pageitems'. $ajaxuid . ';
+					}
+					else {
+						nextItem'. $ajaxuid . ' = nextItem'. $ajaxuid . ' - 1;
+					}
+					dir'. $ajaxuid . ' = "prev";
+					getPrevSingleItem'. $ajaxuid . '();
+				});';
+			$startnextitem = $pageitems - 1;
+		}
+		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGING') {
+			$jsnavfunc = '
 				jQuery(".simplepie_ajax_next'. $ajaxuid . '").click(function(){
 					nextItem'. $ajaxuid . ' = nextItem'. $ajaxuid . ' + 1;
 					getItem'. $ajaxuid . '();
@@ -331,7 +354,16 @@ Class Tx_Simplepie_Controller_FeedController
 				jQuery(".simplepie_ajax_prev'. $ajaxuid . '").click(function(){
 					nextItem'. $ajaxuid . ' = nextItem'. $ajaxuid . ' - 1;
 					getItem'. $ajaxuid . '();
-				});
+				});';
+			$startnextitem = 0;
+		}
+		$jscontent = '<script type="text/javascript">
+			var dir'. $ajaxuid . ' = "next";
+			var pageitems'. $ajaxuid . ' = ' . $pageitems . ';
+			var nextItem'. $ajaxuid . ' = ' . $startnextitem . ';
+			jQuery(document).ready(function(){
+				// click on next/prev link
+				' . $jsnavfunc . '
 			});
 
 			function getItem'. $ajaxuid . '() {
@@ -347,6 +379,38 @@ Class Tx_Simplepie_Controller_FeedController
 					}
 				});
 				jQuery(".simplepie_ajax_loading'. $ajaxuid . '").fadeOut();
+			}
+			
+			function getPrevSingleItem'. $ajaxuid . '() {
+				jQuery.ajax({
+					url: "index.php",
+					processData: "false",
+					data: "id=' . $pid . '&type=4711&item=" + nextItem'. $ajaxuid . ' +"&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed&ajaxuid='. $ajaxuid . '",
+					dataType: "json",
+					success: function(ret){
+						// place new content
+						// jQuery(".simplepie_ajax_content'. $ajaxuid . '").html(ret.content);
+						var $elf = jQuery(".simplepie_ajax_content'. $ajaxuid . '").find("div:first");
+						//var $ell = jQuery(".simplepie_ajax_content'. $ajaxuid . '").find("div:last");
+						jQuery(".simplepie_ajax_content'. $ajaxuid . '").prepend(ret.content);
+						jQuery(".simplepie_ajax_content'. $ajaxuid . '").find("div:last").remove();
+						//jQuery(".simplepie_ajax_content'. $ajaxuid . '").find("div:first").replaceWith($ell);
+					}
+				});
+			}
+			
+			function getNextSingleItem'. $ajaxuid . '() {
+				jQuery.ajax({
+					url: "index.php",
+					processData: "false",
+					data: "id=' . $pid . '&type=4711&item=" + nextItem'. $ajaxuid . ' +"&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed&ajaxuid='. $ajaxuid . '",
+					dataType: "json",
+					success: function(ret){
+						var $elf = jQuery(".simplepie_ajax_content'. $ajaxuid . '").find("div:last");
+						jQuery(".simplepie_ajax_content'. $ajaxuid . '").append(ret.content);
+						jQuery(".simplepie_ajax_content'. $ajaxuid . '").find("div:first").remove();
+					}
+				});
 			}
 			</script>';
 			return $jscontent;
