@@ -76,7 +76,7 @@ plugin.tx_simplepie {
 		storagePid =
 	}
 	# cat=plugin.tx_simplepie//ba; type=boolean; label=Load jQuery Library
-	loadJQuery = 1
+	loadJQuery = 0
 	# cat=plugin.tx_simplepie//bb; type=boolean; label=jQuery no conflict
 	jQueryNoConflict = 1
 	# cat=plugin.tx_simplepie//bc; type=boolean; label=disable jQuery methods

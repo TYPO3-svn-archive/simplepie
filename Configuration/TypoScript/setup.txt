@@ -76,15 +76,19 @@ plugin.tx_simplepie {
 		}
 	}
 }
-page.headerData.10000 = COA
-page.headerData.10000 {
+# simplepie > spi > 737069 ... trying to be unique
+page.headerData.737069 = COA
+page.headerData.737069 {
 	1 < plugin.tx_simplepie.lib.jqueryBib
 	2 < plugin.tx_simplepie.lib.jqueryNoConflict
 #	3 = TEXT
 #	3.value = <script type="text/javascript" src="typo3conf/ext/simplepie/Resources/Public/Javascript/simplepie_ajax.js"></script>
+	if.isTrue = {$plugin.tx_simplepie.loadJQuery}
 }
 
-// AJAX Pagetype
+###############
+# AJAX Pagetype
+###############
 
 #[globalVar = GP:type = 4711]
 #plugin.tx_simplepie.settings.type = ajax
@@ -92,35 +96,35 @@ page.headerData.10000 {
 
 simplepieAjaxReq = PAGE
 simplepieAjaxReq {
-  typeNum = 4711
-  config {
-    disableAllHeaderCode = 1
-#   additionalHeaders = Content-type:application/xml
-    xhtml_cleaning = 0
-    admPanel = 0
-  }
-#  1 = TEXT
-#  1.value = Testtext
+	typeNum = 4711
+	config {
+		disableAllHeaderCode = 1
+#		additionalHeaders = Content-type:application/xml
+		xhtml_cleaning = 0
+		admPanel = 0
+	}
+#	1 = TEXT
+#	1.value = Testtext
 
-#  10 = COA_INT
-#  10 {
-#    10 = USER_INT
-#    10 {
-#      userFunc = tx_extbase_dispatcher->dispatch
-#      pluginName = Pi1
-#      extensionName = simplepie
-#      controller = Rss
-#      action = index
-#      settings {
-#        type = ajax
-#        feedSelection = 3,1
-#      }
-#      persistence =< plugin.tx_simplepie.persistence
-#      view =< plugin.tx_simplepie.view
-#    }
-#  }
-  
-  10 = COA
-  10 < styles.content.get
-  10.stdWrap.prepend >
+#	10 = COA_INT
+#	10 {
+#		10 = USER_INT
+#		10 {
+#			userFunc = tx_extbase_dispatcher->dispatch
+#			pluginName = Pi1
+#			extensionName = simplepie
+#			controller = Rss
+#			action = index
+#			settings {
+#				type = ajax
+#				feedSelection = 3,1
+#			}
+#			persistence =< plugin.tx_simplepie.persistence
+#			view =< plugin.tx_simplepie.view
+#		}
+#	}
+
+	10 = COA
+	10 < styles.content.get
+	10.stdWrap.prepend >
 }
