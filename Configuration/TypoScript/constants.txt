@@ -57,7 +57,7 @@ plugin.tx_simplepie {
 				# cat=plugin.tx_simplepie//; type=string; label=List style class: Used to set a CSS style class of a feed list
 				listStyleClass = 
 				# cat=plugin.tx_simplepie//; type=int[1-9999]; label=Number of items in result
-				feedMaxItems = 20
+				itemsPerPage = 20
 				# cat=plugin.tx_simplepie//; type=options[ASC,DESC,FEED,REVERSEFEED]; label=Sorting Mode
 				sorting = DESC
 			}

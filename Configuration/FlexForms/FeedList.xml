@@ -14,7 +14,7 @@
 								<type>select</type>
 								<!-- <itemsProcFunc>tx_simplepie_flexhelper->addFields</itemsProcFunc> -->
 								<foreign_table>tx_simplepie_domain_model_feedsource</foreign_table>
-								<foreign_table_where>AND tx_simplepie_domain_model_feedsource.pid = ###CURRENT_PID### OR tx_simplepie_domain_model_feedsource.pid = ###STORAGE_PID###</foreign_table_where>
+								<foreign_table_where>AND (tx_simplepie_domain_model_feedsource.pid = ###CURRENT_PID### OR tx_simplepie_domain_model_feedsource.pid = ###STORAGE_PID###) order by tx_simplepie_domain_model_feedsource.name</foreign_table_where>
 
 								<size>5</size>
 								<minitems>0</minitems>
@@ -38,9 +38,9 @@
 							</wizards>
 						</TCEforms>
 					</settings.flexform.controllers.Feed.feedSelection>
-					<settings.flexform.controllers.Feed.feedItemsCount>
+					<settings.flexform.controllers.Feed.itemsPerFeed>
 						<TCEforms>
-							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedItemsCount</label>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.itemsPerFeed</label>
 							<config>
 								<type>input</type>
 								<size>20</size>
@@ -49,7 +49,7 @@
 								<!-- <eval>num</eval> -->
 							</config>
 						</TCEforms>
-					</settings.flexform.controllers.Feed.feedItemsCount>
+					</settings.flexform.controllers.Feed.itemsPerFeed>
 					<settings.flexform.controllers.Feed.sorting>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.orderBy</label>
@@ -88,9 +88,9 @@
 							</config>
 						</TCEforms>
 					</settings.flexform.controllers.Feed.sorting>
-					<settings.flexform.controllers.Feed.feedMaxItems>
+					<settings.flexform.controllers.Feed.itemsPerPage>
 						<TCEforms>
-							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.feedMaxItems</label>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.itemsPerPage</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
@@ -99,7 +99,7 @@
 								<eval>num</eval>
 							</config>
 						</TCEforms>
-					</settings.flexform.controllers.Feed.feedMaxItems>
+					</settings.flexform.controllers.Feed.itemsPerPage>
 					<settings.flexform.controllers.Feed.beginAfterItem>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.beginAfterItem</label>

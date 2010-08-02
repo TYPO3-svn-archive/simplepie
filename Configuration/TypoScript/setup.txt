@@ -38,7 +38,7 @@ plugin.tx_simplepie {
 			Feed {
 				cacheDuration = {$plugin.tx_simplepie.settings.controllers.Feed.cacheDuration}
 				listStyleClass = {$plugin.tx_simplepie.settings.controllers.Feed.listStyleClass}
-				feedMaxItems = {$plugin.tx_simplepie.settings.controllers.Feed.feedMaxItems}
+				itemsPerPage = {$plugin.tx_simplepie.settings.controllers.Feed.itemsPerPage}
 				sorting = {$plugin.tx_simplepie.settings.controllers.Feed.sorting}
 			}
 		}

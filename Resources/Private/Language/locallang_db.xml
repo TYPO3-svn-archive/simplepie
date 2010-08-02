@@ -23,14 +23,14 @@
 			<!-- Plugin feedlist -->
 			<label index="feedlist.sheet.dataSource">Datasource</label>
 			<label index="feedlist.feedSources">RSS/Atom/RDF Feeds</label>
-			<label index="feedlist.feedItemsCount">Items per Feed</label>
+			<label index="feedlist.itemsPerFeed">Items per Feed</label>
 			<label index="feedlist.orderBy">Order by</label>
 			<label index="feedlist.orderBy.dateAsc">Date ascending</label>
 			<label index="feedlist.orderBy.dateDesc">Date descending</label>
 			<label index="feedlist.orderBy.feed">Feed position</label>
 			<label index="feedlist.orderBy.reverseFeed">Reverse feed position</label>
 			<label index="feedlist.orderBy.random">Random</label>
-			<label index="feedlist.feedMaxItems">Total count of feed items</label>
+			<label index="feedlist.itemsPerPage">Total count of feed items/in ajax mode: items per page</label>
 			<label index="feedlist.beginAfterItem">Start after item</label>
 			<label index="feedlist.sheet.layout">Layout</label>
 			<label index="feedlist.listStyleClass">CSS class of list</label>
@@ -69,14 +69,14 @@
 			<!-- Plugin feedlist -->
 			<label index="feedlist.sheet.dataSource">Datenquelle</label>
 			<label index="feedlist.feedSources">RSS/Atom/RDF-Feeds</label>
-			<label index="feedlist.feedItemsCount">Elemente pro Feed</label>
+			<label index="feedlist.itemsPerFeed">Elemente pro Feed (mit Komma getrennt)</label>
 			<label index="feedlist.orderBy">Sortierreihenfolge</label>
 			<label index="feedlist.orderBy.dateAsc">Alt nach neu</label>
 			<label index="feedlist.orderBy.dateDesc">Neu nach alt</label>
 			<label index="feedlist.orderBy.feed">Position im Feed</label>
 			<label index="feedlist.orderBy.reverseFeed">Umgekehrte Position im Feed</label>
 			<label index="feedlist.orderBy.random">Zufall</label>
-			<label index="feedlist.feedMaxItems">Anzahl Datensätze</label>
+			<label index="feedlist.itemsPerPage">Anzahl Datensätze/Im AJAX Modus Elemente pro Seite</label>
 			<label index="feedlist.beginAfterItem">Starte Liste nach Datensatz Nr.</label>
 			<label index="feedlist.sheet.layout">Darstellung</label>
 			<label index="feedlist.listStyleClass">CSS-Klasse der Liste</label>

@@ -63,11 +63,11 @@ Class Tx_Simplepie_Controller_FeedController
 		$feedItems = array();
 		$rawFeedItems = array();
 
-		if ($this->settings['flexform']['controllers']['Feed']['feedMaxItems'] > 0 && $elementcount == 0)
-			$elementcount = $this->settings['flexform']['controllers']['Feed']['feedMaxItems'];
+		if ($this->settings['flexform']['controllers']['Feed']['itemsPerPage'] > 0 && $elementcount == 0)
+			$elementcount = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
 
 		$feedurls = explode(',', $this->settings['flexform']['controllers']['Feed']['feedSelection']);
-		$itemsperfeed = explode(',', $this->settings['flexform']['controllers']['Feed']['feedItemsCount']);
+		$itemsperfeed = explode(',', $this->settings['flexform']['controllers']['Feed']['itemsPerFeed']);
 		$beginafteritem = explode(',', $this->settings['flexform']['controllers']['Feed']['beginAfterItem']);
 
 		$itemcount = 0;
@@ -142,7 +142,7 @@ Class Tx_Simplepie_Controller_FeedController
 		/* max items check */
 		if (!$disableItemCount && $elementcount > 0) {
 			$page = t3lib_div::GPvar('item');
-			$pageitems = $this->settings['flexform']['controllers']['Feed']['feedMaxItems'];
+			$pageitems = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
 			$startitem = $page * $pageitems;
 			if ($startitem >= count($rawFeedItems)) {
 				$elementfrom = ($elementfrom % count($rawFeedItems));
@@ -191,7 +191,7 @@ Class Tx_Simplepie_Controller_FeedController
 
 		$items = array();
 		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'SINGLE') {
-			$pageitems = $this->settings['flexform']['controllers']['Feed']['feedMaxItems'];
+			$pageitems = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
 			$feedItems = $this->getFeedItems(false,$nextItem,1);
 			$item = $feedItems[0];
 			$items[] = $item;
@@ -199,7 +199,7 @@ Class Tx_Simplepie_Controller_FeedController
 
 		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGING') {
 			$page = t3lib_div::GPvar('item');
-			$pageitems = $this->settings['flexform']['controllers']['Feed']['feedMaxItems'];
+			$pageitems = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
 			$startitem = $page * $pageitems;
 			$items = $this->getFeedItems(false,$startitem,$pageitems);
 		}
@@ -302,8 +302,8 @@ Class Tx_Simplepie_Controller_FeedController
 		if (strlen($this->settings['controllers']['Feed']['sorting']) > 0 && $this->settings['flexform']['controllers']['Feed']['sorting'] == 'DEFAULT') {
 			$this->settings['flexform']['controllers']['Feed']['sorting'] = $this->settings['controllers']['Feed']['sorting'];
 		}
-		if ($this->settings['controllers']['Feed']['feedMaxItems'] > 0 && strlen($this->settings['flexform']['controllers']['Feed']['feedMaxItems']) == 0) {
-			$this->settings['flexform']['controllers']['Feed']['feedMaxItems'] = $this->settings['controllers']['Feed']['feedMaxItems'];
+		if ($this->settings['controllers']['Feed']['itemsPerPage'] > 0 && strlen($this->settings['flexform']['controllers']['Feed']['itemsPerPage']) == 0) {
+			$this->settings['flexform']['controllers']['Feed']['itemsPerPage'] = $this->settings['controllers']['Feed']['itemsPerPage'];
 		}
 		if ($this->settings['controllers']['Feed']['cacheDuration'] > 0 && strlen($this->settings['flexform']['controllers']['Feed']['cacheDuration']) == 0) {
 			$this->settings['flexform']['controllers']['Feed']['cacheDuration'] = $this->settings['controllers']['Feed']['cacheDuration'];
@@ -318,7 +318,7 @@ Class Tx_Simplepie_Controller_FeedController
 	
 	Private function javascriptInclude() {
 		$cObj = $this->request->getContentObjectData();
-		$pageitems = $this->settings['flexform']['controllers']['Feed']['feedMaxItems'];
+		$pageitems = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
 		$ajaxuid = $cObj['uid'];
 		//$ajaxuid = $this->settings['ajaxUid'];
 		$pid = $GLOBALS['TSFE']->id;
