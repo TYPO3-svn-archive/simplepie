@@ -1,0 +1,87 @@
+<script type="text/javascript">
+var dir{ajaxuid} = "next";
+var pageitems{ajaxuid} = {pageitems};
+var nextItem{ajaxuid} = {startnextitem};
+jQuery(document).ready(function(){
+	// click on next/prev link
+	<f:if condition="{ajaxMode} == 1">
+		jQuery(".simplepie_ajax_next{ajaxuid}").click(function(){
+		if (dir{ajaxuid} == "prev") {
+			nextItem{ajaxuid} = nextItem{ajaxuid} + pageitems{ajaxuid};
+		} else {
+			nextItem{ajaxuid} = nextItem{ajaxuid} + 1;
+		}
+		dir{ajaxuid} = "next";
+		getNextSingleItem{ajaxuid}();
+		});
+		jQuery(".simplepie_ajax_prev{ajaxuid}").click(function(){
+			if (dir{ajaxuid} == "next") {
+				nextItem{ajaxuid} = nextItem{ajaxuid} - pageitems{ajaxuid};
+			}
+			else {
+				nextItem{ajaxuid} = nextItem{ajaxuid} - 1;
+			}
+			dir{ajaxuid} = "prev";
+			getPrevSingleItem{ajaxuid}();
+		});
+	</f:if>
+	
+	<f:if condition="{ajaxMode} == 2">
+		jQuery(".simplepie_ajax_next{ajaxuid}").click(function(){
+			nextItem{ajaxuid} = nextItem{ajaxuid} + 1;
+			getItem{ajaxuid}();
+		});
+		jQuery(".simplepie_ajax_prev{ajaxuid}").click(function(){
+			nextItem{ajaxuid} = nextItem{ajaxuid} - 1;
+			getItem{ajaxuid}();
+		});
+	</f:if>
+});
+
+function getItem{ajaxuid}() {
+	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeIn();
+	jQuery.ajax({
+		url: "index.php",
+		processData: "false",
+		data: "id={pid}&type={ajaxPageType}&item=" + nextItem{ajaxuid} + "&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed&ajaxuid={ajaxuid}",
+		dataType: "json",
+		success: function(ret){
+			// place new content
+			jQuery(".simplepie_ajax_content{ajaxuid}").html(ret.content);
+		}
+	});
+	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeOut();
+}
+
+function getPrevSingleItem{ajaxuid}() {
+	jQuery.ajax({
+		url: "index.php",
+		processData: "false",
+		data: "id=' . $pid . '&type=4711&item=" + nextItem{ajaxuid} +"&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed&ajaxuid={ajaxuid}",
+		dataType: "json",
+		success: function(ret){
+			// place new content
+			// jQuery(".simplepie_ajax_content{ajaxuid}").html(ret.content);
+			var $elf = jQuery(".simplepie_ajax_content{ajaxuid}").find("div:first");
+			//var $ell = jQuery(".simplepie_ajax_content{ajaxuid}").find("div:last");
+			jQuery(".simplepie_ajax_content{ajaxuid}").prepend(ret.content);
+			jQuery(".simplepie_ajax_content{ajaxuid}").find("div:last").remove();
+			//jQuery(".simplepie_ajax_content{ajaxuid}").find("div:first").replaceWith($ell);
+		}
+	});
+}
+
+function getNextSingleItem{ajaxuid}() {
+	jQuery.ajax({
+		url: "index.php",
+		processData: "false",
+		data: "id={pid}&type=4711&item=" + nextItem{ajaxuid} +"&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed&ajaxuid={ajaxuid}",
+		dataType: "json",
+		success: function(ret){
+			var $elf = jQuery(".simplepie_ajax_content{ajaxuid}").find("div:last");
+			jQuery(".simplepie_ajax_content{ajaxuid}").append(ret.content);
+			jQuery(".simplepie_ajax_content{ajaxuid}").find("div:first").remove();
+		}
+	});
+}
+</script>

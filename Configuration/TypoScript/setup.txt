@@ -43,6 +43,7 @@ plugin.tx_simplepie {
 			}
 		}
 		jQueryDisable = {$plugin.tx_simplepie.jQueryDisable}
+		ajaxPageType = {$plugin.tx_simplepie.ajaxPageType}
 	}
 	persistence {
 		storagePid = {$plugin.tx_simplepie.persistence.storagePid}
@@ -96,7 +97,7 @@ page.headerData.737069 {
 
 simplepieAjaxReq = PAGE
 simplepieAjaxReq {
-	typeNum = 4711
+	typeNum = {$plugin.tx_simplepie.ajaxPageType}
 	config {
 		disableAllHeaderCode = 1
 #		additionalHeaders = Content-type:application/xml

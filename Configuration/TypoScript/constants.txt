@@ -81,4 +81,6 @@ plugin.tx_simplepie {
 	jQueryNoConflict = 1
 	# cat=plugin.tx_simplepie//bc; type=boolean; label=disable jQuery methods
 	jQueryDisable = 0
+	# cat=plugin.tx_simplepie//bd; type=int+; label=Page Type for Ajax Requests
+	ajaxPageType = 4711
 }

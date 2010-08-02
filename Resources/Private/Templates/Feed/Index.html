@@ -1,6 +1,10 @@
 <!-- BEGIN simplepie -->
 <div class="simplepie<f:if condition="{feed.styleClass}"> {feed.styleClass}</f:if>">
 
+<f:if condition="{jQueryDisable} == 0">
+<f:render partial="AjaxJavascript" arguments="{ajaxuid: ajaxuid, ajaxMode: ajaxMode, ajaxPageType: ajaxPageType, pageitems: pageitems, startnextitem: startnextitem, pid: pid}" />
+</f:if>
+
 <div class="simplepie_ajax_loading{ajaxuid}">
 	<!-- Loading gif -->
 </div>
