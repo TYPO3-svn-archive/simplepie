@@ -57,7 +57,7 @@ function getPrevSingleItem{ajaxuid}() {
 	jQuery.ajax({
 		url: "index.php",
 		processData: "false",
-		data: "id=' . $pid . '&type=4711&item=" + nextItem{ajaxuid} +"&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed&ajaxuid={ajaxuid}",
+		data: "id={pid}&type=4711&item=" + nextItem{ajaxuid} +"&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed&ajaxuid={ajaxuid}",
 		dataType: "json",
 		success: function(ret){
 			// place new content
