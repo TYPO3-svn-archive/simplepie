@@ -32,12 +32,12 @@ Class Tx_Simplepie_Controller_FeedController
 		//if ($this->settings['jQueryDisable'] == 0) {
 			//$GLOBALS['TSFE']->additionalHeaderData['multicontent'] .= $this->javascriptInclude();
 		//}
-		
+
 		$cObj = $this->request->getContentObjectData();
 		$feedItems = $this->getFeedItems();
 		$this->view->assign('feedItems', $feedItems);
 		$this->view->assign('pid', $GLOBALS['TSFE']->id);
-		
+
 		$pageitems = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
 		$this->view->assign('ajaxuid', $cObj['uid']);
 		$this->view->assign('ajaxPageType', $this->settings['ajaxPageType']);
@@ -57,7 +57,7 @@ Class Tx_Simplepie_Controller_FeedController
 		//startnextitem
 		//$this->view->assign('fluidTest', 'hello<br /> w<b>o</b>rld!');
 		//print "UID:" . print_r($this->settings['tuid'], true);
-		//print($cObj['uid']);		
+		//print($cObj['uid']);
 	}
 
 	Public Function ajaxAction() {
@@ -148,12 +148,11 @@ Class Tx_Simplepie_Controller_FeedController
 			usort($rawFeedItems, array("Tx_Simplepie_Controller_FeedController_SimplePie_Sort", "compareAsc"));
 		}
 
-
 		/* start after item check */
 		if (count($beginafteritem) == 1 && $this->settings['flexform']['controllers']['Feed']['beginAfterItem'] > 0) {
 			$rawFeedItems = array_slice($rawFeedItems, $this->settings['flexform']['controllers']['Feed']['beginAfterItem']);
 		}
-		
+
 		/* max items check */
 		if (!$disableItemCount && $elementcount > 0) {
 			$page = t3lib_div::GPvar('item');
@@ -224,8 +223,6 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 
 	Private function handleCacheImage($imgUrl) {
-		//http://farm2.static.flickr.com/1271/4699389396_545152349a_s.jpg
-
 		if (!file_exists($this->thumbnailCachePath)) {
 			mkdir($this->thumbnailCachePath);
 		}
@@ -234,7 +231,7 @@ Class Tx_Simplepie_Controller_FeedController
 
 		$client = new Zend_Http_Client($imgUrl, array('maxredirects' => 0,'timeout' => 30));
 		$filename = $this->thumbnailCachePath . md5($imgUrl) . '.jpg';
-		if (!file_exists($filename)) {
+		if (!getimagesize($filename)) {
 			$client->setStream($filename)->request('GET');
 		}
 
@@ -312,7 +309,7 @@ Class Tx_Simplepie_Controller_FeedController
 		unset($ts['img.']['file.']['height.']);
 		return $ts;
 	}
-	
+
 	Private function prepareSettings() {
 		if (strlen($this->settings['controllers']['Feed']['sorting']) > 0 && $this->settings['flexform']['controllers']['Feed']['sorting'] == 'DEFAULT') {
 			$this->settings['flexform']['controllers']['Feed']['sorting'] = $this->settings['controllers']['Feed']['sorting'];
@@ -330,7 +327,7 @@ Class Tx_Simplepie_Controller_FeedController
 			$this->settings['flexform']['controllers']['Feed']['feedItem']['linkTarget'] = '_self';
 		}
 	}
-	
-	
+
+
 }
 ?>
