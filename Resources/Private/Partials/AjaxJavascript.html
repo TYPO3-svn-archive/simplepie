@@ -54,24 +54,23 @@ function getItem{ajaxuid}() {
 }
 
 function getPrevSingleItem{ajaxuid}() {
+	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeIn();
 	jQuery.ajax({
 		url: "index.php",
 		processData: "false",
 		data: "id={pid}&type=4711&item=" + nextItem{ajaxuid} +"&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed&ajaxuid={ajaxuid}",
 		dataType: "json",
 		success: function(ret){
-			// place new content
-			// jQuery(".simplepie_ajax_content{ajaxuid}").html(ret.content);
 			var $elf = jQuery(".simplepie_ajax_content{ajaxuid}").find("div:first");
-			//var $ell = jQuery(".simplepie_ajax_content{ajaxuid}").find("div:last");
 			jQuery(".simplepie_ajax_content{ajaxuid}").prepend(ret.content);
 			jQuery(".simplepie_ajax_content{ajaxuid}").find("div:last").remove();
-			//jQuery(".simplepie_ajax_content{ajaxuid}").find("div:first").replaceWith($ell);
 		}
 	});
+	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeOut();
 }
 
 function getNextSingleItem{ajaxuid}() {
+	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeIn();
 	jQuery.ajax({
 		url: "index.php",
 		processData: "false",
@@ -83,5 +82,6 @@ function getNextSingleItem{ajaxuid}() {
 			jQuery(".simplepie_ajax_content{ajaxuid}").find("div:first").remove();
 		}
 	});
+	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeOut();
 }
 </script>
