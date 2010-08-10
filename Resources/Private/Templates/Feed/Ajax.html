@@ -1,3 +1,4 @@
-<f:for each="{feedItems}" as="item">
-	<f:render partial="FeedItem" arguments="{item: item}" />
-</f:for>
+{namespace sp=Tx_Simplepie_ViewHelpers}
+<sp:for each="{feedItems}" as="item" iteration="feedList">
+	<f:render partial="FeedItem" arguments="{item: item, feedList: feedList, settings: settings}" />
+</sp:for>

@@ -67,6 +67,8 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			$this->description = false;
 		}
 
+		$this->title = trim(preg_replace('/\s+/', ' ', $this->title));
+
 		// special feed types
 		switch ($this->type) {
 			case 'facebook_page':
