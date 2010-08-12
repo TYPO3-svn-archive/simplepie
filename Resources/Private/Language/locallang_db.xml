@@ -48,7 +48,8 @@
 			<label index="feedlist.ajax.mode.single">Single element</label>
 			<label index="feedlist.ajax.mode.paging">Paging</label>
 			<label index="feedlist.sheet.misc">Other Settings</label>
-			<label index="feedlist.tsconfig">Typoscript for this content element (plugin.tx_simplepie.[your TS])</label>
+			<label index="feedlist.tsconfig">Typoscript for this content element (plugin.tx_simplepie.settings.[your TS])</label>
+			<label index="feedlist.templateRootPath">Template Root Path</label>
 			<label index="feedlist.cacheDuration">Clear Feed-Cache after after this number of seconds</label>
 		</languageKey>
 		<languageKey index="de" type="array">
@@ -94,7 +95,8 @@
 			<label index="feedlist.ajax.mode.single">einzelnes Element</label>
 			<label index="feedlist.ajax.mode.paging">seitenweise</label>
 			<label index="feedlist.sheet.misc">Sonstige Einstellungen</label>
-			<label index="feedlist.tsconfig">TypoScript für dieses Inhaltselement (plugin.tx_simplepie.[your TS])</label>
+			<label index="feedlist.tsconfig">TypoScript für dieses Inhaltselement (plugin.tx_simplepie.settings.[your TS])</label>
+			<label index="feedlist.templateRootPath">Template Root Path</label>
 			<label index="feedlist.cacheDuration">Feed-Cache nach dieser Anzahl von Sekunden löschen</label>
 		</languageKey>
 	</data>

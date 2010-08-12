@@ -25,7 +25,10 @@ Class Tx_Simplepie_Controller_FeedController
 	Public Function initializeAction() {
 		$this->feedSourceRepository =& t3lib_div::makeInstance ('Tx_Simplepie_Domain_Repository_FeedSourceRepository');
 		$this->contentObject = t3lib_div::makeInstance('tslib_cObj');
+		//print "Config Array: " . print_r($this->settings,true);
+		$this->initTyposcript();
 		$this->prepareSettings();
+		//print_r($this->settings);
 	}
 
 	Public Function indexAction() {
@@ -310,6 +313,42 @@ Class Tx_Simplepie_Controller_FeedController
 		return $ts;
 	}
 
+	Private Function initTyposcript() {
+		$flexformTyposcript = $this->settings['flexform']['controllers']['Feedtsconfig'];
+		if ($flexformTyposcript) {
+			require_once(PATH_t3lib.'class.t3lib_tsparser.php');
+			$tsparser = t3lib_div::makeInstance('t3lib_tsparser');
+			$typoscriptextbase = t3lib_div::makeInstance('Tx_Extbase_Utility_TypoScript');
+			// Copy conf into existing setup
+			//$tsparser->setup = $this->settings;
+			// Parse the new Typoscript
+			$tsparser->parse($flexformTyposcript);
+			// Copy the resulting setup back into conf
+			$settings = $tsparser->setup;
+			
+			//print_r($this->settings);
+			//print ("=================<br><br>");
+			
+			$this->settings = $this->convertTypoScriptArrayToPlainArray($settings, $this->settings);
+			
+		}
+	}
+	
+	Private Function convertTypoScriptArrayToPlainArray(array $settings, array $globalSettings) {
+		foreach ($settings as $key => &$value) {
+			if(substr($key, -1) === '.') {
+				$keyWithoutDot = substr($key, 0, -1);
+				if(is_array($value)) {
+					$globalSettings[$keyWithoutDot] = self::convertTypoScriptArrayToPlainArray($value, $globalSettings[$keyWithoutDot]);
+				}
+			}
+			else {
+				$globalSettings[$key] = $value;
+			}
+		}
+		return $globalSettings;
+	}
+	
 	Private function prepareSettings() {
 		if (strlen($this->settings['controllers']['Feed']['sorting']) > 0 && $this->settings['flexform']['controllers']['Feed']['sorting'] == 'DEFAULT') {
 			$this->settings['flexform']['controllers']['Feed']['sorting'] = $this->settings['controllers']['Feed']['sorting'];

@@ -311,6 +311,19 @@
 							</config>
 						</TCEforms>
 					</settings.flexform.controllers.FeedcacheDuration>
+					<view.templateRootPath>
+						<TCEforms>
+							<displayCond>HIDE_FOR_NON_ADMINS</displayCond>
+							<exclude>1</exclude>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.templateRootPath</label>
+							<config>
+								<type>input</type>
+								<size>40</size>
+								<max>100</max>
+								<checkbox></checkbox>
+							</config>
+						</TCEforms>
+					</view.templateRootPath>
 					<settings.flexform.controllers.Feedtsconfig>
 						<TCEforms>
 							<displayCond>HIDE_FOR_NON_ADMINS</displayCond>
