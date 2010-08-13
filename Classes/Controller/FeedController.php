@@ -19,18 +19,25 @@ Class Tx_Simplepie_Controller_FeedController
 	 * @var        tslib_cObj
 	 */
 	protected $contentObject;
-
+	
 	var $thumbnailCachePath = 'typo3temp/simplepie_thumbnails/';
 
 	Public Function initializeAction() {
 		$this->feedSourceRepository =& t3lib_div::makeInstance ('Tx_Simplepie_Domain_Repository_FeedSourceRepository');
 		$this->contentObject = t3lib_div::makeInstance('tslib_cObj');
+		//$view = $this->resolveView();
+		// print_r($view);
+		//$this->view->setTemplateRootPath('fileadmin/templates/simplepie/Feed/');
 		//print "Config Array: " . print_r($this->settings,true);
 		$this->initTyposcript();
 		$this->prepareSettings();
 		//print_r($this->settings);
 	}
 
+	// Protected Function initializeView() {
+		
+	// }
+	
 	Public Function indexAction() {
 		//if ($this->settings['jQueryDisable'] == 0) {
 			//$GLOBALS['TSFE']->additionalHeaderData['multicontent'] .= $this->javascriptInclude();
@@ -101,10 +108,11 @@ Class Tx_Simplepie_Controller_FeedController
 				//$feed->enable_order_by_date(true);
 				$feed->enable_order_by_date(false);
 				// enable/disable caching
-				if ($this->settings['flexform']['controllers']['Feed']['cacheDuration'] > 0) {
+				if ($this->settings['controllers']['Feed']['cacheDuration'] > 0) {
 					$feed->set_cache_location('typo3temp/simplepie_thumbnails/');
-					$feed->set_cache_duration($this->settings['flexform']['controllers']['Feed']['cacheDuration']);
+					$feed->set_cache_duration($this->settings['controllers']['Feed']['cacheDuration']);
 					$feed->enable_cache(true);
+					debug('caching enabled: ' . $this->settings['controllers']['Feed']['cacheDuration'] . 'ms');
 				} else {
 					$feed->enable_cache(false);
 				}
@@ -356,8 +364,8 @@ Class Tx_Simplepie_Controller_FeedController
 		if ($this->settings['controllers']['Feed']['itemsPerPage'] > 0 && strlen($this->settings['flexform']['controllers']['Feed']['itemsPerPage']) == 0) {
 			$this->settings['flexform']['controllers']['Feed']['itemsPerPage'] = $this->settings['controllers']['Feed']['itemsPerPage'];
 		}
-		if ($this->settings['controllers']['Feed']['cacheDuration'] > 0 && strlen($this->settings['flexform']['controllers']['Feed']['cacheDuration']) == 0) {
-			$this->settings['flexform']['controllers']['Feed']['cacheDuration'] = $this->settings['controllers']['Feed']['cacheDuration'];
+		if ($this->settings['flexform']['controllers']['Feed']['cacheDuration'] > 0) {
+			$this->settings['controllers']['Feed']['cacheDuration'] = $this->settings['flexform']['controllers']['Feed']['cacheDuration'];
 		}
 		if (strlen($this->settings['flexform']['controllers']['Feed']['listStyleClass']) > 0) {
 			$this->settings['flexform']['controllers']['Feed']['listStyleClass'] = trim($this->settings['flexform']['controllers']['Feed']['listStyleClass']);

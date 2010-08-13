@@ -297,7 +297,7 @@
 				</TCEforms>
 				<type>array</type>
 				<el>
-					<settings.flexform.controllers.FeedcacheDuration>
+					<settings.flexform.controllers.Feed.cacheDuration>
 						<TCEforms>
 							<displayCond>HIDE_FOR_NON_ADMINS</displayCond>
 							<exclude>1</exclude>
@@ -310,7 +310,7 @@
 								<checkbox></checkbox>
 							</config>
 						</TCEforms>
-					</settings.flexform.controllers.FeedcacheDuration>
+					</settings.flexform.controllers.Feed.cacheDuration>
 					<view.templateRootPath>
 						<TCEforms>
 							<displayCond>HIDE_FOR_NON_ADMINS</displayCond>
@@ -324,7 +324,7 @@
 							</config>
 						</TCEforms>
 					</view.templateRootPath>
-					<settings.flexform.controllers.Feedtsconfig>
+					<settings.flexform.controllers.Feed.tsconfig>
 						<TCEforms>
 							<displayCond>HIDE_FOR_NON_ADMINS</displayCond>
 							<exclude>1</exclude>
@@ -335,7 +335,7 @@
 								<rows>10</rows>
 							</config>
 						</TCEforms>
-					</settings.flexform.controllers.Feedtsconfig>
+					</settings.flexform.controllers.Feed.tsconfig>
 				</el>
 			</ROOT>
 		</sMisc>
