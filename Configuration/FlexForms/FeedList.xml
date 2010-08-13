@@ -324,6 +324,32 @@
 							</config>
 						</TCEforms>
 					</view.templateRootPath>
+					<view.partialRootPath>
+						<TCEforms>
+							<displayCond>HIDE_FOR_NON_ADMINS</displayCond>
+							<exclude>1</exclude>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.partialRootPath</label>
+							<config>
+								<type>input</type>
+								<size>40</size>
+								<max>100</max>
+								<checkbox></checkbox>
+							</config>
+						</TCEforms>
+					</view.partialRootPath>
+					<view.layoutRootPath>
+						<TCEforms>
+							<displayCond>HIDE_FOR_NON_ADMINS</displayCond>
+							<exclude>1</exclude>
+							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.layoutRootPath</label>
+							<config>
+								<type>input</type>
+								<size>40</size>
+								<max>100</max>
+								<checkbox></checkbox>
+							</config>
+						</TCEforms>
+					</view.layoutRootPath>
 					<settings.flexform.controllers.Feed.tsconfig>
 						<TCEforms>
 							<displayCond>HIDE_FOR_NON_ADMINS</displayCond>

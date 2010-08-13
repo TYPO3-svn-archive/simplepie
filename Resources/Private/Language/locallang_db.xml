@@ -50,6 +50,8 @@
 			<label index="feedlist.sheet.misc">Other Settings</label>
 			<label index="feedlist.tsconfig">Typoscript for this content element (plugin.tx_simplepie.settings.[your TS])</label>
 			<label index="feedlist.templateRootPath">Template Root Path</label>
+			<label index="feedlist.partialRootPath">Partial Root Path</label>
+			<label index="feedlist.layoutRootPath">Layout Root Path</label>
 			<label index="feedlist.cacheDuration">Clear Feed-Cache after after this number of seconds</label>
 		</languageKey>
 		<languageKey index="de" type="array">
@@ -97,6 +99,8 @@
 			<label index="feedlist.sheet.misc">Sonstige Einstellungen</label>
 			<label index="feedlist.tsconfig">TypoScript für dieses Inhaltselement (plugin.tx_simplepie.settings.[your TS])</label>
 			<label index="feedlist.templateRootPath">Template Root Path</label>
+			<label index="feedlist.partialRootPath">Partial Root Path</label>
+			<label index="feedlist.layoutRootPath">Layout Root Path</label>
 			<label index="feedlist.cacheDuration">Feed-Cache nach dieser Anzahl von Sekunden löschen</label>
 		</languageKey>
 	</data>
