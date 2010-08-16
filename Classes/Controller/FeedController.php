@@ -322,9 +322,9 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 
 	Private Function initTyposcript() {
-		$flexformTyposcript = $this->settings['flexform']['controllers']['Feedtsconfig'];
+		$flexformTyposcript = $this->settings['flexform']['controllers']['Feed']['tsconfig'];
 		if ($flexformTyposcript) {
-			require_once(PATH_t3lib.'class.t3lib_tsparser.php');
+			require_once(PATH_t3lib . 'class.t3lib_tsparser.php');
 			$tsparser = t3lib_div::makeInstance('t3lib_tsparser');
 			$typoscriptextbase = t3lib_div::makeInstance('Tx_Extbase_Utility_TypoScript');
 			// Copy conf into existing setup
@@ -333,30 +333,25 @@ Class Tx_Simplepie_Controller_FeedController
 			$tsparser->parse($flexformTyposcript);
 			// Copy the resulting setup back into conf
 			$settings = $tsparser->setup;
-			
-			//print_r($this->settings);
-			//print ("=================<br><br>");
-			
+
 			$this->settings = $this->convertTypoScriptArrayToPlainArray($settings, $this->settings);
-			
 		}
 	}
-	
+
 	Private Function convertTypoScriptArrayToPlainArray(array $settings, array $globalSettings) {
 		foreach ($settings as $key => &$value) {
-			if(substr($key, -1) === '.') {
+			if (substr($key, -1) === '.') {
 				$keyWithoutDot = substr($key, 0, -1);
-				if(is_array($value)) {
+				if (is_array($value) && is_array($globalSettings[$keyWithoutDot])) {
 					$globalSettings[$keyWithoutDot] = self::convertTypoScriptArrayToPlainArray($value, $globalSettings[$keyWithoutDot]);
 				}
-			}
-			else {
+			} else {
 				$globalSettings[$key] = $value;
 			}
 		}
 		return $globalSettings;
 	}
-	
+
 	Private function prepareSettings() {
 		if (strlen($this->settings['controllers']['Feed']['sorting']) > 0 && $this->settings['flexform']['controllers']['Feed']['sorting'] == 'DEFAULT') {
 			$this->settings['flexform']['controllers']['Feed']['sorting'] = $this->settings['controllers']['Feed']['sorting'];
