@@ -47,6 +47,7 @@ Class Tx_Simplepie_Controller_FeedController
 	Public Function ajaxAction() {
 		$cObj = $this->request->getContentObjectData();
 		if ($cObj['uid'] == t3lib_div::_GET('ajaxuid')) {
+			$this->setViewParameters();
 			$this->jsonArray['content'] = $this->getAjaxContent();
 			$content = json_encode($this->jsonArray);
 			print $content;
