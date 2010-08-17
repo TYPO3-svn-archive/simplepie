@@ -2,20 +2,15 @@
 {namespace sp=Tx_Simplepie_ViewHelpers}
 <div class="simplepie<f:if condition="{feed.styleClass}"> {feed.styleClass}</f:if>">
 
-<f:if condition="{jQueryDisable} == 0">
-<f:render partial="AjaxJavascript" arguments="{ajaxuid: ajaxuid, settings : settings, ajaxPageType: ajaxPageType, pageitems: pageitems, startnextitem: startnextitem, pid: pid}" />
+<f:if condition="{settings.controllers.Feed.ajaxMode} > 0">
+	<f:render partial="AjaxJavascript" arguments="{ajaxuid: ajaxuid, settings: settings, ajaxPageType: ajaxPageType, pageitems: pageitems, startnextitem: startnextitem, pid: pid}" />
 </f:if>
 
-<div class="simplepie_ajax_loading{ajaxuid}">
-	<!-- Loading gif -->
-</div>
-
-<f:if condition="{jQueryDisable} == 0">
-<div class="simplepie_ajax_prev{ajaxuid}">
-	<< prev item
-</div>
-<div class="simplepie_ajax_next{ajaxuid}">
-	next item >>
+<f:if condition="{settings.controllers.Feed.ajaxMode} > 0">
+<div class="simplepie_navigation" style="clear:both;overflow:hidden;border-bottom:1px solid;margin:1em 0 1em 0;">
+	<div class="simplepie_ajax_prev{ajaxuid}" style="float:left;margin-right:1em;"><a href="javascript:void(0);">&laquo; prev item</a></div>
+	<div class="simplepie_ajax_next{ajaxuid}" style="float:left;margin-right:1em;"><a href="javascript:void(0);">next item &raquo;</a></div>
+	<div class="simplepie_ajax_loading{ajaxuid}" style="display:none;">loading</div>
 </div>
 </f:if>
 
@@ -29,10 +24,12 @@
 			<td>feed.sorting</td>
 			<td>{feed.sorting}</td>
 		</tr>
+<f:if condition="{feed.styleClass}">
 		<tr>
 			<td>feed.styleClass</td>
 			<td>{feed.styleClass}</td>
 		</tr>
+</f:if>
 	</table>
 </div>
 

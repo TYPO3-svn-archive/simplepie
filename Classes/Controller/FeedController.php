@@ -19,7 +19,7 @@ Class Tx_Simplepie_Controller_FeedController
 	 * @var        tslib_cObj
 	 */
 	protected $contentObject;
-	
+
 	var $thumbnailCachePath = 'typo3temp/simplepie_thumbnails/';
 
 	Public Function initializeAction() {
@@ -30,13 +30,10 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 
 	// Protected Function initializeView() {
-		
+
 	// }
-	
+
 	Public Function indexAction() {
-		//if ($this->settings['jQueryDisable'] == 0) {
-			//$GLOBALS['TSFE']->additionalHeaderData['multicontent'] .= $this->javascriptInclude();
-		//}
 		$feedItems = $this->getFeedItems();
 		$this->view->assign('feedItems', $feedItems);
 		$this->view->assign('pid', $GLOBALS['TSFE']->id);
@@ -159,8 +156,9 @@ Class Tx_Simplepie_Controller_FeedController
 			$author = $feedItem->getAuthor();
 			if (isset($author['thumbnail']['src']) && strlen($author['thumbnail']['src']) > 0) {
 				$filename = $this->handleCacheImage($author['thumbnail']['src']);
-				$author['thumbnail']['src'] = $this->getResizedItemAuthorImageLink($filename);
-				if (is_array($GLOBALS['TSFE']->lastImgResourceInfo) && count($GLOBALS['TSFE']->lastImgResourceInfo) > 0) {
+				$resizedItemAuthorImageSrc = $this->getResizedItemAuthorImageLink($filename);
+				if (is_array($GLOBALS['TSFE']->lastImgResourceInfo) && $GLOBALS['TSFE']->lastImgResourceInfo[0] > 0) {
+					$author['thumbnail']['src'] = $resizedItemAuthorImageSrc;
 					$author['thumbnail']['width'] = $GLOBALS['TSFE']->lastImgResourceInfo[0];
 					$author['thumbnail']['height'] = $GLOBALS['TSFE']->lastImgResourceInfo[1];
 				}
@@ -343,13 +341,16 @@ Class Tx_Simplepie_Controller_FeedController
 			$this->settings['flexform']['controllers']['Feed']['feedItem']['linkTarget'] = '_self';
 		}
 	}
-	
+
 	Private function setViewParameters() {
 		$cObj = $this->request->getContentObjectData();
 		$pageitems = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
 		$this->view->assign('ajaxuid', $cObj['uid']);
 		$this->view->assign('ajaxPageType', $this->settings['ajaxPageType']);
 		$this->view->assign('jQueryDisable', $this->settings['jQueryDisable']);
+		// Ajax disabled by default
+		$ajaxMode = 0;
+		$startnextitem = 0;
 		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'SINGLE') {
 			$ajaxMode = 1;
 			$startnextitem = $pageitems - 1;
@@ -364,7 +365,5 @@ Class Tx_Simplepie_Controller_FeedController
 		$this->view->assign('pid', $GLOBALS['TSFE']->id);
 		$this->view->assign('settings', $this->settings);
 	}
-
-
 }
 ?>

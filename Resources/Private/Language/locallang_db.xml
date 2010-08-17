@@ -47,6 +47,7 @@
 			<label index="feedlist.ajax.mode">Ajax mode</label>
 			<label index="feedlist.ajax.mode.single">Single element</label>
 			<label index="feedlist.ajax.mode.paging">Paging</label>
+			<label index="feedlist.ajax.mode.disabled">Disabled</label>
 			<label index="feedlist.sheet.misc">Other Settings</label>
 			<label index="feedlist.tsconfig">Typoscript for this content element (plugin.tx_simplepie.settings.[your TS])</label>
 			<label index="feedlist.templateRootPath">Template Root Path</label>
@@ -92,10 +93,11 @@
 			<label index="feedlist.feedItem.image.height">Maximale Höhe für Bilder in Feed-Elementen</label>
 			<label index="feedlist.feedItem.image.scaleMode">Skalierung der Bilder in Feed-Elementen</label>
 			<label index="feedlist.ajax">Ajax</label>
-			<label index="feedlist.ajax.uid">Ajax Container UID</label>
-			<label index="feedlist.ajax.mode">Ajax mode</label>
+			<label index="feedlist.ajax.uid">Ajax-Container-UID</label>
+			<label index="feedlist.ajax.mode">Ajax-Modus</label>
 			<label index="feedlist.ajax.mode.single">einzelnes Element</label>
 			<label index="feedlist.ajax.mode.paging">seitenweise</label>
+			<label index="feedlist.ajax.mode.disabled">deaktiviert</label>
 			<label index="feedlist.sheet.misc">Sonstige Einstellungen</label>
 			<label index="feedlist.tsconfig">TypoScript für dieses Inhaltselement (plugin.tx_simplepie.settings.[your TS])</label>
 			<label index="feedlist.templateRootPath">Template Root Path</label>

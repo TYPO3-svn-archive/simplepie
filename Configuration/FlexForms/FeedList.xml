@@ -15,7 +15,6 @@
 								<!-- <itemsProcFunc>tx_simplepie_flexhelper->addFields</itemsProcFunc> -->
 								<foreign_table>tx_simplepie_domain_model_feedsource</foreign_table>
 								<foreign_table_where>AND (tx_simplepie_domain_model_feedsource.pid = ###CURRENT_PID### OR tx_simplepie_domain_model_feedsource.pid = ###STORAGE_PID###) order by tx_simplepie_domain_model_feedsource.name</foreign_table_where>
-
 								<size>5</size>
 								<minitems>0</minitems>
 								<maxitems>99</maxitems>
@@ -281,6 +280,10 @@
 									<numIndex index="1">
 										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.ajax.mode.paging</numIndex>
 										<numIndex index="1">PAGING</numIndex>
+									</numIndex>
+									<numIndex index="2">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.ajax.mode.disabled</numIndex>
+										<numIndex index="1">DISABLED</numIndex>
 									</numIndex>
 								</items>
 							</config>
