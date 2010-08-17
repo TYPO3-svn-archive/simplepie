@@ -4,7 +4,7 @@ var pageitems{ajaxuid} = {pageitems};
 var nextItem{ajaxuid} = {startnextitem};
 jQuery(document).ready(function(){
 	// click on next/prev link
-	<f:if condition="{ajaxMode} == 1">
+	<f:if condition="{settings.controllers.Feed.ajaxMode} == 1">
 		jQuery(".simplepie_ajax_next{ajaxuid}").click(function(){
 		if (dir{ajaxuid} == "prev") {
 			nextItem{ajaxuid} = nextItem{ajaxuid} + pageitems{ajaxuid};
@@ -26,7 +26,7 @@ jQuery(document).ready(function(){
 		});
 	</f:if>
 	
-	<f:if condition="{ajaxMode} == 2">
+	<f:if condition="{settings.controllers.Feed.ajaxMode} == 2">
 		jQuery(".simplepie_ajax_next{ajaxuid}").click(function(){
 			nextItem{ajaxuid} = nextItem{ajaxuid} + 1;
 			getItem{ajaxuid}();

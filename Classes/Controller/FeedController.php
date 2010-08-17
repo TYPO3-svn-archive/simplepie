@@ -25,13 +25,8 @@ Class Tx_Simplepie_Controller_FeedController
 	Public Function initializeAction() {
 		$this->feedSourceRepository =& t3lib_div::makeInstance ('Tx_Simplepie_Domain_Repository_FeedSourceRepository');
 		$this->contentObject = t3lib_div::makeInstance('tslib_cObj');
-		//$view = $this->resolveView();
-		// print_r($view);
-		//$this->view->setTemplateRootPath('fileadmin/templates/simplepie/Feed/');
-		//print "Config Array: " . print_r($this->settings,true);
 		$this->initTyposcript();
 		$this->prepareSettings();
-		//print_r($this->settings);
 	}
 
 	// Protected Function initializeView() {
@@ -42,32 +37,11 @@ Class Tx_Simplepie_Controller_FeedController
 		//if ($this->settings['jQueryDisable'] == 0) {
 			//$GLOBALS['TSFE']->additionalHeaderData['multicontent'] .= $this->javascriptInclude();
 		//}
-
-		$cObj = $this->request->getContentObjectData();
 		$feedItems = $this->getFeedItems();
 		$this->view->assign('feedItems', $feedItems);
 		$this->view->assign('pid', $GLOBALS['TSFE']->id);
 
-		$pageitems = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
-		$this->view->assign('ajaxuid', $cObj['uid']);
-		$this->view->assign('ajaxPageType', $this->settings['ajaxPageType']);
-		$this->view->assign('jQueryDisable', $this->settings['jQueryDisable']);
-		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'SINGLE') {
-			$ajaxMode = 1;
-			$startnextitem = $pageitems - 1;
-		}
-		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGING') {
-			$ajaxMode = 2;
-			$startnextitem = 0;
-		}
-		$this->view->assign('ajaxMode', $ajaxMode);
-		$this->view->assign('pageitems', $pageitems);
-		$this->view->assign('startnextitem', $startnextitem);
-		$this->view->assign('pid', $GLOBALS['TSFE']->id);
-		//startnextitem
-		//$this->view->assign('fluidTest', 'hello<br /> w<b>o</b>rld!');
-		//print "UID:" . print_r($this->settings['tuid'], true);
-		//print($cObj['uid']);
+		$this->setViewParameters();
 	}
 
 	Public Function ajaxAction() {
@@ -112,7 +86,7 @@ Class Tx_Simplepie_Controller_FeedController
 					$feed->set_cache_location('typo3temp/simplepie_thumbnails/');
 					$feed->set_cache_duration($this->settings['controllers']['Feed']['cacheDuration']);
 					$feed->enable_cache(true);
-					debug('caching enabled: ' . $this->settings['controllers']['Feed']['cacheDuration'] . 'ms');
+					// debug('caching enabled: ' . $this->settings['controllers']['Feed']['cacheDuration'] . 'ms');
 				} else {
 					$feed->enable_cache(false);
 				}
@@ -230,7 +204,6 @@ Class Tx_Simplepie_Controller_FeedController
 		}
 		$this->view->assign('feedItems', $items);
 		return $this->view->render();
-		//return "test";
 	}
 
 	Private function handleCacheImage($imgUrl) {
@@ -368,6 +341,27 @@ Class Tx_Simplepie_Controller_FeedController
 		if (strlen($this->settings['flexform']['controllers']['Feed']['feedItem']['linkTarget']) < 1) {
 			$this->settings['flexform']['controllers']['Feed']['feedItem']['linkTarget'] = '_self';
 		}
+	}
+	
+	Private function setViewParameters() {
+		$cObj = $this->request->getContentObjectData();
+		$pageitems = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
+		$this->view->assign('ajaxuid', $cObj['uid']);
+		$this->view->assign('ajaxPageType', $this->settings['ajaxPageType']);
+		$this->view->assign('jQueryDisable', $this->settings['jQueryDisable']);
+		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'SINGLE') {
+			$ajaxMode = 1;
+			$startnextitem = $pageitems - 1;
+		}
+		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGING') {
+			$ajaxMode = 2;
+			$startnextitem = 0;
+		}
+		$this->settings['controllers']['Feed']['ajaxMode'] = $ajaxMode;
+		$this->view->assign('pageitems', $pageitems);
+		$this->view->assign('startnextitem', $startnextitem);
+		$this->view->assign('pid', $GLOBALS['TSFE']->id);
+		$this->view->assign('settings', $this->settings);
 	}
 
 
