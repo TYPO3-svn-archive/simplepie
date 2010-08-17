@@ -47,6 +47,18 @@ plugin.tx_simplepie {
 					authorLinkUrl = http://www.facebook.com/posted.php?id={id}
 				}
 			}
+			date {
+				# cat=plugin.tx_simplepie/misc/; type=string; label=Date format: see http://php.net/manual/en/function.date.php for possibilities.
+				format = d.m.Y H:i
+			}
+			description {
+				# cat=plugin.tx_simplepie/misc/; type=int[0-9999]; label=Maximum length of description: ammount of characters to display; should only be applyed to plaintext (item.description.plain). Set it to '0' to disable cropping.
+				maxCharacters = 0
+			}
+			title {
+				# cat=plugin.tx_simplepie/misc/; type=int[0-9999]; label=Maximum length of title: ammount of characters to display. Set it to '0' to disable cropping.
+				maxCharacters = 0
+			}
 			# cat=plugin.tx_simplepie//; type=string; label=Link target: Set the target-parameter of external links (_blank, _self, _parent, _top, ...)
 			linkTarget = _self
 		}

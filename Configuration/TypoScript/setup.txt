@@ -32,6 +32,15 @@ plugin.tx_simplepie {
 					authorLinkUrl = {$plugin.tx_simplepie.settings.feedItem.enclosure.facebook_page.authorLinkUrl}
 				}
 			}
+			date {
+				format = {$plugin.tx_simplepie.settings.feedItem.date.format}
+			}
+			description {
+				maxCharacters = {$plugin.tx_simplepie.settings.feedItem.description.maxCharacters}
+			}
+			title {
+				maxCharacters = {$plugin.tx_simplepie.settings.feedItem.title.maxCharacters}
+			}
 			linkTarget = {$plugin.tx_simplepie.settings.feedItem.linkTarget}
 		}
 		controllers {

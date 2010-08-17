@@ -71,7 +71,7 @@
 </f:if>
 	<tr>
 		<td>date:</td>
-		<td>{item.date}</td>
+		<td>{item.date}<hr /><f:format.date format="{settings.feedItem.date.format}">{item.date}</f:format.date> (format: {settings.feedItem.date.format})</td>
 	</tr>
 <f:if condition="{item.description}">
 	<tr>
@@ -84,7 +84,7 @@
 				</tr>
 				<tr>
 					<td>item.description.plain:</td>
-					<td>{item.description.plain}<hr /><sp:null>{item.description.plain}</sp:null></td>
+					<td><span title="{item.description.plain}"><f:format.crop maxCharacters="{settings.feedItem.description.maxCharacters}">{item.description.plain}</f:format.crop></span> (maxCharacters: {settings.feedItem.description.maxCharacters})<hr /><sp:null>{item.description.plain}</sp:null></td>
 				</tr>
 			</table>
 		</td>
@@ -142,7 +142,7 @@
 	</tr>
 	<tr>
 		<td>title:</td>
-		<td>{item.title}<hr /><sp:null>{item.title}</sp:null></td>
+		<td><span title="{item.title}"><f:format.crop maxCharacters="{settings.feedItem.title.maxCharacters}">{item.title}</f:format.crop></span> (maxCharacters: {settings.feedItem.title.maxCharacters})<hr /><sp:null>{item.title}</sp:null></td>
 	</tr>
 	<tr>
 		<td>type:</td>
