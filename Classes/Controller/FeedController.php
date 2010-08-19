@@ -74,7 +74,6 @@ Class Tx_Simplepie_Controller_FeedController
 		$filename = "/tmp/" . md5($cObj['uid']) . "simplepie";
 		$cacheDuration = ((time() - filemtime($filename))); //sekunden;
 		if ($cache == 1 && $this->settings['controllers']['Feed']['cacheDuration'] > 0 && $cacheDuration < $this->settings['controllers']['Feed']['cacheDuration']) {
-			print "Cached Array - " . $cacheDuration;
 			$rawFeedItems = unserialize(file_get_contents($filename));
 			
 		}
