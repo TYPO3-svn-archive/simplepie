@@ -34,7 +34,7 @@ Class Tx_Simplepie_Controller_FeedController
 	// }
 
 	Public Function indexAction() {
-		$feedItems = $this->getFeedItems();
+		$feedItems = $this->getFeedItems(false, 0, 0, 1);
 		$this->view->assign('feedItems', $feedItems);
 		$this->view->assign('pid', $GLOBALS['TSFE']->id);
 
@@ -56,7 +56,7 @@ Class Tx_Simplepie_Controller_FeedController
 		return $this->getFeedItems(true);
 	}
 
-	Private function getFeedItems($disableItemCount = false, $elementfrom = 0, $elementcount = 0) {
+	Private function getFeedItems($disableItemCount = false, $elementfrom = 0, $elementcount = 0, $cache = 0) {
 		$feedItems = array();
 		$rawFeedItems = array();
 
@@ -67,62 +67,87 @@ Class Tx_Simplepie_Controller_FeedController
 		$itemsperfeed = explode(',', $this->settings['flexform']['controllers']['Feed']['itemsPerFeed']);
 		$beginafteritem = explode(',', $this->settings['flexform']['controllers']['Feed']['beginAfterItem']);
 
-		$itemcount = 0;
-		if ($feedurls[0] != '') {
-			for ($i = 0; $i < count($feedurls); $i++ ) {
-				$urlid = $feedurls[$i];
-				$feedSource = $this->feedSourceRepository->findByUid((int)$urlid);
+		/*
+		 *  Load RawFeedItems
+		 */
+		$cObj = $this->request->getContentObjectData();
+		$filename = "/tmp/" . md5($cObj['uid']) . "simplepie";
+		$cacheDuration = ((time() - filemtime($filename))); //sekunden;
+		if ($cache == 1 && $this->settings['controllers']['Feed']['cacheDuration'] > 0 && $cacheDuration < $this->settings['controllers']['Feed']['cacheDuration']) {
+			print "Cached Array - " . $cacheDuration;
+			$rawFeedItems = unserialize(file_get_contents($filename));
+			
+		}
+		else {
+		
+			$itemcount = 0;
+			if ($feedurls[0] != '') {
+				for ($i = 0; $i < count($feedurls); $i++ ) {
+					$urlid = $feedurls[$i];
+					$feedSource = $this->feedSourceRepository->findByUid((int)$urlid);
 
-				if ($feedSource == null) {
-					break;
-				}
-				$feed = new Tx_Simplepie_Controller_FeedController_SimplePie_Sort($feedSource->getUrl());
-				//$feed->enable_order_by_date(true);
-				$feed->enable_order_by_date(false);
-				// enable/disable caching
-				if ($this->settings['controllers']['Feed']['cacheDuration'] > 0) {
-					$feed->set_cache_location('typo3temp/simplepie_thumbnails/');
-					$feed->set_cache_duration($this->settings['controllers']['Feed']['cacheDuration']);
-					$feed->enable_cache(true);
-					// debug('caching enabled: ' . $this->settings['controllers']['Feed']['cacheDuration'] . 'ms');
-				} else {
-					$feed->enable_cache(false);
-				}
-				$feed->init();
-				$feed->handle_content_type();
-				$this->view->assign(
-					'feed', array(
-						'styleClass' => $this->settings['flexform']['controllers']['Feed']['listStyleClass'],
-						'title' => $feed->get_title(),
-						'source' => $feedSource->getUrl(),
-						'sorting' => $this->settings['flexform']['controllers']['Feed']['sorting'],
-					)
-				);
-
-				if ($this->settings['flexform']['controllers']['Feed']['sorting'] == 'REVERSEFEED') {
-					$rawitems = array_reverse($feed->get_items());
-				} else {
-					$rawitems = $feed->get_items();
-				}
-
-				$feeditemcount = 0;
-				foreach ($rawitems as $item) {
-					if (count($beginafteritem) > 1 && $feeditemcount < $beginafteritem[$i]) {
-						$itemcount++;
-						$feeditemcount++;
-						continue;
-					}
-					if (!$disableItemCount && $i <= count($itemsperfeed) && $feeditemcount >= $itemsperfeed[$i] && $itemsperfeed[$i] > 0 ) {
+					if ($feedSource == null) {
 						break;
 					}
+					$feed = new Tx_Simplepie_Controller_FeedController_SimplePie_Sort($feedSource->getUrl());
+					//$feed->enable_order_by_date(true);
+					$feed->enable_order_by_date(false);
+					// enable/disable caching
+					if ($this->settings['controllers']['Feed']['cacheDuration'] > 0) {
+						$feed->set_cache_location('typo3temp/simplepie_thumbnails/');
+						$feed->set_cache_duration($this->settings['controllers']['Feed']['cacheDuration']);
+						$feed->enable_cache(true);
+						// debug('caching enabled: ' . $this->settings['controllers']['Feed']['cacheDuration'] . 'ms');
+					} else {
+						$feed->enable_cache(false);
+					}
+					$feed->init();
+					$feed->handle_content_type();
+					$this->view->assign(
+						'feed', array(
+							'styleClass' => $this->settings['flexform']['controllers']['Feed']['listStyleClass'],
+							'title' => $feed->get_title(),
+							'source' => $feedSource->getUrl(),
+							'sorting' => $this->settings['flexform']['controllers']['Feed']['sorting'],
+						)
+					);
 
-					$rawFeedItems[] = $item;
-					$itemcount++;
-					$feeditemcount++;
+					if ($this->settings['flexform']['controllers']['Feed']['sorting'] == 'REVERSEFEED') {
+						$rawitems = array_reverse($feed->get_items());
+					} else {
+						$rawitems = $feed->get_items();
+					}
+
+					$feeditemcount = 0;
+					foreach ($rawitems as $item) {
+						if (count($beginafteritem) > 1 && $feeditemcount < $beginafteritem[$i]) {
+							$itemcount++;
+							$feeditemcount++;
+							continue;
+						}
+						if (!$disableItemCount && $i <= count($itemsperfeed) && $feeditemcount >= $itemsperfeed[$i] && $itemsperfeed[$i] > 0 ) {
+							break;
+						}
+
+						$rawFeedItems[] = $item;
+						$itemcount++;
+						$feeditemcount++;
+					}
+				}
+			}
+		
+		
+			/* RawFeedItems persistieren */
+			$rawFeedItemsObject = serialize($rawFeedItems);
+			if($f = @fopen($filename,"w")) {
+				if(@fwrite($f,$rawFeedItemsObject))
+				{
+					@fclose($f);
 				}
 			}
 		}
-
+		
+		
 		/* sorting */
 		if ($this->settings['flexform']['controllers']['Feed']['sorting'] == 'DESC') {
 			usort($rawFeedItems, array("Tx_Simplepie_Controller_FeedController_SimplePie_Sort", "compareDesc"));
