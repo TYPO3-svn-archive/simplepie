@@ -102,14 +102,6 @@ Class Tx_Simplepie_Controller_FeedController
 					}
 					$feed->init();
 					$feed->handle_content_type();
-					$this->view->assign(
-						'feed', array(
-							'styleClass' => $this->settings['flexform']['controllers']['Feed']['listStyleClass'],
-							'title' => $feed->get_title(),
-							'source' => $feedSource->getUrl(),
-							'sorting' => $this->settings['flexform']['controllers']['Feed']['sorting'],
-						)
-					);
 
 					if ($this->settings['flexform']['controllers']['Feed']['sorting'] == 'REVERSEFEED') {
 						$rawitems = array_reverse($feed->get_items());
@@ -146,6 +138,14 @@ Class Tx_Simplepie_Controller_FeedController
 			}
 		}
 		
+		$this->view->assign(
+			'feed', array(
+				'styleClass' => $this->settings['flexform']['controllers']['Feed']['listStyleClass'],
+			//	'title' => $feed->get_title(),
+			//	'source' => $feedSource->getUrl(),
+				'sorting' => $this->settings['flexform']['controllers']['Feed']['sorting'],
+			)
+		);
 		
 		/* sorting */
 		if ($this->settings['flexform']['controllers']['Feed']['sorting'] == 'DESC') {
