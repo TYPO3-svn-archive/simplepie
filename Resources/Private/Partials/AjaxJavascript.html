@@ -1,4 +1,6 @@
-<script type="text/javascript">
+{namespace sp=Tx_Simplepie_ViewHelpers}
+<sp:embed.javaScript>
+
 var dir{ajaxuid} = "next";
 var pageitems{ajaxuid} = {pageitems};
 var nextItem{ajaxuid} = {startnextitem};
@@ -84,4 +86,5 @@ function getNextSingleItem{ajaxuid}() {
 	});
 	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeOut();
 }
-</script>
+
+</sp:embed.javaScript>
