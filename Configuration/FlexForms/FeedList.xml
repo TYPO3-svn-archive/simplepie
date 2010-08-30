@@ -285,6 +285,14 @@
 										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.ajax.mode.disabled</numIndex>
 										<numIndex index="1">DISABLED</numIndex>
 									</numIndex>
+									<numIndex index="3">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.ajax.mode.pagingSlideEffectHorizontal</numIndex>
+										<numIndex index="1">PAGINGSLIDEEFFECTHORIZONTAL</numIndex>
+									</numIndex>
+									<numIndex index="4">
+										<numIndex index="0">LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.ajax.mode.pagingSlideEffectVertical</numIndex>
+										<numIndex index="1">PAGINGSLIDEEFFECTVERTICAL</numIndex>
+									</numIndex>
 								</items>
 							</config>
 						</TCEforms>

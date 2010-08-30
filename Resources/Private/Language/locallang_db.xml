@@ -48,6 +48,8 @@
 			<label index="feedlist.ajax.mode.single">Single element</label>
 			<label index="feedlist.ajax.mode.paging">Paging</label>
 			<label index="feedlist.ajax.mode.disabled">Disabled</label>
+			<label index="feedlist.ajax.mode.pagingSlideEffectHorizontal">Paging with horizontal slide effect</label>
+			<label index="feedlist.ajax.mode.pagingSlideEffectVertical">Paging with vertical slide effect</label>
 			<label index="feedlist.sheet.misc">Other Settings</label>
 			<label index="feedlist.tsconfig">Typoscript for this content element (plugin.tx_simplepie.settings.[your TS])</label>
 			<label index="feedlist.templateRootPath">Template Root Path</label>
@@ -98,6 +100,8 @@
 			<label index="feedlist.ajax.mode.single">einzelnes Element</label>
 			<label index="feedlist.ajax.mode.paging">seitenweise</label>
 			<label index="feedlist.ajax.mode.disabled">deaktiviert</label>
+			<label index="feedlist.ajax.mode.pagingSlideEffectHorizontal">seitenweise mit horizontalem slide effect</label>
+			<label index="feedlist.ajax.mode.pagingSlideEffectVertical">seitenweise mit vertikalem slide effect</label>
 			<label index="feedlist.sheet.misc">Sonstige Einstellungen</label>
 			<label index="feedlist.tsconfig">TypoScript für dieses Inhaltselement (plugin.tx_simplepie.settings.[your TS])</label>
 			<label index="feedlist.templateRootPath">Template Root Path</label>

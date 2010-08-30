@@ -1,4 +1,6 @@
 {namespace sp=Tx_Simplepie_ViewHelpers}
+<div style="{styleItems}">
 <sp:for each="{feedItems}" as="item" iteration="feedList">
-	<f:render partial="FeedItem" arguments="{item: item, feedList: feedList, settings: settings}" />
+	<f:render partial="FeedItem" arguments="{item: item, feedList: feedList, settings: settings, styleItems:styleItems}" />
 </sp:for>
+</div>

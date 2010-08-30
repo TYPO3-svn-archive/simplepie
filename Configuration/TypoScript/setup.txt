@@ -96,6 +96,12 @@ page.headerData.737069 {
 	if.isTrue = {$plugin.tx_simplepie.loadJQuery}
 }
 
+page.headerData.7370691 = TEXT
+page.headerData.7370691 {
+	value = <script src="http://cdn.jquerytools.org/1.2.4/jquery.tools.min.js"></script>
+	if.isTrue = {$plugin.tx_simplepie.jQueryEffect}
+}
+
 ###############
 # AJAX Pagetype
 ###############

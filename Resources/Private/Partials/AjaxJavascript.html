@@ -38,8 +38,16 @@ jQuery(document).ready(function(){
 			getItem{ajaxuid}();
 		});
 	</f:if>
+	
+	<f:if condition="{settings.controllers.Feed.ajaxMode} == 3">
+		jQuery(".simplepie_ajax_next{ajaxuid}").click(function(){
+			nextItem{ajaxuid} = nextItem{ajaxuid} + 1;
+			getItem{ajaxuid}();
+		});
+	</f:if>
 });
 
+<f:if condition="{settings.controllers.Feed.ajaxMode} == 2">
 function getItem{ajaxuid}() {
 	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeIn();
 	jQuery.ajax({
@@ -54,7 +62,26 @@ function getItem{ajaxuid}() {
 	});
 	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeOut();
 }
+</f:if>
 
+<f:if condition="{settings.controllers.Feed.ajaxMode} == 3">
+function getItem{ajaxuid}() {
+	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeIn();
+	jQuery.ajax({
+		url: "index.php",
+		processData: "false",
+		data: "id={pid}&type={ajaxPageType}&item=" + nextItem{ajaxuid} + "&no_cache=1&tx_simplepie_pi1[action]=ajax&tx_simplepie_pi1[controller]=Feed&ajaxuid={ajaxuid}",
+		dataType: "json",
+		success: function(ret){
+			// place new content
+			jQuery(".items{ajaxuid}").append(ret.content);
+		}
+	});
+	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeOut();
+}
+</f:if>
+
+<f:if condition="{settings.controllers.Feed.ajaxMode} == 1">
 function getPrevSingleItem{ajaxuid}() {
 	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeIn();
 	jQuery.ajax({
@@ -86,5 +113,6 @@ function getNextSingleItem{ajaxuid}() {
 	});
 	jQuery(".simplepie_ajax_loading{ajaxuid}").fadeOut();
 }
+</f:if>
 
 </sp:embed.javaScript>

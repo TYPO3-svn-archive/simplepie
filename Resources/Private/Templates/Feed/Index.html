@@ -3,13 +3,13 @@
 <div class="simplepie<f:if condition="{feed.styleClass}"> {feed.styleClass}</f:if>">
 
 <f:if condition="{settings.controllers.Feed.ajaxMode} > 0">
-	<f:render partial="AjaxJavascript" arguments="{ajaxuid: ajaxuid, settings: settings, ajaxPageType: ajaxPageType, pageitems: pageitems, startnextitem: startnextitem, pid: pid}" />
+	<f:render partial="AjaxJavascript" arguments="{ajaxuid: ajaxuid, settings: settings, ajaxPageType: ajaxPageType, pageitems: pageitems, startnextitem: startnextitem, pid: pid, jQueryEffect:jQueryEffect}" />
 </f:if>
 
 <f:if condition="{settings.controllers.Feed.ajaxMode} > 0">
 <div class="simplepie_navigation" style="clear:both;overflow:hidden;border-bottom:1px solid;margin:1em 0 1em 0;">
-	<div class="simplepie_ajax_prev{ajaxuid}" style="float:left;margin-right:1em;"><a href="javascript:void(0);">&laquo; prev item</a></div>
-	<div class="simplepie_ajax_next{ajaxuid}" style="float:left;margin-right:1em;"><a href="javascript:void(0);">next item &raquo;</a></div>
+	<div class="simplepie_ajax_prev{ajaxuid} prev" style="float:left;margin-right:1em;"><a href="javascript:void(0);">&laquo; prev item</a></div>
+	<div class="simplepie_ajax_next{ajaxuid} next" style="float:left;margin-right:1em;"><a href="javascript:void(0);">next item &raquo;</a></div>
 	<div class="simplepie_ajax_loading{ajaxuid}" style="display:none;">loading</div>
 </div>
 </f:if>
@@ -33,9 +33,29 @@
 	</table>
 </div>
 
-<div class="simplepie_ajax_content{ajaxuid}">
+<div class="simplepie_ajax_content{ajaxuid}" style="{styleOuterContainer}">
+<div class="items{ajaxuid}" style="{styleInnerContainer}">
+<div style="{styleItems}">
 <sp:for each="{feedItems}" as="item" iteration="feedList">
-	<f:render partial="FeedItem" arguments="{item: item, feedList: feedList, settings: settings}" />
+	<f:render partial="FeedItem" arguments="{item: item, feedList: feedList, settings: settings, styleItems:styleItems}" />
 </sp:for>
 </div>
+</div>
+</div>
 </div><!-- END simplepie -->
+
+<f:if condition="{settings.controllers.Feed.ajaxMode} == 3">
+<sp:embed.javaScript>
+
+// execute your scripts when the DOM is ready. this is mostly a good habit
+$(function() {
+
+	// initialize scrollable
+	$(".simplepie_ajax_content{ajaxuid}").scrollable({vertical});
+	nextItem{ajaxuid} = nextItem{ajaxuid} + 1;
+	getItem{ajaxuid}();
+
+});
+
+</sp:embed.javaScript>
+</f:if>

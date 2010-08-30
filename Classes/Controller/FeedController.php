@@ -219,7 +219,9 @@ Class Tx_Simplepie_Controller_FeedController
 			$items[] = $item;
 		}
 
-		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGING') {
+		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGING' 
+			|| $this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGINGSLIDEEFFECTHORIZONTAL'
+			|| $this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGINGSLIDEEFFECTVERTICAL') {
 			$page = t3lib_div::GPvar('item');
 			$pageitems = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
 			$startitem = $page * $pageitems;
@@ -383,11 +385,37 @@ Class Tx_Simplepie_Controller_FeedController
 			$ajaxMode = 2;
 			$startnextitem = 0;
 		}
+		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGINGSLIDEEFFECTHORIZONTAL') {
+			$ajaxMode = 3;
+			$startnextitem = 0;
+			$styleOuterContainer = "position:relative;overflow:hidden;width: 540px;height: 225px;";
+			$styleInnerContainer = "width:20000em;position:absolute;";
+			$styleItems = "float:left;";
+		}
+		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGINGSLIDEEFFECTVERTICAL') {
+			$ajaxMode = 3;
+			$startnextitem = 0;
+			$styleOuterContainer = "position:relative;overflow:hidden;width: 540px;height: 450px;";
+			$styleInnerContainer = "height:20000em;position:absolute;";
+			$vertical = '{ vertical: true }';
+		}
+		
+		if ($this->settings['jQueryEffect'] == 'NONE') {
+			$jQueryEffect = 0;
+		}
+		if ($this->settings['jQueryEffect'] == 'SLIDEHORIZONTAL') {
+			$jQueryEffect = 1;
+		}
+		$this->view->assign('jQueryEffect', $jQueryEffect);
 		$this->settings['controllers']['Feed']['ajaxMode'] = $ajaxMode;
 		$this->view->assign('pageitems', $pageitems);
 		$this->view->assign('startnextitem', $startnextitem);
 		$this->view->assign('pid', $GLOBALS['TSFE']->id);
 		$this->view->assign('settings', $this->settings);
+		$this->view->assign('vertical', $vertical);
+		$this->view->assign('styleOuterContainer', $styleOuterContainer);
+		$this->view->assign('styleInnerContainer', $styleInnerContainer);
+		$this->view->assign('styleItems', $styleItems);
 	}
 }
 ?>

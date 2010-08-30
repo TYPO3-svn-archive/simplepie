@@ -95,4 +95,6 @@ plugin.tx_simplepie {
 	jQueryDisable = 0
 	# cat=plugin.tx_simplepie//bd; type=int+; label=Page Type for Ajax Requests
 	ajaxPageType = 4711
+	# cat=plugin.tx_simplepie//be; type=boolean; label=enable sliding effect
+	jQueryEffect = 0
 }
