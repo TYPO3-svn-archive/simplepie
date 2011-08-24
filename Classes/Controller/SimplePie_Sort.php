@@ -1,4 +1,4 @@
-<?
+<?php
 class Tx_Simplepie_Controller_FeedController_SimplePie_Sort extends SimplePie {
 	
 	static function compareDesc($a, $b) {

@@ -3,7 +3,7 @@
 require_once(t3lib_extMgm::extPath('simplepie', 'Resources/Private/Libs/simplepie.php'));
 require_once(t3lib_extMgm::extPath('simplepie', 'Classes/Controller/SimplePie_Sort.php'));
 require_once(t3lib_extMgm::extPath('simplepie', 'Classes/Controller/FeedItemParser.php'));
-require_once('Zend/Http/Client.php');
+//require_once('Zend/Http/Client.php');
 
 Class Tx_Simplepie_Controller_FeedController
 	Extends Tx_Extbase_MVC_Controller_ActionController {
@@ -78,7 +78,7 @@ Class Tx_Simplepie_Controller_FeedController
 			
 		}
 		else {
-		
+                        
 			$itemcount = 0;
 			if ($feedurls[0] != '') {
 				for ($i = 0; $i < count($feedurls); $i++ ) {
@@ -119,10 +119,23 @@ Class Tx_Simplepie_Controller_FeedController
 						if (!$disableItemCount && $i <= count($itemsperfeed) && $feeditemcount >= $itemsperfeed[$i] && $itemsperfeed[$i] > 0 ) {
 							break;
 						}
-
-						$rawFeedItems[] = $item;
-						$itemcount++;
-						$feeditemcount++;
+                                                //debug("Kategorie:");
+                                                if ($this->settings['flexform']['controllers']['Feed']['filter'] != "") {
+                                                    foreach ($item->get_categories() as $category) {
+                                                        //debug($category);
+                                                        if ($category->get_label() == $this->settings['flexform']['controllers']['Feed']['filter']) {
+                                                            $rawFeedItems[] = $item;
+                                                            $itemcount++;
+                                                            $feeditemcount++;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                else {
+                                                    $rawFeedItems[] = $item;
+                                                    $itemcount++;
+                                                    $feeditemcount++;
+                                                }
 					}
 				}
 			}
@@ -238,10 +251,19 @@ Class Tx_Simplepie_Controller_FeedController
 
 		$parsedUrl = parse_url($imgUrl);
 
-		$client = new Zend_Http_Client($imgUrl, array('maxredirects' => 0,'timeout' => 30));
+		//$client = new Zend_Http_Client($imgUrl, array('maxredirects' => 0,'timeout' => 30));
 		$filename = $this->thumbnailCachePath . md5($imgUrl) . '.jpg';
 		if (!getimagesize($filename)) {
-			$client->setStream($filename)->request('GET');
+                    //$client->setStream($filename)->request('GET');
+                    $ch = curl_init($imgUrl);
+                    $fp = fopen($filename, "w");
+
+                    curl_setopt($ch, CURLOPT_FILE, $fp);
+                    curl_setopt($ch, CURLOPT_HEADER, 0);
+
+                    curl_exec($ch);
+                    curl_close($ch);
+                    fclose($fp);
 		}
 
 		return $filename;
