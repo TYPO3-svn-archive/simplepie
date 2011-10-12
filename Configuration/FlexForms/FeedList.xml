@@ -110,7 +110,7 @@
 							</config>
 						</TCEforms>
 					</settings.flexform.controllers.Feed.beginAfterItem>
-                                        <settings.flexform.controllers.Feed.filter>
+					<settings.flexform.controllers.Feed.filter>
 						<TCEforms>
 							<label>LLL:EXT:simplepie/Resources/Private/Language/locallang_db.xml:feedlist.filter</label>
 							<config>

@@ -30,7 +30,6 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 
 	// Protected Function initializeView() {
-
 	// }
 
 	Public Function indexAction() {
@@ -75,10 +74,7 @@ Class Tx_Simplepie_Controller_FeedController
 		$cacheDuration = ((time() - filemtime($filename))); //sekunden;
 		if ($cache == 1 && $this->settings['controllers']['Feed']['cacheDuration'] > 0 && $cacheDuration < $this->settings['controllers']['Feed']['cacheDuration']) {
 			$rawFeedItems = unserialize(file_get_contents($filename));
-			
-		}
-		else {
-                        
+		} else {
 			$itemcount = 0;
 			if ($feedurls[0] != '') {
 				for ($i = 0; $i < count($feedurls); $i++ ) {
@@ -119,38 +115,35 @@ Class Tx_Simplepie_Controller_FeedController
 						if (!$disableItemCount && $i <= count($itemsperfeed) && $feeditemcount >= $itemsperfeed[$i] && $itemsperfeed[$i] > 0 ) {
 							break;
 						}
-                                                //debug("Kategorie:");
-                                                if ($this->settings['flexform']['controllers']['Feed']['filter'] != "") {
-                                                    foreach ($item->get_categories() as $category) {
-                                                        //debug($category);
-                                                        if ($category->get_label() == $this->settings['flexform']['controllers']['Feed']['filter']) {
-                                                            $rawFeedItems[] = $item;
-                                                            $itemcount++;
-                                                            $feeditemcount++;
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-                                                else {
-                                                    $rawFeedItems[] = $item;
-                                                    $itemcount++;
-                                                    $feeditemcount++;
-                                                }
+						//debug("Kategorie:");
+						if ($this->settings['flexform']['controllers']['Feed']['filter'] != "") {
+							foreach ($item->get_categories() as $category) {
+								//debug($category);
+								if ($category->get_label() == $this->settings['flexform']['controllers']['Feed']['filter']) {
+									$rawFeedItems[] = $item;
+									$itemcount++;
+									$feeditemcount++;
+									break;
+								}
+							}
+						} else {
+							$rawFeedItems[] = $item;
+							$itemcount++;
+							$feeditemcount++;
+						}
 					}
 				}
 			}
-		
-		
+
 			/* RawFeedItems persistieren */
 			$rawFeedItemsObject = serialize($rawFeedItems);
 			if($f = @fopen($filename,"w")) {
-				if(@fwrite($f,$rawFeedItemsObject))
-				{
+				if(@fwrite($f,$rawFeedItemsObject)) {
 					@fclose($f);
 				}
 			}
 		}
-		
+
 		$this->view->assign(
 			'feed', array(
 				'styleClass' => $this->settings['flexform']['controllers']['Feed']['listStyleClass'],
@@ -159,7 +152,7 @@ Class Tx_Simplepie_Controller_FeedController
 				'sorting' => $this->settings['flexform']['controllers']['Feed']['sorting'],
 			)
 		);
-		
+
 		/* sorting */
 		if ($this->settings['flexform']['controllers']['Feed']['sorting'] == 'DESC') {
 			usort($rawFeedItems, array("Tx_Simplepie_Controller_FeedController_SimplePie_Sort", "compareDesc"));
@@ -248,24 +241,19 @@ Class Tx_Simplepie_Controller_FeedController
 		if (!file_exists($this->thumbnailCachePath)) {
 			mkdir($this->thumbnailCachePath);
 		}
-
 		$parsedUrl = parse_url($imgUrl);
-
 		//$client = new Zend_Http_Client($imgUrl, array('maxredirects' => 0,'timeout' => 30));
 		$filename = $this->thumbnailCachePath . md5($imgUrl) . '.jpg';
 		if (!getimagesize($filename)) {
-                    //$client->setStream($filename)->request('GET');
-                    $ch = curl_init($imgUrl);
-                    $fp = fopen($filename, "w");
-
-                    curl_setopt($ch, CURLOPT_FILE, $fp);
-                    curl_setopt($ch, CURLOPT_HEADER, 0);
-
-                    curl_exec($ch);
-                    curl_close($ch);
-                    fclose($fp);
+			//$client->setStream($filename)->request('GET');
+			$ch = curl_init($imgUrl);
+			$fp = fopen($filename, "w");
+			curl_setopt($ch, CURLOPT_FILE, $fp);
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_exec($ch);
+			curl_close($ch);
+			fclose($fp);
 		}
-
 		return $filename;
 	}
 
@@ -421,7 +409,7 @@ Class Tx_Simplepie_Controller_FeedController
 			$styleInnerContainer = "height:20000em;position:absolute;";
 			$vertical = '{ vertical: true }';
 		}
-		
+
 		if ($this->settings['jQueryEffect'] == 'NONE') {
 			$jQueryEffect = 0;
 		}

@@ -47,15 +47,17 @@
 <f:if condition="{settings.controllers.Feed.ajaxMode} == 3">
 <sp:embed.javaScript>
 
-// execute your scripts when the DOM is ready. this is mostly a good habit
-$(function() {
+/*
 
+//jQuery(function() {
+jQuery(document).ready(function() {
 	// initialize scrollable
-	$(".simplepie_ajax_content{ajaxuid}").scrollable({vertical});
+	jQuery(".simplepie_ajax_content{ajaxuid}").scrollable({vertical});
 	nextItem{ajaxuid} = nextItem{ajaxuid} + 1;
 	getItem{ajaxuid}();
-
 });
+
+*/
 
 </sp:embed.javaScript>
 </f:if>
