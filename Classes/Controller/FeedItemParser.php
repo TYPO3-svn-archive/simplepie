@@ -140,7 +140,10 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$feedBase = $feed->get_base();
 
 		// Flickr
-		if (isset($author[0]['attribs']['urn:flickr:']['profile'])) {
+		if (
+			isset($author[0]['attribs']['urn:flickr:']['profile']) ||
+			isset($author[0]['attribs']['urn:flickr:user']['profile'])
+		) {
 			return 'flickr';
 		}
 
