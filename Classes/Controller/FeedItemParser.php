@@ -46,18 +46,22 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$this->type = $this->getItemType();
 		// enclosures
 		$enclosureCount = 0;
-		foreach ($item->get_enclosures() as $enclosure) {
-			$enclosureData = array(
-				'duration' => $enclosure->get_duration(),
-				'medium' => $enclosure->get_medium(),
-				'src' => html_entity_decode($enclosure->get_link()),
-				'thumbnail' => array('src' => html_entity_decode($enclosure->get_thumbnail())),
-				'title' => html_entity_decode($enclosure->get_title()),
-				'type' => $enclosure->get_real_type(),
-			);
-			$this->enclosures[$enclosureCount] = $enclosureData;
-			$enclosureCount++;
+		$enclosures = $item->get_enclosures();
+		if (is_array($enclosures)) {
+			foreach ($enclosures as $enclosure) {
+				$enclosureData = array(
+					'duration' => $enclosure->get_duration(),
+					'medium' => $enclosure->get_medium(),
+					'src' => html_entity_decode($enclosure->get_link()),
+					'thumbnail' => array('src' => html_entity_decode($enclosure->get_thumbnail())),
+					'title' => html_entity_decode($enclosure->get_title()),
+					'type' => $enclosure->get_real_type(),
+				);
+				$this->enclosures[$enclosureCount] = $enclosureData;
+				$enclosureCount++;
+			}
 		}
+		unset($enclosures);
 
 		// do some basic cleanup
 		if ($this->content == $this->description) {
