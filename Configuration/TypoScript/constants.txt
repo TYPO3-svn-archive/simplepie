@@ -43,8 +43,8 @@ plugin.tx_simplepie {
 					imageWidth = 97
 					# cat=plugin.tx_simplepie/dims/l; type=options[crop,disproportionally,proportionally]; label=Facebook (page) thumbnails scale mode: Defines how to stretch images to make them fit the given width/height. "proportionally" will stretch them proportionally to fit height or width, "disproportionally" will stretch them disproportionally to fit both height and width. "crop" will preserve the proportions and the image will be scaled to fit around a rectangle with width/height dimensions.
 					imageScaleMode = crop
-					# cat=plugin.tx_simplepie//; type=string; label=Facebook (page) author link URL: Facebook doesn't include a link to the authors profile page. Use the placeholder "{id}" to insert the Facebook page ID, which is extracted from the feed source. Currently you can link to 'posted.php', 'notes.php' and 'album.php?profile=1'
-					authorLinkUrl = http://www.facebook.com/posted.php?id={id}
+					# cat=plugin.tx_simplepie//; type=string; label=Facebook (page) author link URL: Facebook doesn't include a link to the authors profile page. Use the placeholder "{id}" to insert the Facebook page ID, which is extracted from the feed source. Currently you can link to '/' (formerly 'posted.php'), 'notes.php' and 'album.php?profile=1'
+					authorLinkUrl = http://www.facebook.com/{id}
 				}
 			}
 			date {

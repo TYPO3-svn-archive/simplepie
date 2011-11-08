@@ -227,7 +227,11 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			$this->author->thumbnail['src'] = $feedLogo[0]['data'];
 		}
 
-		// author link: http://www.facebook.com/posted.php?id={FacebookID}
+		/*
+		 author link
+			formerly:	http://www.facebook.com/posted.php?id={FacebookID}
+			current:	http://www.facebook.com/{FacebookID}
+		*/
 		$selfLink = html_entity_decode($feed->subscribe_url());
 		parse_str(parse_url($selfLink, PHP_URL_QUERY), $selfLinkParams);
 		if (isset($selfLinkParams['id']) && $selfLinkParams['id'] > 0) {
