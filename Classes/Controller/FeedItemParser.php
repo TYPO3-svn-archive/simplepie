@@ -278,7 +278,6 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 	 * corrects Flickr feed items
 	 */
 	Private Function parseFlickrItem() {
-
 		// correct name/email: nobody@flickr.com ([Real Name])
 		if (preg_match('/^nobody@flickr\.com/', $this->author->email)) {
 			$this->author->name = preg_replace('/^([^(]*)\((.*)\)$/', "$2", $this->author->email);
@@ -289,6 +288,10 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$authorLink = $this->feedItem->get_item_tags('', 'author');
 		if (isset($authorLink[0]['attribs']['urn:flickr:']['profile']) && strlen($authorLink[0]['attribs']['urn:flickr:']['profile']) > 0) {
 			$this->author->link = $authorLink[0]['attribs']['urn:flickr:']['profile'];
+		}
+		// xmlns:flickr="urn:flickr:user" version="2.0"
+		if (isset($authorLink[0]['attribs']['urn:flickr:user']['profile']) && strlen($authorLink[0]['attribs']['urn:flickr:user']['profile']) > 0) {
+			$this->author->link = $authorLink[0]['attribs']['urn:flickr:user']['profile'];
 		}
 
 		// use <media:description> instead of <description>
