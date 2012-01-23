@@ -36,7 +36,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 		// set SiplePie values
 		$this->author = $item->get_author();
-		$this->title = html_entity_decode(trim($item->get_title()));
+		$this->title = trim(html_entity_decode($item->get_title()));
 		$this->date = $item->get_date();
 		$this->copyright = trim($item->get_copyright());
 		$this->description = trim($item->get_description());
@@ -71,7 +71,8 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			$this->description = false;
 		}
 
-		$this->title = trim(preg_replace('/\s+/', ' ', $this->title));
+		// check URIs
+		$this->permalink = preg_replace('/&amp;/', '&', html_entity_decode($this->permalink));
 
 		// special feed types
 		switch ($this->type) {
@@ -90,6 +91,19 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			case 'youtube':
 				$this->parseYouTubeItem();
 				break;
+		}
+
+		// remove multiple white spaces
+		$this->title = trim(preg_replace('/\s+/', ' ', $this->title));
+		$this->description = trim(preg_replace('/\s+/', ' ', $this->description));
+		$this->content = trim(preg_replace('/\s+/', ' ', $this->content));
+		$this->author->name = trim(preg_replace('/\s+/', ' ', $this->author->name));
+		$this->author->realName = trim(preg_replace('/\s+/', ' ', $this->author->realName));
+
+		// no title?
+		if ($this->title == '') {
+			$this->title = trim(strip_tags(preg_replace('/<br[\s\/]*>/i', ' ', (html_entity_decode($this->description)))));
+			$this->description = false;
 		}
 
 		// set feed logo as author thumbnail
@@ -115,7 +129,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 		$feedItem->setCopyright($this->copyright);
 		$feedItem->setDescription(array(
 			'html' => $this->description,
-			'plain' => strip_tags(preg_replace('/<br[\s\/]*>/i', ' ', (html_entity_decode($this->description))))
+			'plain' => trim(strip_tags(preg_replace('/<br[\s\/]*>/i', ' ', (html_entity_decode($this->description)))))
 		));
 		$feedItem->setPermalink($this->permalink);
 		$feedItem->setContent($this->content);
@@ -179,15 +193,18 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 
 		/**
 		 * Facebook
+		 *
+		 * http://www.facebook.com/feeds/page.php?id=[...]&format=rss20
+		 * language specific versions like http://de-de.facebook.com/feeds/page.php?id=[...]&format=atom10
+		 * may work. To get best results use www.facebook.com!
 		 */
-		if ($feedBase && $feedBase == 'http://www.facebook.com/') {
+		if (isset($feedBase) && preg_match('#http://(.*)\.facebook\.com/#', $feedBase)) {
 			$type = 'facebook';
-			$linkRelSelf = $feed->get_links('self');
-			if (isset($linkRelSelf[0]) && stripos($linkRelSelf[0], 'http://www.facebook.com/feeds/page.php?') === 0) {
-				return 'facebook_page';
+			$linkRelSelf = $feed->get_links('self'); // only works for ...&format=atom10
+			if (isset($linkRelSelf[0]) && preg_match('#http://(.*)\.facebook\.com/feeds/page\.php\?#', $linkRelSelf[0])) {
+				$type = 'facebook_page';
 			}
 		}
-
 		return $type;
 	}
 
@@ -250,24 +267,30 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			);
 		}
 
-		$this->permalink = html_entity_decode($this->permalink);
+		$this->permalink = trim(html_entity_decode($this->permalink));
 
 		// Correct title
 		$this->title = trim(html_entity_decode($this->title));
-
 		// if no title extract it from description
 		if ($this->title == '') {
-			$this->title = str_replace("\n", '', $this->description);
-			$this->title = trim(strip_tags(preg_replace('/(\s)*<br(\s)*(\/)*>(\s)*/i', "\n", $this->title), "\n"));
-			$firstBreak = strpos($this->title, "\n");
-			if ($firstBreak > 0) {
-				$this->description = substr($this->title, $firstBreak);
-				$this->description = preg_replace('/^(\s*(<br(\s*\/)?>)\s*)*/i', '', $this->description);
-				$this->title = strip_tags(substr($this->title, 0, $firstBreak));
-			} else {
-				$this->title = strip_tags($this->description);
-				$this->description = '';
+			$description = trim(preg_replace('/\s+/', ' ', (html_entity_decode($this->description))));
+			// remove linked image at beginning
+			if (preg_match('#^<a href="[^>]*><img [^>]*></a>#', $description)) {
+				$description = preg_replace('#^<a href="[^>]*><img [^>]*></a>#', '', $description);
+				$description = preg_replace('#^(\s*(<br(\s*\/)?>)\s*)*#', '', $description);
 			}
+			// remove anchor having an image as link text
+			if (preg_match('#^<a href="[^>]+>http(s){0,1}://[^<]+\.(jpg|jpeg|gif|png){1}</a>#', $description)) {
+				$description = preg_replace('#^<a href="[^>]+>http(s){0,1}://[^<]+\.(jpg|jpeg|gif|png){1}</a>#', '', $description);
+				$description = preg_replace('#^(\s*(<br(\s*\/)?>)\s*)*#', '', $description);
+			}
+			// if a link at the beginning is left, use it as title
+			if (preg_match('#^<a href="[^>]*>([^<]*)</a>#', $description, $title)) {
+				$this->title = $title[1];
+				$description = preg_replace('#^<a href="[^>]*>[^<]*</a>#', '', $description);
+				$description = preg_replace('#^(\s*(<br(\s*\/)?>)\s*)*#', '', $description);
+			}
+			$this->description = $description;
 		}
 		// if title in description, extract it
 		if (strpos($this->description, $this->title) === 0) {
