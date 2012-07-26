@@ -29,9 +29,6 @@ Class Tx_Simplepie_Controller_FeedController
 		$this->prepareSettings();
 	}
 
-	// Protected Function initializeView() {
-	// }
-
 	Public Function indexAction() {
 		$feedItems = $this->getFeedItems(false, 0, 0, 1);
 		$this->view->assign('feedItems', $feedItems);
@@ -59,22 +56,34 @@ Class Tx_Simplepie_Controller_FeedController
 		$feedItems = array();
 		$rawFeedItems = array();
 
-		if ($this->settings['flexform']['controllers']['Feed']['itemsPerPage'] > 0 && $elementcount == 0)
+		if ($this->settings['flexform']['controllers']['Feed']['itemsPerPage'] > 0 && $elementcount == 0) {
 			$elementcount = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
+		}
 
 		$feedurls = explode(',', $this->settings['flexform']['controllers']['Feed']['feedSelection']);
 		$itemsperfeed = explode(',', $this->settings['flexform']['controllers']['Feed']['itemsPerFeed']);
 		$beginafteritem = explode(',', $this->settings['flexform']['controllers']['Feed']['beginAfterItem']);
 
 		/*
-		 *  Load RawFeedItems
+		 * Load RawFeedItems
 		 */
 		$cObj = $this->request->getContentObjectData();
-		$filename = "/tmp/" . md5($cObj['uid']) . "simplepie";
-		$cacheDuration = ((time() - filemtime($filename))); //sekunden;
+		$tempPath = 'typo3temp/simplepie_cache/';
+		if (!is_dir(PATH_site . $tempPath)) {
+			t3lib_div::mkdir(PATH_site . $tempPath);
+		}
+		$cacheFile = PATH_site . $tempPath . md5($cObj['uid']);
+		
+		$cacheDuration = 0;
+		if (file_exists($cacheFile)) {
+			$cacheDuration = time() - filemtime($cacheFile); // seconds;
+		}
+
+		$rawFeedItems = false;
 		if ($cache == 1 && $this->settings['controllers']['Feed']['cacheDuration'] > 0 && $cacheDuration < $this->settings['controllers']['Feed']['cacheDuration']) {
-			$rawFeedItems = unserialize(file_get_contents($filename));
-		} else {
+			$rawFeedItems = @unserialize(@file_get_contents($cacheFile));
+		}
+		if (!$rawFeedItems) {
 			$itemcount = 0;
 			if ($feedurls[0] != '') {
 				for ($i = 0; $i < count($feedurls); $i++ ) {
@@ -84,15 +93,16 @@ Class Tx_Simplepie_Controller_FeedController
 					if ($feedSource == null) {
 						break;
 					}
-					$feed = new Tx_Simplepie_Controller_FeedController_SimplePie_Sort($feedSource->getUrl());
+					$feed = new Tx_Simplepie_Controller_FeedController_SimplePie_Sort(
+						$feedSource->getUrl(),
+						$this->thumbnailCachePath,
+						$this->settings['controllers']['Feed']['cacheDuration']
+					);
 					//$feed->enable_order_by_date(true);
 					$feed->enable_order_by_date(false);
 					// enable/disable caching
 					if ($this->settings['controllers']['Feed']['cacheDuration'] > 0) {
-						$feed->set_cache_location('typo3temp/simplepie_thumbnails/');
-						$feed->set_cache_duration($this->settings['controllers']['Feed']['cacheDuration']);
 						$feed->enable_cache(true);
-						// debug('caching enabled: ' . $this->settings['controllers']['Feed']['cacheDuration'] . 'ms');
 					} else {
 						$feed->enable_cache(false);
 					}
@@ -137,8 +147,8 @@ Class Tx_Simplepie_Controller_FeedController
 
 			/* RawFeedItems persistieren */
 			$rawFeedItemsObject = serialize($rawFeedItems);
-			if($f = @fopen($filename,"w")) {
-				if(@fwrite($f,$rawFeedItemsObject)) {
+			if($f = @fopen($cacheFile, "w")) {
+				if(@fwrite($f, $rawFeedItemsObject)) {
 					@fclose($f);
 				}
 			}

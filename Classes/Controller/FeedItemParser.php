@@ -293,7 +293,7 @@ Class Tx_Simplepie_Controller_FeedController_FeedItemParser {
 			$this->description = $description;
 		}
 		// if title in description, extract it
-		if (strpos($this->description, $this->title) === 0) {
+		if ($this->description != '' && $this->title != '' && strpos($this->description, $this->title) === 0) {
 			$this->description = str_replace($this->title, '', $this->description);
 			// remove trailing spaces and breaks
 			$this->description = preg_replace('/^(\s*(<br(\s*\/)?>)\s*)*/i', '', $this->description);

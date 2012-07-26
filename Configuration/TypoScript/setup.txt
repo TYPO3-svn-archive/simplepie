@@ -1,5 +1,6 @@
 plugin.tx_simplepie {
 	settings {
+		debug = {$plugin.tx_simplepie.settings.debug}
 		feedItem {
 			author {
 				imageHeight = {$plugin.tx_simplepie.settings.feedItem.author.imageHeight}
