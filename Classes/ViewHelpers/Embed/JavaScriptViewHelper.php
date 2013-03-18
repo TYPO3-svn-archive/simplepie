@@ -24,7 +24,7 @@
  * @api
  * @scope prototype
  */
-class Tx_Simplepie_ViewHelpers_Embed_JavaScriptViewHelper extends Tx_Fluid_Core_ViewHelper_TagBasedViewHelper {
+class Tx_Simplepie_ViewHelpers_Embed_JavaScriptViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper {
 	/**
 	 * @var string
 	 */

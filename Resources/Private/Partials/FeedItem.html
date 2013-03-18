@@ -11,7 +11,7 @@
 <f:if condition="{item.author.e-mail}">
 				<tr>
 					<td>e-mail:</td>
-					<td><f:escape>{item.author.e-mail}</f:escape></td>
+					<td><f:format.htmlspecialchars>{item.author.e-mail}</f:format.htmlspecialchars></td>
 				</tr>
 </f:if>
 <f:if condition="{item.author.link}">
@@ -23,13 +23,13 @@
 <f:if condition="{item.author.name}">
 				<tr>
 					<td>name:</td>
-					<td><f:escape>{item.author.name}</f:escape></td>
+					<td><f:format.htmlspecialchars>{item.author.name}</f:format.htmlspecialchars></td>
 				</tr>
 </f:if>
 <f:if condition="{item.author.realName}">
 				<tr>
 					<td>realName:</td>
-					<td><f:escape>{item.author.realName}</f:escape></td>
+					<td><f:format.htmlspecialchars>{item.author.realName}</f:format.htmlspecialchars></td>
 				</tr>
 </f:if>
 <f:if condition="{item.author.thumbnail}">
@@ -157,12 +157,12 @@
 			<f:if condition="{enclosure.duration}">
 				<tr>
 					<td>duration:</td>
-					<td><f:escape>{enclosure.duration}</f:escape></td>
+					<td><f:format.htmlspecialchars>{enclosure.duration}</f:format.htmlspecialchars></td>
 				</tr>
 			</f:if>
 				<tr>
 					<td>medium:</td>
-					<td><f:escape>{enclosure.medium}</f:escape></td>
+					<td><f:format.htmlspecialchars>{enclosure.medium}</f:format.htmlspecialchars></td>
 				</tr>
 				<tr>
 					<td>src:</td>
@@ -198,13 +198,13 @@
 <f:if condition="{enclosure.title}">
 				<tr>
 					<td>title:</td>
-					<td><f:escape>{enclosure.title}</f:escape></td>
+					<td><f:format.htmlspecialchars>{enclosure.title}</f:format.htmlspecialchars></td>
 				</tr>
 </f:if>
 <f:if condition="{enclosure.type}">
 				<tr>
 					<td>type:</td>
-					<td><f:escape>{enclosure.type}</f:escape></td>
+					<td><f:format.htmlspecialchars>{enclosure.type}</f:format.htmlspecialchars></td>
 				</tr>
 </f:if>
 			</table>

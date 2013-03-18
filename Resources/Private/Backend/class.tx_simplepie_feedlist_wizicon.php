@@ -36,11 +36,10 @@ class tx_simplepie_feedlist_wizicon {
 	 *
 	 * @return	array		The LOCAL_LANG array
 	 */
-	function includeLocalLang() {
-		$llFile = t3lib_extMgm::extPath('simplepie') . 'Resources/Private/Language/locallang_db.xml';
-		$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
-		return $LOCAL_LANG;
-	}
+	 protected function includeLocalLang ()
+	 {        
+	         return \TYPO3\CMS\Core\Utility\GeneralUtility::readLLfile(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('simplepie') . 'Resources/Private/Language/locallang_db.xml', $GLOBALS['LANG']->lang);        
+	 }
 }
 
 

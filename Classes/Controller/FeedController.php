@@ -5,13 +5,22 @@ require_once(t3lib_extMgm::extPath('simplepie', 'Classes/Controller/SimplePie_So
 require_once(t3lib_extMgm::extPath('simplepie', 'Classes/Controller/FeedItemParser.php'));
 //require_once('Zend/Http/Client.php');
 
-Class Tx_Simplepie_Controller_FeedController
-	Extends Tx_Extbase_MVC_Controller_ActionController {
+Class Tx_Simplepie_Controller_FeedController Extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
 	* @var Tx_Simplepie_Domain_Repository_FeedSourceRepository
 	*/
 	Protected $feedSourceRepository;
+
+	/**
+	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+	 */
+	protected $configurationManager;
+	
+	/**
+	 * @var array
+	 */
+	protected $settings;
 
 	/**
 	 * An instance of tslib_cObj
@@ -20,13 +29,23 @@ Class Tx_Simplepie_Controller_FeedController
 	 */
 	protected $contentObject;
 
-	var $thumbnailCachePath = 'typo3temp/simplepie_thumbnails/';
+	var $thumbnailCachePath = 'typo3temp/simplepie/';
 
 	Public Function initializeAction() {
 		$this->feedSourceRepository =& t3lib_div::makeInstance ('Tx_Simplepie_Domain_Repository_FeedSourceRepository');
 		$this->contentObject = t3lib_div::makeInstance('tslib_cObj');
 		$this->initTyposcript();
 		$this->prepareSettings();
+	}
+
+	/**
+	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
+	 * @return void
+	 */
+	public function injectConfigurationManager (Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager)
+	{
+		$this->configurationManager = $configurationManager;
+		$this->settings = $this->configurationManager->getConfiguration(TYPO3\CMS\Extbase\Configuration\ConfigurationManager::CONFIGURATION_TYPE_SETTINGS);		
 	}
 
 	Public Function indexAction() {
@@ -38,7 +57,7 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 
 	Public Function ajaxAction() {
-		$cObj = $this->request->getContentObjectData();
+		$cObj = $this->configurationManager->getContentObject()->data;
 		if ($cObj['uid'] == t3lib_div::_GET('ajaxuid')) {
 			$this->setViewParameters();
 			$this->jsonArray['content'] = $this->getAjaxContent();
@@ -67,12 +86,11 @@ Class Tx_Simplepie_Controller_FeedController
 		/*
 		 * Load RawFeedItems
 		 */
-		$cObj = $this->request->getContentObjectData();
-		$tempPath = 'typo3temp/simplepie_cache/';
-		if (!is_dir(PATH_site . $tempPath)) {
-			t3lib_div::mkdir(PATH_site . $tempPath);
+		$cObj = $this->configurationManager->getContentObject()->data;
+		if (!is_dir(PATH_site . $this->thumbnailCachePath)) {
+			t3lib_div::mkdir(PATH_site . $this->thumbnailCachePath);
 		}
-		$cacheFile = PATH_site . $tempPath . md5($cObj['uid']);
+		$cacheFile = PATH_site . $this->thumbnailCachePath . md5($cObj['uid']);
 		
 		$cacheDuration = 0;
 		if (file_exists($cacheFile)) {
@@ -95,7 +113,7 @@ Class Tx_Simplepie_Controller_FeedController
 					}
 					$feed = new Tx_Simplepie_Controller_FeedController_SimplePie_Sort(
 						$feedSource->getUrl(),
-						$this->thumbnailCachePath,
+						PATH_site.$this->thumbnailCachePath,
 						$this->settings['controllers']['Feed']['cacheDuration']
 					);
 					//$feed->enable_order_by_date(true);
@@ -178,11 +196,12 @@ Class Tx_Simplepie_Controller_FeedController
 
 		/* max items check */
 		if (!$disableItemCount && $elementcount > 0) {
-			$page = t3lib_div::GPvar('item');
+			$page = t3lib_div::_GP('item');
 			$pageitems = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
 			$startitem = $page * $pageitems;
-			if ($startitem >= count($rawFeedItems)) {
-				$elementfrom = ($elementfrom % count($rawFeedItems));
+			$itemsCount = count($rawFeedItems);
+			if ($startitem >= $itemsCount && $itemsCount > 0) {
+				$elementfrom = $elementfrom % $itemsCount;
 			}
 			$rawFeedItems = array_slice($rawFeedItems, $elementfrom, $elementcount);
 		}
@@ -238,7 +257,7 @@ Class Tx_Simplepie_Controller_FeedController
 		if ($this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGING' 
 			|| $this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGINGSLIDEEFFECTHORIZONTAL'
 			|| $this->settings['flexform']['controllers']['Feed']['ajaxMode'] == 'PAGINGSLIDEEFFECTVERTICAL') {
-			$page = t3lib_div::GPvar('item');
+			$page = t3lib_div::_GP('item');
 			$pageitems = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
 			$startitem = $page * $pageitems;
 			$items = $this->getFeedItems(false,$startitem,$pageitems);
@@ -389,7 +408,7 @@ Class Tx_Simplepie_Controller_FeedController
 	}
 
 	Private function setViewParameters() {
-		$cObj = $this->request->getContentObjectData();
+		$cObj = $this->configurationManager->getContentObject()->data;
 		$pageitems = $this->settings['flexform']['controllers']['Feed']['itemsPerPage'];
 		$this->view->assign('ajaxuid', $cObj['uid']);
 		$this->view->assign('ajaxPageType', $this->settings['ajaxPageType']);
